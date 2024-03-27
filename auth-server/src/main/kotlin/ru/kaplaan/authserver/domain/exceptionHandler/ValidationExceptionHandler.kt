@@ -7,8 +7,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
 
-@ControllerAdvice
+@RestControllerAdvice
 class ValidationExceptionHandler {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -18,11 +19,13 @@ class ValidationExceptionHandler {
         bindException.allErrors.forEach {
             log.debug(it.defaultMessage)
         }
-        ProblemDetail
+        return ProblemDetail
             .forStatusAndDetail(HttpStatus.BAD_REQUEST, bindException.message)
             .apply {
                 setProperty("errors", bindException.allErrors.map { it.defaultMessage })
-                return ResponseEntity.badRequest().body(this)
+            }
+            .let {
+                ResponseEntity.badRequest().body(it)
             }
     }
 }

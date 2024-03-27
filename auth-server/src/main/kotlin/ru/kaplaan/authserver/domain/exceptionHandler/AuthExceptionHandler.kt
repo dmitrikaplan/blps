@@ -8,60 +8,73 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.AuthenticationException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
 import ru.kaplaan.authserver.domain.exception.refresh_token.RefreshTokenException
 import ru.kaplaan.authserver.domain.exception.user.UserException
 
 
-@ControllerAdvice
+@RestControllerAdvice
 class AuthExceptionHandler {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
 
     @ExceptionHandler(UserException::class)
-    fun userExceptionHandler(userException: UserException): ResponseEntity<ProblemDetail> {
+    fun userExceptionHandler(userException: UserException): ResponseEntity<ProblemDetail> =
         ProblemDetail
             .forStatusAndDetail(HttpStatus.BAD_REQUEST, userException.message)
             .apply {
                 setProperty("errors", userException.message)
-                log.debug(userException.message)
-                return ResponseEntity.badRequest().body(this)
             }
-    }
+            .also {
+                log.debug(userException.message)
+            }
+            .let {
+                ResponseEntity.badRequest().body(it)
+            }
 
 
     @ExceptionHandler(RefreshTokenException::class)
-    fun refreshTokenExceptionHandler(refreshTokenException: RefreshTokenException): ResponseEntity<ProblemDetail> {
+    fun refreshTokenExceptionHandler(refreshTokenException: RefreshTokenException): ResponseEntity<ProblemDetail> =
         ProblemDetail
             .forStatusAndDetail(HttpStatus.BAD_REQUEST, refreshTokenException.message)
             .apply {
                 setProperty("errors", refreshTokenException.message)
-                log.debug(refreshTokenException.message)
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(this)
             }
-    }
+            .also {
+                log.debug(refreshTokenException.message)
+            }
+            .let {
+                ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(it)
+            }
 
 
     @ExceptionHandler(MessagingException::class)
-    fun messagingExceptionHandler(messagingException: MessagingException): ResponseEntity<ProblemDetail> {
+    fun messagingExceptionHandler(messagingException: MessagingException): ResponseEntity<ProblemDetail> =
         ProblemDetail
             .forStatusAndDetail(HttpStatus.BAD_REQUEST, "Ошибка отправки сообщения на почту. Повторите попытку позже")
             .apply {
                 setProperty("errors", "Ошибка отправки сообщения на почту. Повторите попытку позже")
-                log.debug("Ошибка отправки сообщения на почту")
-                return ResponseEntity.badRequest().body(this)
             }
-    }
+            .also {
+                log.debug("Ошибка отправки сообщения на почту")
+            }
+            .let {
+                ResponseEntity.badRequest().body(it)
+            }
 
 
     @ExceptionHandler(AuthenticationException::class)
-    fun authenticationExceptionHandler(e: AuthenticationException): ResponseEntity<ProblemDetail>{
+    fun authenticationExceptionHandler(e: AuthenticationException): ResponseEntity<ProblemDetail> =
         ProblemDetail
             .forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.message ?: "Ошибка аутентификации!")
             .apply {
                 setProperty("errors", e.message)
-                log.debug(e.message)
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(this)
             }
-    }
+            .also {
+                log.debug(e.message)
+            }
+            .let {
+                ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(it)
+            }
 }

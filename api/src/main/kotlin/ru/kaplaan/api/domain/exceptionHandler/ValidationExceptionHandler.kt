@@ -20,11 +20,13 @@ class ValidationExceptionHandler {
         bindException.allErrors.forEach {
             log.debug(it.defaultMessage)
         }
-        ProblemDetail
+       return ProblemDetail
             .forStatusAndDetail(HttpStatus.BAD_REQUEST, bindException.message)
             .apply {
                 setProperty("errors", bindException.allErrors.map { it.defaultMessage })
-                return ResponseEntity.badRequest().body(this)
+            }
+            .let {
+                ResponseEntity.badRequest().body(it)
             }
     }
 }
