@@ -2,6 +2,7 @@ package ru.kaplaan.vacancy.web.controller
 
 import jakarta.validation.constraints.NotBlank
 import org.hibernate.validator.constraints.Length
+import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.kaplaan.vacancy.service.DetailsService
@@ -11,18 +12,18 @@ import ru.kaplaan.vacancy.web.mapper.toDto
 import ru.kaplaan.vacancy.web.mapper.toEntity
 
 @RestController
-@RequestMapping("/details")
+@RequestMapping("/vacancy/details")
 class DetailsController(
     private val detailsService: DetailsService
 ) {
-
 
     @PostMapping("/company")
     fun saveCompanyDetails(
         @RequestBody @Validated
         companyDetailsDto: CompanyDetailsDto
-    ){
+    ): ResponseEntity<String> {
         detailsService.saveCompanyDetails(companyDetailsDto.toEntity())
+        return ResponseEntity.ok().body("Информация о компании сохранена")
     }
 
     @GetMapping("/company/{companyName}")
@@ -36,8 +37,9 @@ class DetailsController(
     fun saveUserDetails(
         @RequestBody
         userDetailsDto: UserDetailsDto
-    ){
+    ): ResponseEntity<String> {
         detailsService.saveUserDetails(userDetailsDto.toEntity())
+        return ResponseEntity.ok().body("Информация о пользователе сохранена")
     }
 
     @GetMapping("/user/{username}")
