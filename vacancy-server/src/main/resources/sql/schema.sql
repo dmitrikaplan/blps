@@ -1,6 +1,6 @@
 create table if not exists company_details(
     company_details_id bigserial primary key,
-    username text not null unique check (length(username) > 0)
+    username text not null unique check (length(username) >= 6 and length(username) <= 320)
     company_name text not null check ( length(company_name) > 0 ),
     description text not null check ( length(description) > 0 ),
     site text not null
@@ -17,7 +17,7 @@ create table if not exists contact_person(
 
 create table if not exists user_details(
     user_details_id bigserial primary key,
-    username text not null unique check(length(username) > 0)
+    username text not null unique check (length(username) >= 6 and length(username) <= 320)
     firstname text not null check ( length(firstname) > 0 ),
     surname text not null check ( length(surname) > 0 ),
     date_of_birth date not null,
