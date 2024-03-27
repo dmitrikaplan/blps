@@ -3,9 +3,10 @@ package ru.kaplaan.authserver.web.dto.user
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
+import ru.kaplaan.authserver.domain.entity.user.Role
 import ru.kaplaan.authserver.web.validation.OnCreate
 
-class UserDto(
+data class UserDto(
 
     @field:Email(message = "Email should fit the email pattern ", groups = [OnCreate::class])
     var email: String,
@@ -22,5 +23,7 @@ class UserDto(
         message = "The password must be greater than 9, but less than 1025",
         groups = [OnCreate::class]
     )
-    var password: String
+    var password: String,
+
+    var role: Role
 )

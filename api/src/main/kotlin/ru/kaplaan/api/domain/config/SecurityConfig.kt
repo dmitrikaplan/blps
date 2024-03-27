@@ -39,6 +39,7 @@ class SecurityConfig (
             }
             .authorizeExchange {
                 it.pathMatchers(HttpMethod.POST, "api/v1/auth/registration/user").permitAll()
+                it.pathMatchers(HttpMethod.POST, "api/v1/auth/registration/company").permitAll()
                 it.pathMatchers(HttpMethod.POST, "api/v1/auth/login").permitAll()
                 it.pathMatchers(HttpMethod.GET, "api/v1/auth/activation/**").permitAll()
                 it.pathMatchers(HttpMethod.POST, "api/v1/auth/recovery").permitAll()

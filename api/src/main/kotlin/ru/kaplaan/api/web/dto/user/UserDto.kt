@@ -27,5 +27,8 @@ class UserDto(
         message = "The password must be greater than 9, but less than 1025",
         groups = [OnCreate::class]
     )
-    var password: String
-)
+    var password: String,
+){
+
+    var role: Role? = null
+}
