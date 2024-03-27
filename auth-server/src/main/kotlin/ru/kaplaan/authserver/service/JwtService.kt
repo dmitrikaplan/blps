@@ -57,7 +57,7 @@ class JwtService {
             .compact()
 
     fun generateJwtRefreshToken(user: User): String =
-            Jwts
+        Jwts
             .builder()
             .setSubject(user.username)
             .setClaims(
@@ -73,6 +73,7 @@ class JwtService {
             .compact()
 
 
+
     fun isValidAccessToken(accessToken: String): Boolean =
         validateToken(accessToken, getAccessSignKey()) && isNotExpired(accessToken, getAccessSignKey())
 
@@ -80,29 +81,30 @@ class JwtService {
     fun isValidRefreshToken(refreshToken: String): Boolean =
         validateToken(refreshToken, getRefreshSignKey()) && isNotExpired(refreshToken, getRefreshSignKey())
 
-    private fun validateToken(token: String, key: Key): Boolean {
-        try {
+    private fun validateToken(token: String, key: Key): Boolean =
+
+        runCatching {
             Jwts
                 .parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
-            return true
-
-        } catch (e: ExpiredJwtException) {
-            log.error("Token expired", e)
-        } catch (e: UnsupportedJwtException) {
-            log.error("Unsupported jwt", e)
-        } catch (e: MalformedJwtException) {
-            log.error("Malformed jwt", e)
-        } catch (e: SignatureException) {
-            log.error("Invalid signature", e)
-        } catch (e: Exception) {
-            log.error("invalid token", e)
         }
+            .onFailure {
 
-        return false
-    }
+                when(it){
+                    is ExpiredJwtException -> log.error("Token expired")
+
+                    is UnsupportedJwtException -> log.error("Unsupported jwt")
+
+                    is MalformedJwtException -> log.error("Malformed jwt")
+
+                    is SignatureException -> log.error("Invalid signature")
+
+                    else -> log.error("Invalid token")
+                }
+        }
+            .isSuccess
 
     private fun isNotExpired(jwtToken: String, key: Key): Boolean =
         extractExpiration(jwtToken, key).after(Date(System.currentTimeMillis()))
@@ -110,8 +112,8 @@ class JwtService {
 
     fun extractUsernameFromAccessToken(jwtToken: String): String =
         extractClaim(jwtToken, getAccessSignKey()){
-                it["username"] as String
-    }
+            it["username"] as String
+        }
 
     fun extractPasswordFromAccessToken(jwtToken: String): String =
         extractClaim(jwtToken, getAccessSignKey()) {
@@ -128,7 +130,7 @@ class JwtService {
 
 
     private fun extractAllClaims(jwtToken: String, key: Key): Claims =
-            Jwts
+        Jwts
             .parserBuilder()
             .setSigningKey(key)
             .build()
