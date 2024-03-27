@@ -12,6 +12,7 @@ class CompanyDetails{
     @Column("company_details_id")
     var id: Long? = null
 
+    lateinit var username: String
     lateinit var companyName: String
     lateinit var description: String
     lateinit var site: String

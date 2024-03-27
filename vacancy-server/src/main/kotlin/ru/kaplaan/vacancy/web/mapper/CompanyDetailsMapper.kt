@@ -5,18 +5,20 @@ import ru.kaplaan.vacancy.web.dto.CompanyDetailsDto
 
 fun CompanyDetails.toDto(): CompanyDetailsDto =
     CompanyDetailsDto(
+        username = this.username,
         companyName = this.companyName,
         description = this.description,
         site = this.site,
-        contactPerson = this.contactPerson.toDto()
+        contactPerson = this.contactPerson.toDto(),
     )
 
 
 fun CompanyDetailsDto.toEntity(): CompanyDetails =
 
     CompanyDetails().apply {
-        this.companyName = this@toEntity.companyName
-        this.description = this@toEntity.description
-        this.site = this@toEntity.site
-        this.contactPerson = this@toEntity.contactPerson.toEntity()
+        username = this@toEntity.username
+        companyName = this@toEntity.companyName
+        description = this@toEntity.description
+        site = this@toEntity.site
+        contactPerson = this@toEntity.contactPerson.toEntity()
     }

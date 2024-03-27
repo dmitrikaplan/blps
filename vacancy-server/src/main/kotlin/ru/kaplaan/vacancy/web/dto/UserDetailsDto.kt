@@ -6,6 +6,9 @@ import org.hibernate.validator.constraints.Length
 import java.time.LocalDate
 
 data class UserDetailsDto(
+    @field:NotBlank(message = "Username не должен быть пустым!")
+    val username: String,
+
     @field:NotBlank(message = "Имя не должно быть пустым!")
     val firstname: String,
 

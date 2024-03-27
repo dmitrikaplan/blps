@@ -6,24 +6,18 @@ import ru.kaplaan.api.web.dto.user.UserDto
 import javax.management.relation.RoleNotFoundException
 
 
-fun User.toDto(): UserDto {
-    return UserDto(
+fun User.toDto(): UserDto =
+    UserDto(
         email = email,
         username = username,
         password = password
     )
-}
 
 
-fun UserDto.toEntity(role: Role): User {
-    try {
-        return User(
-            email = email,
-            username = username,
-            password = password,
-            role = role
-        )
-    } catch (e: IllegalArgumentException) {
-        throw RoleNotFoundException()
-    }
-}
+fun UserDto.toEntity(role: Role): User =
+    User(
+        email = email,
+        username = username,
+        password = password,
+        role = role
+    )

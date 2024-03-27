@@ -6,6 +6,7 @@ import ru.kaplaan.vacancy.web.dto.UserDetailsDto
 
 fun UserDetails.toDto(): UserDetailsDto =
     UserDetailsDto(
+        username = this.username,
         firstname = this.firstname,
         surname = this.surname,
         dateOfBirth = this.dateOfBirth,
@@ -20,6 +21,7 @@ fun UserDetails.toDto(): UserDetailsDto =
 
 fun UserDetailsDto.toEntity(): UserDetails =
     UserDetails().apply {
+        username = this@toEntity.username
         firstname = this@toEntity.firstname
         surname = this@toEntity.surname
         dateOfBirth = this@toEntity.dateOfBirth
