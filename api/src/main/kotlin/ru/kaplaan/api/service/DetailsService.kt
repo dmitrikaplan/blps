@@ -13,9 +13,9 @@ interface DetailsService {
 
     fun saveCompanyDetails(companyDetailsDto: Mono<CompanyDetailsDto>): Mono<ResponseEntity<String>>
 
-    fun getCompanyDetailsByCompanyName(companyName: Mono<String>): Mono<ResponseEntity<CompanyDetailsDto>>
+    fun getCompanyDetailsByCompanyName(companyName: String): Mono<ResponseEntity<CompanyDetailsDto>>
 
     fun saveUserDetails(userDetailsDto: Mono<UserDetailsDto>): Mono<ResponseEntity<String>>
 
-    fun getUserDetailsByUsername(username: Mono<String>): Mono<UserDetailsDto>
+    fun getUserDetailsByUsername(username: String): Mono<ResponseEntity<UserDetailsDto>>
 }
