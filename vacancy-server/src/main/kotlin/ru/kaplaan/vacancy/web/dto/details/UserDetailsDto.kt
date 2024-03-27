@@ -1,4 +1,4 @@
-package ru.kaplaan.vacancy.web.dto
+package ru.kaplaan.vacancy.web.dto.details
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Length
 import java.time.LocalDate
 
 data class UserDetailsDto(
-    @field:NotBlank(message = "Username не должен быть пустым!")
+    @field:NotBlank(message = "Username пользователя не должен быть пустым!")
     val username: String,
 
     @field:NotBlank(message = "Имя не должно быть пустым!")

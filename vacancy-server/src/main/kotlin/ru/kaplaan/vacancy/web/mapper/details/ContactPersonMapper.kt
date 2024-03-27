@@ -1,7 +1,7 @@
-package ru.kaplaan.vacancy.web.mapper
+package ru.kaplaan.vacancy.web.mapper.details
 
 import ru.kaplaan.vacancy.domain.entity.ContactPerson
-import ru.kaplaan.vacancy.web.dto.ContactPersonDto
+import ru.kaplaan.vacancy.web.dto.details.ContactPersonDto
 
 
 fun ContactPerson.toDto(): ContactPersonDto =
@@ -14,7 +14,7 @@ fun ContactPerson.toDto(): ContactPersonDto =
 
 fun ContactPersonDto.toEntity(): ContactPerson =
     ContactPerson().apply {
-        this.name = this@toEntity.name
-        this.surname = this@toEntity.surname
-        this.position = this@toEntity.position
+        name = this@toEntity.name
+        surname = this@toEntity.surname
+        position = this@toEntity.position
     }

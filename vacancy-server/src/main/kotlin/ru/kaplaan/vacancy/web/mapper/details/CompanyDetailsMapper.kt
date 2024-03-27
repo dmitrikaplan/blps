@@ -1,7 +1,7 @@
-package ru.kaplaan.vacancy.web.mapper
+package ru.kaplaan.vacancy.web.mapper.details
 
 import ru.kaplaan.vacancy.domain.entity.CompanyDetails
-import ru.kaplaan.vacancy.web.dto.CompanyDetailsDto
+import ru.kaplaan.vacancy.web.dto.details.CompanyDetailsDto
 
 fun CompanyDetails.toDto(): CompanyDetailsDto =
     CompanyDetailsDto(

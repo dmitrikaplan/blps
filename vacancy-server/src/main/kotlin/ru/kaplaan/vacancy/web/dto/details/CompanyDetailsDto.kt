@@ -1,4 +1,4 @@
-package ru.kaplaan.vacancy.web.dto
+package ru.kaplaan.vacancy.web.dto.details
 
 import jakarta.validation.constraints.NotBlank
 import org.hibernate.validator.constraints.URL

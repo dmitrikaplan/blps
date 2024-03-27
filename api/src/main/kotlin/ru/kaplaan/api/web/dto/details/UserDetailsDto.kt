@@ -2,13 +2,14 @@ package ru.kaplaan.api.web.dto.details
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.Null
+import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
+import ru.kaplaan.api.web.validation.OnCreate
+import ru.kaplaan.api.web.validation.OnUpdate
 import java.time.LocalDate
 
 data class UserDetailsDto(
-
-    @field:NotBlank(message = "Username пользователя не должен быть пустым!")
-    val username: String,
 
     @field:NotBlank(message = "Имя не должно быть пустым!")
     val firstname: String,
@@ -32,4 +33,12 @@ data class UserDetailsDto(
     val readyToMove: Boolean,
 
     val readyForBusinessTrips: Boolean
-)
+){
+    @field:Null(message = "Username не должен быть заполнен!", groups = [OnCreate::class])
+    @field:Pattern(
+        regexp = "^[a-zA-Z0-9]{6,320}$",
+        message = "Login should fit the username pattern",
+        groups = [OnUpdate::class]
+    )
+    var username: String? = null
+}

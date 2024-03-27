@@ -6,16 +6,17 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.kaplaan.vacancy.service.DetailsService
-import ru.kaplaan.vacancy.web.dto.CompanyDetailsDto
-import ru.kaplaan.vacancy.web.dto.UserDetailsDto
-import ru.kaplaan.vacancy.web.mapper.toDto
-import ru.kaplaan.vacancy.web.mapper.toEntity
+import ru.kaplaan.vacancy.web.dto.details.CompanyDetailsDto
+import ru.kaplaan.vacancy.web.dto.details.UserDetailsDto
+import ru.kaplaan.vacancy.web.mapper.details.toDto
+import ru.kaplaan.vacancy.web.mapper.details.toEntity
 
 @RestController
 @RequestMapping("/vacancy/details")
 class DetailsController(
     private val detailsService: DetailsService
 ) {
+
 
     @PostMapping("/company")
     fun saveCompanyDetails(
@@ -33,6 +34,12 @@ class DetailsController(
     ): CompanyDetailsDto =
         detailsService.getCompanyDetailsByCompanyName(companyName).toDto()
 
+
+    @PutMapping()
+    fun updateCompanyDetails(): CompanyDetailsDto{
+        TODO()
+    }
+
     @PostMapping("/user")
     fun saveUserDetails(
         @RequestBody
@@ -48,4 +55,10 @@ class DetailsController(
         @PathVariable username: String
     ): UserDetailsDto =
         detailsService.getUserDetailsByUsername(username).toDto()
+
+
+    @PutMapping()
+    fun updateUserDetails(): UserDetailsDto{
+        TODO()
+    }
 }

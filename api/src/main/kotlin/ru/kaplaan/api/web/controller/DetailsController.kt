@@ -9,6 +9,8 @@ import reactor.core.publisher.Mono
 import ru.kaplaan.api.service.DetailsService
 import ru.kaplaan.api.web.dto.details.CompanyDetailsDto
 import ru.kaplaan.api.web.dto.details.UserDetailsDto
+import ru.kaplaan.api.web.validation.OnCreate
+import java.security.Principal
 
 @RestController
 @RequestMapping("/api/v1/details")
@@ -19,10 +21,17 @@ class DetailsController(
     @PostMapping("/company")
     @PreAuthorize("hasRole(COMPANY)")
     fun saveCompanyDetails(
-        @RequestBody @Validated
-        companyDetailsDto: Mono<CompanyDetailsDto>
+        @RequestBody @Validated(OnCreate::class)
+        companyDetailsDto: Mono<CompanyDetailsDto>,
+        principal: Principal
     ): Mono<ResponseEntity<String>> {
-        return detailsService.saveCompanyDetails(companyDetailsDto)
+        return detailsService.saveCompanyDetails(
+            companyDetailsDto.map {
+                it.apply {
+                    username = principal.name
+                }
+            }
+        )
     }
 
     @GetMapping("/company/{companyName}")
@@ -34,8 +43,18 @@ class DetailsController(
 
     @PostMapping("/user")
     @PreAuthorize("hasRole(USER)")
-    fun saveUserDetails(@RequestBody userDetailsDto: Mono<UserDetailsDto>): Mono<ResponseEntity<String>> =
-        detailsService.saveUserDetails(userDetailsDto)
+    fun saveUserDetails(
+        @RequestBody @Validated(OnCreate::class)
+        userDetailsDto: Mono<UserDetailsDto>,
+        principal: Principal
+    ): Mono<ResponseEntity<String>> =
+        detailsService.saveUserDetails(
+            userDetailsDto.map {
+                it.apply {
+                    username = principal.name
+                }
+            }
+        )
 
     @GetMapping("/user/{username}")
     fun getUserDetailsByUsername(
