@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import ru.kaplaan.authserver.domain.entity.user.Role
 import ru.kaplaan.authserver.service.AuthService
 import ru.kaplaan.authserver.web.dto.authentication.AuthenticationDto
 import ru.kaplaan.authserver.web.dto.refresh_token.RefreshTokenDto
@@ -29,20 +28,18 @@ class AuthController(
 
     private val log = LoggerFactory.getLogger(AuthController::class.java)
 
-    @PostMapping("/registration/user")
+    @PostMapping("/registration")
     fun registerUser(
         @RequestBody @Validated(OnCreate::class)
         userDto: UserDto,
     ): ResponseEntity<MessageResponse> {
-        authService.register(userDto.toEntity(Role.ROLE_USER))
+        authService.register(userDto.toEntity())
         log.info("Код подтверждения для пользователя ${userDto.username.uppercase()} отправлен на почту")
 
         return MessageResponse("Код подтверждения отправлен вам на почту").let {
             ResponseEntity.status(HttpStatus.OK).body(it)
         }
-
     }
-
 
     @PostMapping("/login")
     fun login(

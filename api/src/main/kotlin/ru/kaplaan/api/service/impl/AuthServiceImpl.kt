@@ -36,7 +36,7 @@ class AuthServiceImpl(
     @Value("\${auth-server.endpoint.refresh}")
     lateinit var refreshEndpoint: String
 
-    override fun registerUser(userDto: Mono<UserDto>): Mono<ResponseEntity<MessageResponse>> =
+    override fun register(userDto: Mono<UserDto>): Mono<ResponseEntity<MessageResponse>> =
         webClient
             .post()
             .uri("$baseUrl/$registrationEndpoint")

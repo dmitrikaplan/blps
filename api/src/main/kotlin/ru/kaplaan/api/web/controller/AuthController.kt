@@ -13,10 +13,12 @@ import ru.kaplaan.api.service.AuthService
 import ru.kaplaan.api.web.dto.refresh_token.RefreshTokenDto
 import ru.kaplaan.api.web.dto.response.JwtResponse
 import ru.kaplaan.api.web.dto.response.MessageResponse
+import ru.kaplaan.api.web.dto.user.Role
 import ru.kaplaan.api.web.dto.user.UserDto
 import ru.kaplaan.api.web.dto.user.UserIdentificationDto
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnRecovery
+import javax.management.relation.RoleNotFoundException
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -27,13 +29,30 @@ class AuthController(
 
     private val log = LoggerFactory.getLogger(AuthController::class.java)
 
-    @PostMapping("/registration/user")
+
+    @PostMapping("/registration/{role}")
     @Operation(summary = "Регистрация пользователя")
-    fun registerUser(
+    fun registerCompany(
         @RequestBody @Validated(OnCreate::class)
         @Parameter(description = "логин, почта и пароль пользователя в формате json", required = true)
         userDto: Mono<UserDto>,
-    ): Mono<ResponseEntity<MessageResponse>> = authService.registerUser(userDto)
+        @PathVariable role: String
+    ): Mono<ResponseEntity<MessageResponse>> {
+        return authService.register(
+            userDto.map {
+                it.apply {
+                    this.role = when(role.uppercase()){
+
+                        "USER" -> Role.ROLE_USER
+
+                        "COMPANY" -> Role.ROLE_COMPANY
+
+                        else -> throw RoleNotFoundException()
+                    }
+                }
+            }
+        )
+    }
 
 
     @Operation(summary = "Авторизация пользователя")

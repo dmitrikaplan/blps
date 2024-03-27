@@ -14,7 +14,7 @@ interface AuthService {
 
     fun activateAccount(code: String): Mono<ResponseEntity<String>>
 
-    fun registerUser(userDto: Mono<UserDto>): Mono<ResponseEntity<MessageResponse>>
+    fun register(userDto: Mono<UserDto>): Mono<ResponseEntity<MessageResponse>>
 
     fun login(userIdentificationDto: Mono<UserIdentificationDto>): Mono<ResponseEntity<JwtResponse>>
 
