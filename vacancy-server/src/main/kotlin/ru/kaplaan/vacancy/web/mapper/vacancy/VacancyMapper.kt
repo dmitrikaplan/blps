@@ -1,6 +1,6 @@
 package ru.kaplaan.vacancy.web.mapper.vacancy
 
-import ru.kaplaan.vacancy.domain.entity.Vacancy
+import ru.kaplaan.vacancy.domain.entity.vacancy.Vacancy
 import ru.kaplaan.vacancy.web.dto.vacancy.VacancyDto
 
 fun Vacancy.toDto(): VacancyDto =
@@ -15,7 +15,7 @@ fun Vacancy.toDto(): VacancyDto =
     )
 
 
-fun VacancyDto.toEntity(companyId: Long): Vacancy =
+fun VacancyDto.toEntity(): Vacancy =
     Vacancy().apply {
         title = this@toEntity.title
         salary = this@toEntity.salaryRange.toSalary()
@@ -23,25 +23,35 @@ fun VacancyDto.toEntity(companyId: Long): Vacancy =
         description = this@toEntity.description
         hashTags = this@toEntity.hashTags.hashTagsToString()
         currency = this@toEntity.currency
-        this.companyId = companyId
+        companyId = this@toEntity.companyId
     }
 
 
+fun List<Vacancy>.toDto(): List<VacancyDto> =
+    this.map { it.toDto() }
 
-private fun IntRange.toSalary(): String{
-   return if(this.first == this.last)
-            "${this.first}"
-        else "${this.first}-${this.last}"
-}
+private fun IntRange?.toSalary(): String? =
+    when{
+
+        this == null -> null
+
+        this.first == this.last -> "${this.first}"
+
+        else -> "${this.first}-${this.last}"
+    }
 
 
-private fun String.toRange(): IntRange =
-    split("-")
-        .map { it.toInt() }
-        .let {
-            it.first()..it.last()
-        }
+private fun String?.toRange(): IntRange? =
 
+    when{
+        this == null -> null
+
+        else -> split("-")
+            .map { it.toInt() }
+            .let {
+                it.first()..it.last()
+            }
+    }
 
 private fun List<String>.hashTagsToString(): String =
     this.joinToString("/")

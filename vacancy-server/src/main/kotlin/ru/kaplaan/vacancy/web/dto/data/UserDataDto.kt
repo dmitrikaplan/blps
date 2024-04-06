@@ -2,10 +2,14 @@ package ru.kaplaan.vacancy.web.dto.details
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Null
 import org.hibernate.validator.constraints.Length
+import ru.kaplaan.vacancy.web.validation.OnCreate
+import ru.kaplaan.vacancy.web.validation.OnUpdate
 import java.time.LocalDate
 
-data class UserDetailsDto(
+data class UserDataDto(
     @field:NotBlank(message = "Username пользователя не должен быть пустым!")
     val username: String,
 
@@ -31,4 +35,8 @@ data class UserDetailsDto(
     val readyToMove: Boolean,
 
     val readyForBusinessTrips: Boolean
-)
+){
+    @field:NotNull(message = "Id данных пользователя должен быть заполнен!", groups = [OnUpdate::class])
+    @field:Null(message = "Id данных пользователя не должен быть заполнен!", groups = [OnCreate::class])
+    var id: Long? = null
+}

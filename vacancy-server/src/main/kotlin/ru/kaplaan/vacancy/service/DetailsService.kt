@@ -1,18 +1,22 @@
 package ru.kaplaan.vacancy.service
 
 import org.springframework.stereotype.Service
-import ru.kaplaan.vacancy.domain.entity.CompanyDetails
-import ru.kaplaan.vacancy.domain.entity.UserDetails
+import ru.kaplaan.vacancy.domain.entity.CompanyData
+import ru.kaplaan.vacancy.domain.entity.UserData
 
 @Service
 interface DetailsService {
 
 
-    fun saveCompanyDetails(companyDetails: CompanyDetails)
+    fun saveCompanyData(companyData: CompanyData)
 
-    fun getCompanyDetailsByCompanyName(companyName: String): CompanyDetails
+    fun getCompanyDataByCompanyName(companyName: String): CompanyData
 
-    fun saveUserDetails(userDetails: UserDetails)
+    fun updateCompanyData(companyData: CompanyData): CompanyData
 
-    fun getUserDetailsByUsername(username: String): UserDetails
+    fun saveUserData(userData: UserData)
+
+    fun getUserDataByUsername(username: String): UserData
+
+    fun updateUserData(userData: UserData): UserData
 }

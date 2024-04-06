@@ -5,11 +5,11 @@ import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDate
 
-@Table("user_details")
-class UserDetails{
+@Table("user_data")
+class UserData{
 
     @Id
-    @Column("user_details_id")
+    @Column("user_data_id")
     var id: Long? = null
 
     lateinit var username: String

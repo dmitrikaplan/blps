@@ -1,24 +1,27 @@
 package ru.kaplaan.vacancy.web.mapper.details
 
-import ru.kaplaan.vacancy.domain.entity.CompanyDetails
-import ru.kaplaan.vacancy.web.dto.details.CompanyDetailsDto
+import ru.kaplaan.vacancy.domain.entity.CompanyData
+import ru.kaplaan.vacancy.web.dto.details.CompanyDataDto
 
-fun CompanyDetails.toDto(): CompanyDetailsDto =
-    CompanyDetailsDto(
+fun CompanyData.toDto(): CompanyDataDto =
+    CompanyDataDto(
         username = this.username,
         companyName = this.companyName,
         description = this.description,
         site = this.site,
         contactPerson = this.contactPerson.toDto(),
-    )
+    ).apply {
+        this.id = this@toDto.id
+    }
 
 
-fun CompanyDetailsDto.toEntity(): CompanyDetails =
+fun CompanyDataDto.toEntity(): CompanyData =
 
-    CompanyDetails().apply {
+    CompanyData().apply {
         username = this@toEntity.username
         companyName = this@toEntity.companyName
         description = this@toEntity.description
         site = this@toEntity.site
         contactPerson = this@toEntity.contactPerson.toEntity()
+        id = this@toEntity.id
     }

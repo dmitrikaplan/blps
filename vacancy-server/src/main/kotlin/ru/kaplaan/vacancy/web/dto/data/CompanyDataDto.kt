@@ -1,9 +1,13 @@
 package ru.kaplaan.vacancy.web.dto.details
 
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Null
 import org.hibernate.validator.constraints.URL
+import ru.kaplaan.vacancy.web.validation.OnCreate
+import ru.kaplaan.vacancy.web.validation.OnUpdate
 
-data class CompanyDetailsDto(
+data class CompanyDataDto(
     @field:NotBlank(message = "Username компании не должен быть пустым!")
     val username: String,
 
@@ -17,4 +21,8 @@ data class CompanyDetailsDto(
     val site: String,
 
     val contactPerson: ContactPersonDto
-)
+){
+    @field:NotNull(message = "Id данных компании должен быть заполнен!", groups = [OnUpdate::class])
+    @field:Null(message = "Id данных компании не должен быть заполнен!", groups = [OnCreate::class])
+    var id: Long? = null
+}

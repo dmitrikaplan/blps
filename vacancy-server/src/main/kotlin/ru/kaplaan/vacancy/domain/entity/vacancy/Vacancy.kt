@@ -1,4 +1,4 @@
-package ru.kaplaan.vacancy.domain.entity
+package ru.kaplaan.vacancy.domain.entity.vacancy
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
@@ -12,7 +12,7 @@ class Vacancy() {
     var id: Long? = null
 
     lateinit var title: String
-    lateinit var salary: String
+    var salary: String? = null
     lateinit var address: String
     lateinit var description: String
     lateinit var hashTags: String

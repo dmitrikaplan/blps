@@ -1,0 +1,13 @@
+package ru.kaplaan.vacancy.repository
+
+import org.springframework.data.jdbc.repository.query.Query
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
+import ru.kaplaan.vacancy.domain.entity.VacancyResponse
+
+@Repository
+interface VacancyResponseRepository: CrudRepository<VacancyResponse, Long> {
+
+    @Query("select user_id from vacancy_response where vacancy_id = :vacancyId")
+    fun findAllUserIdByVacancyId(vacancyId: Long): List<Long>
+}

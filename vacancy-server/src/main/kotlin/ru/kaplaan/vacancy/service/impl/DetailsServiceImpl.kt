@@ -1,33 +1,39 @@
 package ru.kaplaan.vacancy.service.impl
 
 import org.springframework.stereotype.Service
-import ru.kaplaan.vacancy.domain.entity.CompanyDetails
-import ru.kaplaan.vacancy.domain.entity.UserDetails
-import ru.kaplaan.vacancy.domain.not_found.CompanyDetailsNotFoundException
-import ru.kaplaan.vacancy.domain.not_found.UserDetailsNotFoundException
-import ru.kaplaan.vacancy.repository.CompanyDetailsRepository
-import ru.kaplaan.vacancy.repository.UserDetailsRepository
+import ru.kaplaan.vacancy.domain.entity.CompanyData
+import ru.kaplaan.vacancy.domain.entity.UserData
+import ru.kaplaan.vacancy.domain.exception.notFound.CompanyDataNotFoundException
+import ru.kaplaan.vacancy.domain.exception.notFound.UserDetailsNotFoundException
+import ru.kaplaan.vacancy.repository.CompanyDataRepository
+import ru.kaplaan.vacancy.repository.UserDataRepository
 import ru.kaplaan.vacancy.service.DetailsService
 
 @Service
 class DetailsServiceImpl(
-    private val companyDetailsRepository: CompanyDetailsRepository,
-    private val userDetailsRepository: UserDetailsRepository
+    private val companyDataRepository: CompanyDataRepository,
+    private val userDataRepository: UserDataRepository
 ): DetailsService {
-    override fun saveCompanyDetails(companyDetails: CompanyDetails) {
-        companyDetailsRepository.save(companyDetails)
+    override fun saveCompanyData(companyData: CompanyData) {
+        companyDataRepository.save(companyData)
     }
 
-    override fun getCompanyDetailsByCompanyName(companyName: String): CompanyDetails =
-        companyDetailsRepository.findCompanyDetailsByCompanyName(companyName)
-            ?: throw CompanyDetailsNotFoundException()
+    override fun updateCompanyData(companyData: CompanyData): CompanyData =
+        companyDataRepository.save(companyData)
+
+    override fun getCompanyDataByCompanyName(companyName: String): CompanyData =
+        companyDataRepository.findCompanyDataByCompanyName(companyName)
+            ?: throw CompanyDataNotFoundException()
 
 
-    override fun saveUserDetails(userDetails: UserDetails) {
-        userDetailsRepository.save(userDetails)
+    override fun saveUserData(userData: UserData) {
+        userDataRepository.save(userData)
     }
 
-    override fun getUserDetailsByUsername(username: String): UserDetails =
-        userDetailsRepository.findUserDetailsByUsername(username)
+    override fun updateUserData(userData: UserData): UserData =
+        userDataRepository.save(userData)
+
+    override fun getUserDataByUsername(username: String): UserData =
+        userDataRepository.findUserDataByUsername(username)
             ?: throw UserDetailsNotFoundException()
 }

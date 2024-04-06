@@ -25,5 +25,6 @@ data class UserDto(
     )
     var password: String,
 
+
     var role: Role
 )

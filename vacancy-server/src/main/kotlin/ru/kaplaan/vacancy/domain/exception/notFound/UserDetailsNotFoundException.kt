@@ -1,6 +1,4 @@
-package ru.kaplaan.vacancy.domain.not_found
-
-import ru.kaplaan.vacancy.domain.not_found.NotFoundException
+package ru.kaplaan.vacancy.domain.exception.notFound
 
 
 class UserDetailsNotFoundException: NotFoundException("Дополнительные данные пользователя не найдены!") {

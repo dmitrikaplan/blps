@@ -7,7 +7,7 @@ data class VacancyDto(
     @field:NotBlank(message = "Заголовок вакансии не должен быть пустым!")
     val title: String,
 
-    val salaryRange: IntRange,
+    val salaryRange: IntRange?,
 
     val currency: Currency,
 

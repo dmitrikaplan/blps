@@ -1,11 +1,11 @@
 package ru.kaplaan.vacancy.web.mapper.details
 
-import ru.kaplaan.vacancy.domain.entity.UserDetails
-import ru.kaplaan.vacancy.web.dto.details.UserDetailsDto
+import ru.kaplaan.vacancy.domain.entity.UserData
+import ru.kaplaan.vacancy.web.dto.details.UserDataDto
 
 
-fun UserDetails.toDto(): UserDetailsDto =
-    UserDetailsDto(
+fun UserData.toDto(): UserDataDto =
+    UserDataDto(
         username = this.username,
         firstname = this.firstname,
         surname = this.surname,
@@ -16,11 +16,14 @@ fun UserDetails.toDto(): UserDetailsDto =
         salary = this.salary,
         readyToMove = this.readyToMove,
         readyForBusinessTrips = this.readyForBusinessTrips
-    )
+    ).apply {
+        this.id = this@toDto.id
+    }
 
 
-fun UserDetailsDto.toEntity(): UserDetails =
-    UserDetails().apply {
+fun UserDataDto.toEntity(): UserData =
+    UserData().apply {
+        id = this@toEntity.id
         username = this@toEntity.username
         firstname = this@toEntity.firstname
         surname = this@toEntity.surname

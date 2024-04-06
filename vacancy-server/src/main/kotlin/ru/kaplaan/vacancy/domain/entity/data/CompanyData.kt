@@ -5,11 +5,11 @@ import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.data.relational.core.mapping.Table
 
-@Table("company_details")
-class CompanyDetails{
+@Table("company_data")
+class CompanyData{
 
     @Id
-    @Column("company_details_id")
+    @Column("company_data_id")
     var id: Long? = null
 
     lateinit var username: String

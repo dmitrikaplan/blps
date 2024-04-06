@@ -6,10 +6,12 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.kaplaan.vacancy.service.DetailsService
-import ru.kaplaan.vacancy.web.dto.details.CompanyDetailsDto
-import ru.kaplaan.vacancy.web.dto.details.UserDetailsDto
+import ru.kaplaan.vacancy.web.dto.details.CompanyDataDto
+import ru.kaplaan.vacancy.web.dto.details.UserDataDto
 import ru.kaplaan.vacancy.web.mapper.details.toDto
 import ru.kaplaan.vacancy.web.mapper.details.toEntity
+import ru.kaplaan.vacancy.web.validation.OnCreate
+import ru.kaplaan.vacancy.web.validation.OnUpdate
 
 @RestController
 @RequestMapping("/vacancy/details")
@@ -17,48 +19,49 @@ class DetailsController(
     private val detailsService: DetailsService
 ) {
 
-
     @PostMapping("/company")
-    fun saveCompanyDetails(
-        @RequestBody @Validated
-        companyDetailsDto: CompanyDetailsDto
+    fun saveCompanyData(
+        @RequestBody @Validated(OnCreate::class)
+        companyDataDto: CompanyDataDto
     ): ResponseEntity<String> {
-        detailsService.saveCompanyDetails(companyDetailsDto.toEntity())
+        detailsService.saveCompanyData(companyDataDto.toEntity())
         return ResponseEntity.ok().body("Информация о компании сохранена")
     }
 
+    @PutMapping("/company")
+    fun updateCompanyData(
+        @RequestBody @Validated(OnUpdate::class) companyDto: CompanyDataDto
+    ): CompanyDataDto =
+        detailsService.updateCompanyData(companyDto.toEntity()).toDto()
+
     @GetMapping("/company/{companyName}")
-    fun getCompanyDetailsByCompanyName(
+    fun getCompanyDataByCompanyName(
         @Validated @NotBlank(message = "Название компании не должно быть пустым!")
         @PathVariable companyName: String
-    ): CompanyDetailsDto =
-        detailsService.getCompanyDetailsByCompanyName(companyName).toDto()
-
-
-    @PutMapping()
-    fun updateCompanyDetails(): CompanyDetailsDto{
-        TODO()
-    }
+    ): CompanyDataDto =
+        detailsService.getCompanyDataByCompanyName(companyName).toDto()
 
     @PostMapping("/user")
-    fun saveUserDetails(
+    fun saveUserData(
         @RequestBody
-        userDetailsDto: UserDetailsDto
+        userDataDto: UserDataDto
     ): ResponseEntity<String> {
-        detailsService.saveUserDetails(userDetailsDto.toEntity())
+        detailsService.saveUserData(userDataDto.toEntity())
         return ResponseEntity.ok().body("Информация о пользователе сохранена")
     }
 
+    @PutMapping("/user")
+    fun updateUserData(
+        @RequestBody @Validated(OnUpdate::class)
+        userDataDto: UserDataDto
+    ): UserDataDto =
+        detailsService.updateUserData(userDataDto.toEntity()).toDto()
+
     @GetMapping("/user/{username}")
-    fun getUserDetailsByUsername(
+    fun getUserDataByUsername(
         @Validated @Length(min = 4, message = "Название компании должно быть минимум из 4 символов!")
         @PathVariable username: String
-    ): UserDetailsDto =
-        detailsService.getUserDetailsByUsername(username).toDto()
+    ): UserDataDto =
+        detailsService.getUserDataByUsername(username).toDto()
 
-
-    @PutMapping()
-    fun updateUserDetails(): UserDetailsDto{
-        TODO()
-    }
 }
