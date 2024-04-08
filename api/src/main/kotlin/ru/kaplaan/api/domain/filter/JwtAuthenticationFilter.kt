@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.switchIfEmpty
 import ru.kaplaan.api.domain.exception.JwtTokenNotFoundException
 import ru.kaplaan.api.domain.exception.UserNotAuthenticatedException
-import ru.kaplaan.api.web.dto.authentication.AuthenticationDto
+import ru.kaplaan.api.web.dto.authServer.authentication.AuthenticationDto
 import ru.kaplaan.api.web.mapper.toDto
 import ru.kaplaan.api.web.mapper.toUsernamePasswordAuthentication
 

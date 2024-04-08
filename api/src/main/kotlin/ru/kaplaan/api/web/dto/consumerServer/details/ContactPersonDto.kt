@@ -1,4 +1,4 @@
-package ru.kaplaan.api.web.dto.details
+package ru.kaplaan.api.web.dto.consumerServer.details
 
 import jakarta.validation.constraints.NotBlank
 

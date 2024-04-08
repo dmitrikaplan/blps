@@ -1,4 +1,4 @@
-package ru.kaplaan.api.service.impl
+package ru.kaplaan.api.service.authServer.impl
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.body
 import reactor.core.publisher.Mono
-import ru.kaplaan.api.service.AuthService
-import ru.kaplaan.api.web.dto.refresh_token.RefreshTokenDto
-import ru.kaplaan.api.web.dto.response.JwtResponse
-import ru.kaplaan.api.web.dto.response.MessageResponse
-import ru.kaplaan.api.web.dto.user.UserDto
-import ru.kaplaan.api.web.dto.user.UserIdentificationDto
+import ru.kaplaan.api.service.authServer.AuthService
+import ru.kaplaan.api.web.dto.authServer.refresh_token.RefreshTokenDto
+import ru.kaplaan.api.web.dto.authServer.response.JwtResponse
+import ru.kaplaan.api.web.dto.authServer.response.MessageResponse
+import ru.kaplaan.api.web.dto.authServer.user.UserDto
+import ru.kaplaan.api.web.dto.authServer.user.UserIdentificationDto
 
 @Service
 class AuthServiceImpl(

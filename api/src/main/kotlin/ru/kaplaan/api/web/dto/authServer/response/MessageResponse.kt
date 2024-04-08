@@ -1,4 +1,4 @@
-package ru.kaplaan.api.web.dto.response
+package ru.kaplaan.api.web.dto.authServer.response
 
 import io.swagger.v3.oas.annotations.media.Schema
 

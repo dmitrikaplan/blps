@@ -6,10 +6,13 @@ import org.springframework.data.relational.core.mapping.Table
 
 @Table("vacancy_id")
 data class VacancyResponse(
-    val userId: Long,
+    @Transient
+    val username: String,
     val vacancyId: Long
 ) {
     @Id
     @Column("vacancy_response_id")
-    val id: Long? = null
+    var id: Long? = null
+
+    var userId: Long? = null
 }

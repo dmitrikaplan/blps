@@ -1,6 +1,10 @@
 package ru.kaplaan.vacancy.web.dto.vacancy
 
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Null
+import ru.kaplaan.vacancy.web.validation.OnCreate
+import ru.kaplaan.vacancy.web.validation.OnUpdate
 
 data class VacancyDto(
 
@@ -19,5 +23,13 @@ data class VacancyDto(
 
     val hashTags: List<String>,
 
-    val companyId: Long,
-)
+    @field:NotBlank(message = "Название компании не должно быть пустым!")
+    val companyName: String
+){
+    @field:Null(message = "Id компании не должен быть заполнен!")
+    var companyId: Long? = null
+
+    @field:Null(message = "Id вакансии должен быть равен null!", groups = [OnCreate::class])
+    @field:NotNull(message = "Id вакансии должен быть равен null!", groups = [OnUpdate::class])
+    var vacancyId: Long? = null
+}

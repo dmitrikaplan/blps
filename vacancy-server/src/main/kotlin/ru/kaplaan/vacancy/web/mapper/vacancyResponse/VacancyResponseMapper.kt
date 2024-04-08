@@ -5,14 +5,14 @@ import ru.kaplaan.vacancy.web.dto.vacancyResponse.VacancyResponseDto
 
 fun VacancyResponseDto.toEntity(): VacancyResponse =
     VacancyResponse(
-        userId = userId,
+        username = username,
         vacancyId = vacancyId
     )
 
 
 fun VacancyResponse.toDto(): VacancyResponseDto =
     VacancyResponseDto(
-        userId = userId,
+        username = username,
         vacancyId = vacancyId
     ).apply {
          vacancyResponseId = this@toDto.id

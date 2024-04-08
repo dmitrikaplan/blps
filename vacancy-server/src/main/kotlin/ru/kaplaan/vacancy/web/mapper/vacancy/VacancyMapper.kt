@@ -11,7 +11,7 @@ fun Vacancy.toDto(): VacancyDto =
         address = address,
         description = description,
         hashTags = hashTags.hashTagsToList(),
-        companyId = companyId!!
+        companyName = companyName
     )
 
 
@@ -23,7 +23,7 @@ fun VacancyDto.toEntity(): Vacancy =
         description = this@toEntity.description
         hashTags = this@toEntity.hashTags.hashTagsToString()
         currency = this@toEntity.currency
-        companyId = this@toEntity.companyId
+        companyName = this@toEntity.companyName
     }
 
 

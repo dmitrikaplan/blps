@@ -1,4 +1,4 @@
-package ru.kaplaan.api.web.dto.authentication
+package ru.kaplaan.api.web.dto.authServer.authentication
 
 
 data class AuthenticationDto(

@@ -13,4 +13,7 @@ interface VacancyRepository: CrudRepository<Vacancy, Long> {
 
     @Query("select vacancy_id from vacancy where company_id = :companyId")
     fun findVacancyIdByCompanyId(companyId: Long): Long
+
+    @Query("delete from vacancy where company_id = :companyId and vacancy_id = :vacancyId")
+    fun deleteByCompanyIdAndVacancyId(companyId: Long, vacancyId: Long)
 }

@@ -18,6 +18,9 @@ class Vacancy() {
     lateinit var hashTags: String
     lateinit var currency: Currency
 
+    @Transient
+    lateinit var companyName: String
+
     @Column("company_id")
     var companyId: Long? = null
 

@@ -11,7 +11,7 @@ import java.security.Key
 import java.util.*
 
 @Service
-class JwtService {
+class JwtService{
 
     @Value("\${jwt.access.secret}")
     private lateinit var jwtAccessSecret: String

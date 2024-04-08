@@ -1,4 +1,4 @@
-package ru.kaplaan.api.web.dto.user
+package ru.kaplaan.api.web.dto.authServer.user
 
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotNull

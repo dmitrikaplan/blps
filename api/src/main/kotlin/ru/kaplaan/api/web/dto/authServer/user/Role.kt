@@ -1,4 +1,4 @@
-package ru.kaplaan.api.web.dto.user
+package ru.kaplaan.api.web.dto.authServer.user
 
 enum class Role {
     ROLE_USER, ROLE_COMPANY

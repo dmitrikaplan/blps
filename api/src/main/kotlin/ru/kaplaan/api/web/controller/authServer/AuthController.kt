@@ -1,4 +1,4 @@
-package ru.kaplaan.api.web.controller
+package ru.kaplaan.api.web.controller.authServer
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -9,13 +9,13 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
-import ru.kaplaan.api.service.AuthService
-import ru.kaplaan.api.web.dto.refresh_token.RefreshTokenDto
-import ru.kaplaan.api.web.dto.response.JwtResponse
-import ru.kaplaan.api.web.dto.response.MessageResponse
-import ru.kaplaan.api.web.dto.user.Role
-import ru.kaplaan.api.web.dto.user.UserDto
-import ru.kaplaan.api.web.dto.user.UserIdentificationDto
+import ru.kaplaan.api.service.authServer.AuthService
+import ru.kaplaan.api.web.dto.authServer.refresh_token.RefreshTokenDto
+import ru.kaplaan.api.web.dto.authServer.response.JwtResponse
+import ru.kaplaan.api.web.dto.authServer.response.MessageResponse
+import ru.kaplaan.api.web.dto.authServer.user.Role
+import ru.kaplaan.api.web.dto.authServer.user.UserDto
+import ru.kaplaan.api.web.dto.authServer.user.UserIdentificationDto
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnRecovery
 import javax.management.relation.RoleNotFoundException

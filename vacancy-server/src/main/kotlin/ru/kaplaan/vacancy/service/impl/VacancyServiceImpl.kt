@@ -23,13 +23,16 @@ class VacancyServiceImpl(
     override fun update(vacancy: Vacancy): Vacancy =
         vacancyRepository.save(vacancy)
 
-    override fun delete(vacancyId: Long) =
-        vacancyRepository.deleteById(vacancyId)
-
+    override fun delete(companyName: String, vacancyId: Long){
+        val companyId = 1L //TODO: добавить rabbitMQ
+        vacancyRepository.deleteByCompanyIdAndVacancyId(companyId, vacancyId)
+    }
     override fun getVacancyById(vacancyId: Long): Vacancy =
         vacancyRepository.findByIdOrNull(vacancyId)
             ?: throw VacancyNotFoundException()
 
-    override fun getVacanciesByCompanyId(companyId: Long, pageNumber: Int): List<Vacancy>  =
-        vacancyRepository.findAllByCompanyId(companyId, PageRequest.of(pageNumber, pageSize!!))
+    override fun getVacanciesByCompanyName(companyName: String, pageNumber: Int): List<Vacancy>{
+        val companyId = 1L //TODO: добавить rabbitMq
+        return vacancyRepository.findAllByCompanyId(companyId, PageRequest.of(pageNumber, pageSize!!))
+    }
 }

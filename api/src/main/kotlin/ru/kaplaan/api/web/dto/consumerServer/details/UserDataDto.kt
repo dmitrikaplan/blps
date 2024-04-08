@@ -1,4 +1,4 @@
-package ru.kaplaan.api.web.dto.details
+package ru.kaplaan.api.web.dto.consumerServer.details
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
@@ -9,7 +9,7 @@ import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnUpdate
 import java.time.LocalDate
 
-data class UserDetailsDto(
+data class UserDataDto(
 
     @field:NotBlank(message = "Имя не должно быть пустым!")
     val firstname: String,

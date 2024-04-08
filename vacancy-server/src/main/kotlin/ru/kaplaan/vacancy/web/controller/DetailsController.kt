@@ -14,7 +14,7 @@ import ru.kaplaan.vacancy.web.validation.OnCreate
 import ru.kaplaan.vacancy.web.validation.OnUpdate
 
 @RestController
-@RequestMapping("/vacancy/details")
+@RequestMapping("/consumer/details")
 class DetailsController(
     private val detailsService: DetailsService
 ) {

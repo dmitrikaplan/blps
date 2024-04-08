@@ -1,5 +1,6 @@
 package ru.kaplaan.vacancy.web.controller
 
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,33 +13,38 @@ import ru.kaplaan.vacancy.service.VacancyService
 import ru.kaplaan.vacancy.web.dto.vacancy.VacancyDto
 import ru.kaplaan.vacancy.web.mapper.vacancy.toDto
 import ru.kaplaan.vacancy.web.mapper.vacancy.toEntity
+import ru.kaplaan.vacancy.web.validation.OnCreate
+import ru.kaplaan.vacancy.web.validation.OnUpdate
 
 @RestController
-@RequestMapping("/vacancy")
+@RequestMapping("/consumer/vacancy")
 class VacancyController(
     private val vacancyService: VacancyService
 ) {
 
     @PostMapping
-    fun save(@RequestBody vacancyDto: VacancyDto): VacancyDto =
+    fun save(@RequestBody @Validated(OnCreate::class) vacancyDto: VacancyDto): VacancyDto =
         vacancyService.save(vacancyDto.toEntity()).toDto()
 
     @PutMapping
-    fun update(@RequestBody vacancyDto: VacancyDto): VacancyDto =
+    fun update(@RequestBody @Validated(OnUpdate::class) vacancyDto: VacancyDto): VacancyDto =
         vacancyService.update(vacancyDto.toEntity()).toDto()
 
-    @DeleteMapping("/{vacancyId}")
-    fun delete(@PathVariable vacancyId: Long) =
-        vacancyService.delete(vacancyId)
+    @DeleteMapping("{companyName}/{vacancyId}")
+    fun delete(
+        @PathVariable companyName: String,
+        @PathVariable vacancyId: Long
+    ) =
+        vacancyService.delete(companyName, vacancyId)
 
     @GetMapping("/{vacancyId}")
     fun getVacancyById(@PathVariable vacancyId: Long): VacancyDto =
         vacancyService.getVacancyById(vacancyId).toDto()
 
-    @GetMapping("/{companyId}/{page}")
-    fun getVacanciesByCompanyId(
-        @PathVariable companyId: Long,
+    @GetMapping("/{companyName}/{page}")
+    fun getVacanciesByCompanyName(
+        @PathVariable companyName: String,
         @PathVariable page: Int
     ): List<VacancyDto> =
-        vacancyService.getVacanciesByCompanyId(companyId, page).toDto()
+        vacancyService.getVacanciesByCompanyName(companyName, page).toDto()
 }

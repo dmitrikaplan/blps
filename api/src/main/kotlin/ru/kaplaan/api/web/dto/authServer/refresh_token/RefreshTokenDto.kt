@@ -1,4 +1,4 @@
-package ru.kaplaan.api.web.dto.refresh_token
+package ru.kaplaan.api.web.dto.authServer.refresh_token
 
 import jakarta.validation.constraints.NotBlank
 

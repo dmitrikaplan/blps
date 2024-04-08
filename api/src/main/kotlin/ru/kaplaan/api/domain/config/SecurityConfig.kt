@@ -44,7 +44,12 @@ class SecurityConfig (
                 it.pathMatchers(HttpMethod.GET, "api/v1/auth/activation/**").permitAll()
                 it.pathMatchers(HttpMethod.POST, "api/v1/auth/recovery").permitAll()
                 it.pathMatchers(HttpMethod.POST, "api/v1/auth/refresh").permitAll()
-                it.pathMatchers(HttpMethod.GET, "/test").permitAll()
+
+                it.pathMatchers(HttpMethod.GET, "api/v1/details/user/**").permitAll()
+                it.pathMatchers(HttpMethod.GET, "api/v1/details/company/**").permitAll()
+
+                it.pathMatchers(HttpMethod.GET, "api/v1/vacancy/**").permitAll()
+
                 it.anyExchange().authenticated()
             }
             .addFilterBefore(JwtAuthenticationFilter("$baseUrl$authenticationEndpoint", jwtAuthenticationConverter, webClient), SecurityWebFiltersOrder.AUTHENTICATION)

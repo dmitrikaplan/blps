@@ -14,6 +14,7 @@ class DetailsServiceImpl(
     private val companyDataRepository: CompanyDataRepository,
     private val userDataRepository: UserDataRepository
 ): DetailsService {
+
     override fun saveCompanyData(companyData: CompanyData) {
         companyDataRepository.save(companyData)
     }

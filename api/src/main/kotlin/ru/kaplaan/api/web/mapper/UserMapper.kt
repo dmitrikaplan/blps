@@ -2,8 +2,7 @@ package ru.kaplaan.api.web.mapper
 
 import ru.kaplaan.api.domain.user.Role
 import ru.kaplaan.api.domain.user.User
-import ru.kaplaan.api.web.dto.user.UserDto
-import javax.management.relation.RoleNotFoundException
+import ru.kaplaan.api.web.dto.authServer.user.UserDto
 
 
 fun User.toDto(): UserDto =

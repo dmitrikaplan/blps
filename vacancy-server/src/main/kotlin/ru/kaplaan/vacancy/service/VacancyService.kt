@@ -10,9 +10,9 @@ interface VacancyService {
 
     fun update(vacancy: Vacancy): Vacancy
 
-    fun delete(vacancyId: Long)
+    fun delete(companyName: String, vacancyId: Long)
 
     fun getVacancyById(vacancyId: Long): Vacancy
 
-    fun getVacanciesByCompanyId(companyId: Long, pageNumber: Int): List<Vacancy>
+    fun getVacanciesByCompanyName(companyName: String, pageNumber: Int): List<Vacancy>
 }
