@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Null
 
 data class VacancyResponseDto(
-    @NotBlank(message = "Username не должен быть пустым!")
+    @field:NotBlank(message = "Username не должен быть пустым!")
     val username: String,
-    @Min(value = 0, message = "Id вакансии должен быть больше 0")
+    @field:Min(value = 0, message = "Id вакансии должен быть больше 0")
     val vacancyId: Long
 ){
     @field:Null(message = "Id отклика на вакансию должен быть null!")
