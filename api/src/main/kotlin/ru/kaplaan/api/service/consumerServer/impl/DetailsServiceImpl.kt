@@ -19,19 +19,19 @@ class DetailsServiceImpl(
     @Value("\${consumer-server.base-url}")
     lateinit var baseUrl: String
 
-    @Value("\${consumer-server.details.url}")
+    @Value("\${consumer-server.data.url}")
     lateinit var url: String
 
-    @Value("\${consumer-server.details.save-company-details}")
+    @Value("\${consumer-server.data.save-company-details}")
     lateinit var saveCompanyDataEndpoint: String
 
-    @Value("\${consumer-server.details.get-company-details}")
+    @Value("\${consumer-server.data.get-company-details}")
     lateinit var getCompanyDataEndpoint: String
 
-    @Value("\${consumer-server.details.save-user-details}")
+    @Value("\${consumer-server.data.save-user-details}")
     lateinit var saveUserDataEndpoint: String
 
-    @Value("\${consumer-server.details.get-user-details}")
+    @Value("\${consumer-server.data.get-user-details}")
     lateinit var getUserDataEndpoint: String
 
     

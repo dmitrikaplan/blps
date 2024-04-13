@@ -14,7 +14,7 @@ import ru.kaplaan.api.web.validation.OnCreate
 import java.security.Principal
 
 @RestController
-@RequestMapping("/api/v1/details")
+@RequestMapping("/api/v1/data")
 class DataController(
     private val detailsService: DetailsService
 ) {

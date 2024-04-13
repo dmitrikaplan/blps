@@ -1,1 +1,1 @@
-rootProject.name = "vacancy-server"
+rootProject.name = "consumer-server"

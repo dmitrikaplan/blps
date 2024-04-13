@@ -1,0 +1,40 @@
+package ru.kaplaan.consumer.service.impl
+
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.ParameterizedTypeReference
+import org.springframework.stereotype.Service
+import org.springframework.web.client.RestClient
+import ru.kaplaan.consumer.domain.exception.BodilessResponseException
+import ru.kaplaan.consumer.service.UserService
+
+@Service
+class UserServiceImpl(
+    private val restClient: RestClient
+): UserService {
+
+    @Value("\${auth-server.base-url}")
+    lateinit var baseUrl: String
+
+    @Value("\${auth-server.endpoints.get-user-id-by-username}")
+    lateinit var getAllUsernamesByUserIdsEndpoint: String
+
+    @Value("\${auth-server.endpoints.get-all-user-id-by-usernames}")
+    lateinit var getUserIdByUsernameEndpoint: String
+
+    override fun getUserIdByUsername(username: String): Long {
+        return restClient
+            .get()
+            .uri("$baseUrl$getUserIdByUsernameEndpoint/$username")
+            .retrieve()
+            .body(Long::class.java) ?: throw BodilessResponseException()
+    }
+
+    override fun getAllUsernamesByUserIds(ids: List<Long>): List<String> {
+        return restClient
+            .post()
+            .uri("$baseUrl$getAllUsernamesByUserIdsEndpoint")
+            .body(ids)
+            .retrieve()
+            .body(object: ParameterizedTypeReference<List<String>>(){}) ?: throw BodilessResponseException()
+    }
+}
