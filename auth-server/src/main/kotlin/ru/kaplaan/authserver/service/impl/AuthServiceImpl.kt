@@ -44,9 +44,9 @@ class AuthServiceImpl(
             this.activationCode = activationCode
         }
 
-        emailService.activateUserByEmail(user.email, user.username, activationCode)
-
         userRepository.save(user)
+        //TODO: когда будет сеть раскомментить
+        //emailService.activateUserByEmail(user.email, user.username, activationCode)
     }
 
     override fun authenticate(userIdentification: UserIdentification): JwtResponse {
@@ -101,9 +101,6 @@ class AuthServiceImpl(
         return JwtResponse(accessToken, token)
     }
 
-    override fun getUserByUsername(username: String): User =
-        userRepository.findByUsername(username)
-            ?: throw UserNotFoundException()
 
 
     private fun getRefreshToken(user: User): String{

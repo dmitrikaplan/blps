@@ -54,8 +54,8 @@ class VacancyController(
     fun delete(
         @PathVariable vacancyId: Long,
         principal: Principal
-    ) =
-        vacancyService.delete(principal.name, vacancyId).also {
+
+    ) = vacancyService.delete(principal.name, vacancyId).also {
             log.debug(principal.name)
         }
 

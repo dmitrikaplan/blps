@@ -11,5 +11,5 @@ interface VacancyResponseService {
 
     fun delete(vacancyResponseId: Long)
 
-    fun getAllUsernameByVacancyId(companyId: Long, pageNumber: Int): List<String>
+    fun getAllUsernamesByCompanyName(companyName: String, pageNumber: Int): List<String>
 }

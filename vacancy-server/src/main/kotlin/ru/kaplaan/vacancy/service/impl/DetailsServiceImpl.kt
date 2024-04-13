@@ -3,6 +3,8 @@ package ru.kaplaan.vacancy.service.impl
 import org.springframework.stereotype.Service
 import ru.kaplaan.vacancy.domain.entity.CompanyData
 import ru.kaplaan.vacancy.domain.entity.UserData
+import ru.kaplaan.vacancy.domain.exception.alreadyExists.CompanyDataAlreadyExistsException
+import ru.kaplaan.vacancy.domain.exception.alreadyExists.UserDataAlreadyExistsException
 import ru.kaplaan.vacancy.domain.exception.notFound.CompanyDataNotFoundException
 import ru.kaplaan.vacancy.domain.exception.notFound.UserDetailsNotFoundException
 import ru.kaplaan.vacancy.repository.CompanyDataRepository
@@ -16,7 +18,9 @@ class DetailsServiceImpl(
 ): DetailsService {
 
     override fun saveCompanyData(companyData: CompanyData) {
-        companyDataRepository.save(companyData)
+        companyDataRepository.findCompanyDataByCompanyName(companyData.companyName)?.let {
+            throw CompanyDataAlreadyExistsException()
+        } ?: companyDataRepository.save(companyData)
     }
 
     override fun updateCompanyData(companyData: CompanyData): CompanyData =
@@ -28,7 +32,9 @@ class DetailsServiceImpl(
 
 
     override fun saveUserData(userData: UserData) {
-        userDataRepository.save(userData)
+        userDataRepository.findUserDataByUsername(userData.username)?.let {
+            throw UserDataAlreadyExistsException()
+        } ?: userDataRepository.save(userData)
     }
 
     override fun updateUserData(userData: UserData): UserData =

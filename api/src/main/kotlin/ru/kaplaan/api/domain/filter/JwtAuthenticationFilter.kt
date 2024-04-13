@@ -12,6 +12,7 @@ import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebFilter
 import org.springframework.web.server.WebFilterChain
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.onErrorResume
 import reactor.kotlin.core.publisher.switchIfEmpty
 import ru.kaplaan.api.domain.exception.JwtTokenNotFoundException
 import ru.kaplaan.api.domain.exception.UserNotAuthenticatedException
@@ -36,25 +37,28 @@ class JwtAuthenticationFilter(
                 .map {
                     it.toDto()
                 }
-                .authenticationRequest()
+                .flatMap {
+                    authenticationRequest(Mono.just(it))
+                }
                 .map {
                     ReactiveSecurityContextHolder.withAuthentication(it)
                 }
                 .flatMap { context ->
                     chain.filter(exchange).contextWrite(context)
                 }
-                .onErrorResume(AuthenticationException::class.java) {
+                .onErrorResume(AuthenticationException::class){
+                    log.error(it.message)
                     chain.filter(exchange)
                 }
 
     }
 
 
-    private fun Mono<AuthenticationDto>.authenticationRequest(): Mono<UsernamePasswordAuthenticationToken> {
+    private fun authenticationRequest(authenticationDto: Mono<AuthenticationDto>): Mono<UsernamePasswordAuthenticationToken> {
         return webClient
             .post()
             .uri(url)
-            .body(this)
+            .body(authenticationDto)
             .retrieve()
             .toEntity(AuthenticationDto::class.java)
             .handle { response, sink ->

@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono
 import ru.kaplaan.api.service.consumerServer.VacancyResponseService
 import ru.kaplaan.api.web.dto.consumerServer.vacancyResponse.VacancyResponseDto
 import ru.kaplaan.api.web.validation.OnCreate
+import java.security.Principal
 
 @RestController
 @RequestMapping("/api/v1/vacancy-response")
@@ -20,21 +21,28 @@ class VacancyResponseController(
     @PreAuthorize("hasRole(USER)")
     fun save(
         @RequestBody @Validated(OnCreate::class)
-        vacancyResponseDto: Mono<VacancyResponseDto>
+        vacancyResponseDto: Mono<VacancyResponseDto>,
+        principal: Principal
     ): Mono<ResponseEntity<VacancyResponseDto>> =
-        vacancyResponseService.save(vacancyResponseDto)
+        vacancyResponseService.save(
+            vacancyResponseDto.map {
+                it.apply {
+                    username = principal.name
+                }
+            }
+        )
 
     @DeleteMapping("/{vacancyResponseId}")
     fun delete(@PathVariable vacancyResponseId: Long) =
         vacancyResponseService.delete(vacancyResponseId)
 
 
-    @GetMapping("/{companyId}/{pageNumber}")
+    @GetMapping("/{pageNumber}")
     @PreAuthorize("hasRole(COMPANY)")
     fun getAllUserIdByCompanyId(
-        @PathVariable companyId: Long,
-        @PathVariable pageNumber: Int
+        @PathVariable pageNumber: Int,
+        principal: Principal
     ): Mono<ResponseEntity<Flux<Long>>> =
-        vacancyResponseService.getAllUserIdByVacancyId(companyId, pageNumber)
+        vacancyResponseService.getAllUserIdByCompanyName(principal.name, pageNumber)
 
 }

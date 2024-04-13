@@ -32,11 +32,11 @@ class VacancyResponseController(
     }
 
 
-    @GetMapping("/{companyId}/{pageNumber}")
-    fun getAllUsernameByCompanyId(
-        @PathVariable companyId: Long,
+    @GetMapping("/{companyName}/{pageNumber}")
+    fun getAllUsernameByCompanyName(
+        @PathVariable companyName: String,
         @PathVariable pageNumber: Int
     ): List<String> {
-        return vacancyResponseService.getAllUsernameByVacancyId(companyId, pageNumber)
+        return vacancyResponseService.getAllUsernamesByCompanyName(companyName, pageNumber)
     }
 }

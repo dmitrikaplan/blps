@@ -47,10 +47,10 @@ class VacancyResponseServiceImpl(
             .toEntity(Any::class.java)
 
     //TODO: проверить, что пользователей получает компания-владелец вакансии
-    override fun getAllUserIdByVacancyId(companyId: Long, pageNumber: Int): Mono<ResponseEntity<Flux<Long>>> =
+    override fun getAllUserIdByCompanyName(companyName: String, pageNumber: Int): Mono<ResponseEntity<Flux<Long>>> =
         webClient
             .get()
-            .uri("$baseUrl$url$getAllUserIdByCompanyIdEndpoint$companyId/$pageNumber")
+            .uri("$baseUrl$url$getAllUserIdByCompanyIdEndpoint$companyName/$pageNumber")
             .retrieve()
             .toEntityFlux(Long::class.java)
 }

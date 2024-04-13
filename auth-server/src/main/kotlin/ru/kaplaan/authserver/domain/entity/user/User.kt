@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails
 class User(): UserDetails{
 
     @Id
-    @Column("id")
+    @Column("user_id")
     var id: Long? = null
 
     lateinit var email: String
@@ -70,4 +70,7 @@ class User(): UserDetails{
     override fun isEnabled(): Boolean {
         return activated
     }
+
+    override fun toString(): String =
+        "User(id = $id, email = $email, username = $username, password = $password, role = $role)"
 }

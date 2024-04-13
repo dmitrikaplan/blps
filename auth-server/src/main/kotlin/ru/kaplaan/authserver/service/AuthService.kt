@@ -21,6 +21,4 @@ interface AuthService {
     fun passwordRecovery(userIdentification: UserIdentification)
 
     fun refresh(token: String): JwtResponse
-
-    fun getUserByUsername(username: String): User
 }

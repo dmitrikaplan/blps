@@ -4,4 +4,4 @@ import org.springframework.http.ProblemDetail
 import org.springframework.http.ResponseEntity
 import reactor.core.publisher.Mono
 
-class BadResponseException(val response: Mono<ProblemDetail>): RuntimeException()
+class BadResponseException(val response: Mono<ResponseEntity<ProblemDetail>>): RuntimeException()

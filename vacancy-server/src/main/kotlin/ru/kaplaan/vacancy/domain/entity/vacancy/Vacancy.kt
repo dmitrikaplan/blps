@@ -1,6 +1,7 @@
 package ru.kaplaan.vacancy.domain.entity.vacancy
 
 import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.Transient
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import ru.kaplaan.vacancy.web.dto.vacancy.Currency
@@ -9,6 +10,7 @@ import ru.kaplaan.vacancy.web.dto.vacancy.Currency
 class Vacancy() {
 
     @Id
+    @Column("vacancy_id")
     var id: Long? = null
 
     lateinit var title: String

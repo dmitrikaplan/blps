@@ -1,7 +1,5 @@
 package ru.kaplaan.vacancy.web.controller
 
-import jakarta.validation.constraints.NotBlank
-import org.hibernate.validator.constraints.Length
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
@@ -30,22 +28,17 @@ class DetailsController(
 
     @PutMapping("/company")
     fun updateCompanyData(
-        @RequestBody @Validated(OnUpdate::class) companyDto: CompanyDataDto
+        @RequestBody @Validated(OnUpdate::class)
+        companyDto: CompanyDataDto
     ): CompanyDataDto =
         detailsService.updateCompanyData(companyDto.toEntity()).toDto()
 
     @GetMapping("/company/{companyName}")
-    fun getCompanyDataByCompanyName(
-        @Validated @NotBlank(message = "Название компании не должно быть пустым!")
-        @PathVariable companyName: String
-    ): CompanyDataDto =
+    fun getCompanyDataByCompanyName(@PathVariable companyName: String): CompanyDataDto =
         detailsService.getCompanyDataByCompanyName(companyName).toDto()
 
     @PostMapping("/user")
-    fun saveUserData(
-        @RequestBody
-        userDataDto: UserDataDto
-    ): ResponseEntity<String> {
+    fun saveUserData(@RequestBody userDataDto: UserDataDto): ResponseEntity<String> {
         detailsService.saveUserData(userDataDto.toEntity())
         return ResponseEntity.ok().body("Информация о пользователе сохранена")
     }
@@ -58,10 +51,7 @@ class DetailsController(
         detailsService.updateUserData(userDataDto.toEntity()).toDto()
 
     @GetMapping("/user/{username}")
-    fun getUserDataByUsername(
-        @Validated @Length(min = 4, message = "Название компании должно быть минимум из 4 символов!")
-        @PathVariable username: String
-    ): UserDataDto =
+    fun getUserDataByUsername(@PathVariable username: String): UserDataDto =
         detailsService.getUserDataByUsername(username).toDto()
 
 }

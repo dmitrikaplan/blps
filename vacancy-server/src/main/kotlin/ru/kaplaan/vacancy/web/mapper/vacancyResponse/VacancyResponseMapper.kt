@@ -14,6 +14,4 @@ fun VacancyResponse.toDto(): VacancyResponseDto =
     VacancyResponseDto(
         username = username,
         vacancyId = vacancyId
-    ).apply {
-         vacancyResponseId = this@toDto.id
-    }
+    )

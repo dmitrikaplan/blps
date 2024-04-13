@@ -33,7 +33,7 @@ class AuthController(
     @PostMapping("/registration/{role}")
     @Operation(summary = "Регистрация пользователя")
     fun registerCompany(
-        @RequestBody @Validated(OnCreate::class)
+        @RequestBody @Validated
         @Parameter(description = "логин, почта и пароль пользователя в формате json", required = true)
         userDto: Mono<UserDto>,
         @PathVariable role: String
@@ -58,7 +58,7 @@ class AuthController(
     @Operation(summary = "Авторизация пользователя")
     @PostMapping("/login")
     fun login(
-        @RequestBody @Validated(OnCreate::class)
+        @RequestBody @Validated
         @Parameter(description = "логин или почта пользователя и пароль в формате json", required = true)
         userIdentificationDto: Mono<UserIdentificationDto>,
     ): Mono<ResponseEntity<JwtResponse>> = authService.login(userIdentificationDto)

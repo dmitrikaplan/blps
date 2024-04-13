@@ -30,7 +30,7 @@ class AuthController(
 
     @PostMapping("/registration")
     fun registerUser(
-        @RequestBody @Validated(OnCreate::class)
+        @RequestBody @Validated
         userDto: UserDto,
     ): ResponseEntity<MessageResponse> {
         authService.register(userDto.toEntity())
@@ -87,4 +87,5 @@ class AuthController(
         @RequestBody refreshTokenDto: RefreshTokenDto
     ): JwtResponse =
          authService.refresh(refreshTokenDto.refreshToken)
+
 }

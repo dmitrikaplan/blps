@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.ProblemDetail
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToMono
 import org.springframework.web.reactive.function.client.toEntity
 import reactor.core.publisher.Mono
 import ru.kaplaan.api.domain.exception.BadResponseException
@@ -17,7 +16,7 @@ class WebClientConfig {
         WebClient
             .builder()
             .defaultStatusHandler({it.isError}){
-                Mono.error(BadResponseException(it.bodyToMono<ProblemDetail>()))
+                Mono.error(BadResponseException(it.toEntity<ProblemDetail>()))
             }
             .build()
 }

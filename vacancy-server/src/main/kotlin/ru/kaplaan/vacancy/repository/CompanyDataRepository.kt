@@ -9,6 +9,6 @@ import ru.kaplaan.vacancy.domain.entity.CompanyData
 @Repository
 interface CompanyDataRepository: CrudRepository<CompanyData, Long> {
 
-    @Query("select * from company_details where company_name = :company_ame")
+    @Query("select * from company_data where company_name = :company_name")
     fun findCompanyDataByCompanyName(@Param("company_name") companyName: String): CompanyData?
 }

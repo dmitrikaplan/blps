@@ -17,7 +17,7 @@ class CompanyData{
     lateinit var description: String
     lateinit var site: String
 
-    @MappedCollection(idColumn = "company_person_id")
+    @MappedCollection(idColumn = "company_data_id")
     lateinit var contactPerson: ContactPerson
 
 }

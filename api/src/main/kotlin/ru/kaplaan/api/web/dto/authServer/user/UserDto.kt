@@ -2,6 +2,7 @@ package ru.kaplaan.api.web.dto.authServer.user
 
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.Null
 import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
 import ru.kaplaan.api.web.validation.OnCreate
@@ -30,5 +31,6 @@ class UserDto(
     var password: String,
 ){
 
+    @field:Null(message = "Роль не должна быть заполнена!")
     var role: Role? = null
 }
