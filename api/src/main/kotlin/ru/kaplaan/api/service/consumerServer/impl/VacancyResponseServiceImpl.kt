@@ -38,15 +38,13 @@ class VacancyResponseServiceImpl(
             .retrieve()
             .toEntity(VacancyResponseDto::class.java)
 
-    //TODO: проверить, что отклик удаляет компания-владелец вакансии
-    override fun delete(vacancyResponseId: Long): Mono<ResponseEntity<Any>> =
+    override fun delete(vacancyId: Long, username: String): Mono<ResponseEntity<Any>> =
         webClient
             .delete()
-            .uri("$baseUrl$url$deleteEndpoint$vacancyResponseId")
+            .uri("$baseUrl$url$deleteEndpoint$vacancyId/$username")
             .retrieve()
             .toEntity(Any::class.java)
 
-    //TODO: проверить, что пользователей получает компания-владелец вакансии
     override fun getAllUserIdByCompanyName(companyName: String, pageNumber: Int): Mono<ResponseEntity<Flux<Long>>> =
         webClient
             .get()

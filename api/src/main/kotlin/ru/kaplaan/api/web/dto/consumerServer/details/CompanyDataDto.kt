@@ -9,9 +9,6 @@ import ru.kaplaan.api.web.validation.OnUpdate
 
 data class CompanyDataDto(
 
-    @field:NotBlank(message = "Название компании не должно быть пустым!")
-    val companyName: String,
-
     @field:NotBlank(message = "Описание не должно быть пустым!")
     val description: String,
 
@@ -20,11 +17,6 @@ data class CompanyDataDto(
 
     val contactPerson: ContactPersonDto
 ){
-    @field:Null(message = "Username не должен быть заполнен!", groups = [OnCreate::class])
-    @field:Pattern(
-        regexp = "^[a-zA-Z0-9]{6,320}$",
-        message = "Login should fit the username pattern",
-        groups = [OnUpdate::class]
-    )
-    var username: String? = null
+    @field:Null(message = "Название компании не должно быть заполнено!!")
+    var companyName: String? = null
 }

@@ -1,4 +1,4 @@
-package ru.kaplaan.vacancy.web.dto.details
+package ru.kaplaan.vacancy.web.dto.data
 
 import jakarta.validation.constraints.NotBlank
 

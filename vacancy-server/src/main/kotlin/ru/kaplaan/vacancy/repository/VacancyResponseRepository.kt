@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository
 import ru.kaplaan.vacancy.domain.entity.VacancyResponse
 
 @Repository
-interface VacancyResponseRepository: CrudRepository<VacancyResponse, Long> {
+interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResponse.PK> {
 
-    @Query("select user_id from vacancy_response where vacancy_id = :vacancyId")
-    fun findAllUserIdByVacancyId(vacancyId: Long, pageable: Pageable): List<Long>
+    @Query("select username from vacancy_response where vacancy_id = :vacancyId")
+    fun findAllUsernameByVacancyId(vacancyId: Long, pageable: Pageable): List<String>
 }

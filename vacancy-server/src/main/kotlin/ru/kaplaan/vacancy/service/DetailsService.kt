@@ -1,8 +1,8 @@
 package ru.kaplaan.vacancy.service
 
 import org.springframework.stereotype.Service
-import ru.kaplaan.vacancy.domain.entity.CompanyData
-import ru.kaplaan.vacancy.domain.entity.UserData
+import ru.kaplaan.vacancy.domain.entity.data.CompanyData
+import ru.kaplaan.vacancy.domain.entity.data.UserData
 
 @Service
 interface DetailsService {

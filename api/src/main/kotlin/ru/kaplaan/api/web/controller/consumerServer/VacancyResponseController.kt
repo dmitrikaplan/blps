@@ -32,9 +32,9 @@ class VacancyResponseController(
             }
         )
 
-    @DeleteMapping("/{vacancyResponseId}")
-    fun delete(@PathVariable vacancyResponseId: Long) =
-        vacancyResponseService.delete(vacancyResponseId)
+    @DeleteMapping("/{vacancyId}")
+    fun delete(@PathVariable vacancyId: Long, principal: Principal) =
+        vacancyResponseService.delete(vacancyId, principal.name)
 
 
     @GetMapping("/{pageNumber}")

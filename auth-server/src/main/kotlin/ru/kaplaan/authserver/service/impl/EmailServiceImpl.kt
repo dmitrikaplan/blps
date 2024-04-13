@@ -18,7 +18,7 @@ class EmailServiceImpl @Autowired constructor(
     private val springTemplateEngine: SpringTemplateEngine
 ) : EmailService {
 
-    @Value("\${kittynotes.host}")
+    @Value("\${service.host}")
     private lateinit var host: String
 
     @Value("\${spring.mail.username}")

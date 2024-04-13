@@ -1,4 +1,4 @@
-package ru.kaplaan.vacancy.domain.entity
+package ru.kaplaan.vacancy.domain.entity.data
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column

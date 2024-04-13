@@ -1,6 +1,7 @@
 package ru.kaplaan.vacancy.service.impl
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
 import ru.kaplaan.vacancy.domain.exception.BodilessResponseException
@@ -15,10 +16,10 @@ class UserServiceImpl(
     lateinit var baseUrl: String
 
     @Value("\${auth-server.endpoints.get-user-id-by-username}")
-    lateinit var getUserIdByUsernameEndpoint: String
+    lateinit var getAllUsernamesByUserIdsEndpoint: String
 
     @Value("\${auth-server.endpoints.get-all-user-id-by-usernames}")
-    lateinit var getAllUsernamesByUserIdsEndpoint: String
+    lateinit var getUserIdByUsernameEndpoint: String
 
     override fun getUserIdByUsername(username: String): Long {
         return restClient
@@ -34,10 +35,6 @@ class UserServiceImpl(
             .uri("$baseUrl$getAllUsernamesByUserIdsEndpoint")
             .body(ids)
             .retrieve()
-            .body(List::class.java)?.map {
-                it as String
-            } ?: throw BodilessResponseException()
-
-        //TODO: добавить параметризированные типы
+            .body(object: ParameterizedTypeReference<List<String>>(){}) ?: throw BodilessResponseException()
     }
 }

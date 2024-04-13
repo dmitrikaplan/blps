@@ -1,11 +1,10 @@
-package ru.kaplaan.vacancy.web.mapper.details
+package ru.kaplaan.vacancy.web.mapper.data
 
-import ru.kaplaan.vacancy.domain.entity.CompanyData
-import ru.kaplaan.vacancy.web.dto.details.CompanyDataDto
+import ru.kaplaan.vacancy.domain.entity.data.CompanyData
+import ru.kaplaan.vacancy.web.dto.data.CompanyDataDto
 
 fun CompanyData.toDto(): CompanyDataDto =
     CompanyDataDto(
-        username = this.username,
         companyName = this.companyName,
         description = this.description,
         site = this.site,
@@ -18,7 +17,6 @@ fun CompanyData.toDto(): CompanyDataDto =
 fun CompanyDataDto.toEntity(): CompanyData =
 
     CompanyData().apply {
-        username = this@toEntity.username
         companyName = this@toEntity.companyName
         description = this@toEntity.description
         site = this@toEntity.site

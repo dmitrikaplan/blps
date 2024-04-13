@@ -15,7 +15,7 @@ import java.security.Principal
 
 @RestController
 @RequestMapping("/api/v1/details")
-class DetailsController(
+class DataController(
     private val detailsService: DetailsService
 ) {
 
@@ -32,7 +32,7 @@ class DetailsController(
             companyDataDto.map {
                 log.debug("company name is ${principal.name}")
                 it.apply {
-                    username = principal.name
+                    companyName = principal.name
                 }
             }
         )

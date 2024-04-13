@@ -1,4 +1,4 @@
-package ru.kaplaan.vacancy.domain.entity
+package ru.kaplaan.vacancy.domain.entity.data
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
@@ -12,6 +12,10 @@ class UserData{
     @Column("user_data_id")
     var id: Long? = null
 
+    @Column("user_id")
+    var userId: Long? = null
+
+    @Transient
     lateinit var username: String
     lateinit var firstname: String
     lateinit var surname: String

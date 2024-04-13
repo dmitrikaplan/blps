@@ -10,7 +10,7 @@ import ru.kaplaan.api.web.dto.consumerServer.vacancyResponse.VacancyResponseDto
 interface VacancyResponseService {
     fun save(vacancyResponseDto: Mono<VacancyResponseDto>): Mono<ResponseEntity<VacancyResponseDto>>
 
-    fun delete(vacancyResponseId: Long): Mono<ResponseEntity<Any>>
+    fun delete(vacancyId: Long, username: String): Mono<ResponseEntity<Any>>
 
     fun getAllUserIdByCompanyName(companyName: String, pageNumber: Int): Mono<ResponseEntity<Flux<Long>>>
 }

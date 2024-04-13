@@ -4,16 +4,16 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.kaplaan.vacancy.service.DetailsService
-import ru.kaplaan.vacancy.web.dto.details.CompanyDataDto
-import ru.kaplaan.vacancy.web.dto.details.UserDataDto
-import ru.kaplaan.vacancy.web.mapper.details.toDto
-import ru.kaplaan.vacancy.web.mapper.details.toEntity
+import ru.kaplaan.vacancy.web.dto.data.CompanyDataDto
+import ru.kaplaan.vacancy.web.dto.data.UserDataDto
+import ru.kaplaan.vacancy.web.mapper.data.toDto
+import ru.kaplaan.vacancy.web.mapper.data.toEntity
 import ru.kaplaan.vacancy.web.validation.OnCreate
 import ru.kaplaan.vacancy.web.validation.OnUpdate
 
 @RestController
 @RequestMapping("/consumer/details")
-class DetailsController(
+class DataController(
     private val detailsService: DetailsService
 ) {
 

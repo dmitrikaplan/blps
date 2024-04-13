@@ -1,7 +1,7 @@
-package ru.kaplaan.vacancy.web.mapper.details
+package ru.kaplaan.vacancy.web.mapper.data
 
-import ru.kaplaan.vacancy.domain.entity.ContactPerson
-import ru.kaplaan.vacancy.web.dto.details.ContactPersonDto
+import ru.kaplaan.vacancy.domain.entity.data.ContactPerson
+import ru.kaplaan.vacancy.web.dto.data.ContactPersonDto
 
 
 fun ContactPerson.toDto(): ContactPersonDto =

@@ -1,7 +1,7 @@
-package ru.kaplaan.vacancy.web.mapper.details
+package ru.kaplaan.vacancy.web.mapper.data
 
-import ru.kaplaan.vacancy.domain.entity.UserData
-import ru.kaplaan.vacancy.web.dto.details.UserDataDto
+import ru.kaplaan.vacancy.domain.entity.data.UserData
+import ru.kaplaan.vacancy.web.dto.data.UserDataDto
 
 
 fun UserData.toDto(): UserDataDto =

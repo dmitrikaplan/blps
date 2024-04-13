@@ -26,9 +26,6 @@ data class VacancyDto(
     @field:NotBlank(message = "Название компании не должно быть пустым!")
     val companyName: String
 ){
-    @field:Null(message = "Id компании не должен быть заполнен!")
-    var companyId: Long? = null
-
     @field:Null(message = "Id вакансии должен быть равен null!", groups = [OnCreate::class])
     @field:NotNull(message = "Id вакансии должен быть равен null!", groups = [OnUpdate::class])
     var vacancyId: Long? = null

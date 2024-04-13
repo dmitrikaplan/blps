@@ -20,25 +20,30 @@ class VacancyResponseServiceImpl(
     @Value("\${vacancy-response.page-size}")
     var pageSize: Int? = null
 
-    override fun save(vacancyResponse: VacancyResponse): VacancyResponse =
-        vacancyRepository.findVacancyByVacancyId(vacancyResponse.vacancyId)?.let{
-            vacancyResponseRepository.save(
-                vacancyResponse.apply {
-                    this.userId = userService.getUserIdByUsername(vacancyResponse.username)
-                }
+    override fun save(vacancyResponse: VacancyResponse): VacancyResponse{
+        vacancyResponse.apply {
+            pk = VacancyResponse.PK(
+                vacancyId,
+                userService.getUserIdByUsername(vacancyResponse.username)
             )
+        }
+        return vacancyRepository.findVacancyByVacancyId(vacancyResponse.pk.vacancyId)?.let{
+            vacancyResponseRepository.save(vacancyResponse)
         } ?: throw VacancyNotFoundException()
+    }
 
 
-    override fun delete(vacancyResponseId: Long) =
-        vacancyResponseRepository.deleteById(vacancyResponseId)
+    override fun delete(vacancyId: Long, username: String) =
+        userService.getUserIdByUsername(username).let { userId ->
+            vacancyResponseRepository.deleteById(VacancyResponse.PK(vacancyId, userId))
+        }
+
 
     override fun getAllUsernamesByCompanyName(companyName: String, pageNumber: Int): List<String>{
-      return vacancyRepository.findVacancyIdByCompanyName(companyName).let { vacancyId ->
-            vacancyResponseRepository.findAllUserIdByVacancyId(vacancyId, PageRequest.of(pageNumber, pageSize!!))
-        }.let {
-            userService.getAllUsernamesByUserIds(it)
-       }
+        val companyId = userService.getUserIdByUsername(companyName)
+      return vacancyRepository.findVacancyIdByCompanyId(companyId).let { vacancyId ->
+            vacancyResponseRepository.findAllUsernameByVacancyId(vacancyId, PageRequest.of(pageNumber, pageSize!!))
+        }
     }
 
 }

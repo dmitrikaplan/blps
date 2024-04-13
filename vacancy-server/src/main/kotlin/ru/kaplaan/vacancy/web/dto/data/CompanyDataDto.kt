@@ -1,4 +1,4 @@
-package ru.kaplaan.vacancy.web.dto.details
+package ru.kaplaan.vacancy.web.dto.data
 
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -8,9 +8,6 @@ import ru.kaplaan.vacancy.web.validation.OnCreate
 import ru.kaplaan.vacancy.web.validation.OnUpdate
 
 data class CompanyDataDto(
-    @field:NotBlank(message = "Username компании не должен быть пустым!")
-    val username: String,
-
     @field:NotBlank(message = "Название компании не должно быть пустым!")
     val companyName: String,
 

@@ -9,7 +9,7 @@ interface VacancyResponseService {
 
     fun save(vacancyResponse: VacancyResponse): VacancyResponse
 
-    fun delete(vacancyResponseId: Long)
+    fun delete(vacancyId: Long, username: String)
 
     fun getAllUsernamesByCompanyName(companyName: String, pageNumber: Int): List<String>
 }

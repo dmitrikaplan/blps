@@ -26,9 +26,9 @@ class VacancyResponseController(
         return vacancyResponseService.save(vacancyResponseDto.toEntity()).toDto()
     }
 
-    @DeleteMapping("/{vacancyResponseId}")
-    fun delete(@PathVariable vacancyResponseId: Long){
-        vacancyResponseService.delete(vacancyResponseId)
+    @DeleteMapping("/{vacancyId}/{username}")
+    fun delete(@PathVariable vacancyId: Long, @PathVariable username: String){
+        vacancyResponseService.delete(vacancyId, username)
     }
 
 
