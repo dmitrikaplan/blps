@@ -5,12 +5,12 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
 import ru.kaplaan.consumer.domain.exception.BodilessResponseException
-import ru.kaplaan.consumer.service.UserServiceInfo
+import ru.kaplaan.consumer.service.UserInfoService
 
 @Service
-class UserServiceInfoInfoImpl(
+class UserInfoServiceImpl(
     private val restClient: RestClient
-): UserServiceInfo {
+): UserInfoService {
 
     @Value("\${auth-server.base-url}")
     lateinit var baseUrl: String

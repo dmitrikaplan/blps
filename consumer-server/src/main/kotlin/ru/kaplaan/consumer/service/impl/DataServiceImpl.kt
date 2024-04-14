@@ -10,17 +10,17 @@ import ru.kaplaan.consumer.domain.exception.notFound.UserDetailsNotFoundExceptio
 import ru.kaplaan.consumer.repository.CompanyDataRepository
 import ru.kaplaan.consumer.repository.UserDataRepository
 import ru.kaplaan.consumer.service.DetailsService
-import ru.kaplaan.consumer.service.UserServiceInfo
+import ru.kaplaan.consumer.service.UserInfoService
 
 @Service
 class DataServiceImpl(
     private val companyDataRepository: CompanyDataRepository,
     private val userDataRepository: UserDataRepository,
-    private val userServiceInfo: UserServiceInfo
+    private val userInfoService: UserInfoService
 ): DetailsService {
 
     override fun saveCompanyData(companyData: CompanyData) {
-        val companyId = userServiceInfo.getUserIdByUsername(companyData.companyName)
+        val companyId = userInfoService.getUserIdByUsername(companyData.companyName)
         companyDataRepository.findCompanyDataByCompanyId(companyId)?.let {
             throw CompanyDataAlreadyExistsException()
         } ?: companyDataRepository.save(
@@ -33,12 +33,12 @@ class DataServiceImpl(
     override fun updateCompanyData(companyData: CompanyData): CompanyData =
         companyDataRepository.save(
             companyData.apply {
-                companyId = userServiceInfo.getUserIdByUsername(companyData.companyName)
+                companyId = userInfoService.getUserIdByUsername(companyData.companyName)
             }
         )
 
     override fun getCompanyDataByCompanyName(companyName: String): CompanyData =
-        userServiceInfo.getUserIdByUsername(companyName).let { companyId ->
+        userInfoService.getUserIdByUsername(companyName).let { companyId ->
             companyDataRepository.findCompanyDataByCompanyId(companyId)
                 ?: throw CompanyDataNotFoundException()
         }
@@ -46,7 +46,7 @@ class DataServiceImpl(
 
 
     override fun saveUserData(userData: UserData) {
-        val userId = userServiceInfo.getUserIdByUsername(userData.username)
+        val userId = userInfoService.getUserIdByUsername(userData.username)
         userDataRepository.findUserDataByUserId(userId)?.let {
             throw UserDataAlreadyExistsException()
         } ?: userDataRepository.save(
@@ -57,7 +57,7 @@ class DataServiceImpl(
     }
 
     override fun updateUserData(userData: UserData): UserData =
-        userServiceInfo.getUserIdByUsername(userData.username).let { userId ->
+        userInfoService.getUserIdByUsername(userData.username).let { userId ->
             userDataRepository.save(
                 userData.apply {
                     this.userId = userId
@@ -67,7 +67,7 @@ class DataServiceImpl(
 
 
     override fun getUserDataByUsername(username: String): UserData =
-        userServiceInfo.getUserIdByUsername(username).let { userId ->
+        userInfoService.getUserIdByUsername(username).let { userId ->
             userDataRepository.findUserDataByUserId(userId)
                 ?: throw UserDetailsNotFoundException()
         }

@@ -3,7 +3,7 @@ package ru.kaplaan.consumer.service
 import org.springframework.stereotype.Service
 
 @Service
-interface UserServiceInfo {
+interface UserInfoService {
 
     fun getUserIdByUsername(username: String): Long
 

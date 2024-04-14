@@ -9,11 +9,11 @@ class UserInfoController(
     private val userInfoService: UserInfoService
 ) {
 
-    @GetMapping("/{username}")
+    @GetMapping("/user-id/{username}")
     fun getUserIdByUsername(@PathVariable username: String): Long =
         userInfoService.getUserIdByUsername(username)
 
-    @GetMapping("/{userId}")
+    @GetMapping("/username/{userId}")
     fun getUsernameByUserId(@PathVariable userId: Long): String =
         userInfoService.getUsernameByUserId(userId)
 
