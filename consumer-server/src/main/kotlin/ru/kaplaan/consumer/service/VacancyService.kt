@@ -15,4 +15,6 @@ interface VacancyService {
     fun getVacancyById(vacancyId: Long): Vacancy
 
     fun getVacanciesByCompanyName(companyName: String, pageNumber: Int): List<Vacancy>
+
+    fun archiveVacancy(companyName: String, vacancyId: Long)
 }

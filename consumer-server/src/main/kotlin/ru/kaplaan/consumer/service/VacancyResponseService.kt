@@ -1,7 +1,7 @@
 package ru.kaplaan.consumer.service
 
 import org.springframework.stereotype.Service
-import ru.kaplaan.consumer.domain.entity.VacancyResponse
+import ru.kaplaan.consumer.domain.entity.vacancyResponse.VacancyResponse
 
 @Service
 interface VacancyResponseService {

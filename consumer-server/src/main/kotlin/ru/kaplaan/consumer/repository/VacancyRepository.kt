@@ -17,6 +17,9 @@ interface VacancyRepository: CrudRepository<Vacancy, Long> {
     @Query("delete from vacancy where company_id = :companyId and vacancy_id = :vacancyId")
     fun deleteByCompanyIdAndVacancyId(companyId: Long, vacancyId: Long)
 
-    @Query("select * from vacancy where vacancy_id = :vacancyId")
-    fun findVacancyByVacancyId(vacancyId: Long): Vacancy?
+    @Query("select * from vacancy where vacancy_id = :vacancyId and is_archived = false")
+    fun findVacancyByVacancyIdAndNotIsArchived(vacancyId: Long): Vacancy?
+
+    @Query("update vacancy set is_archived = true where company_id = :companyId and vacancy_id = :vacancyId")
+    fun archiveVacancyByCompanyIdAndVacancyId(companyId: Long, vacancyId: Long)
 }

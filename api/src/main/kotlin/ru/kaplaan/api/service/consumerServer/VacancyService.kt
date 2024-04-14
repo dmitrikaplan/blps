@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import ru.kaplaan.api.web.dto.consumerServer.vacancy.ArchiveVacancyDto
 import ru.kaplaan.api.web.dto.consumerServer.vacancy.VacancyDto
 
 
@@ -19,4 +20,6 @@ interface VacancyService {
     fun getVacancyById(vacancyId: Long): Mono<ResponseEntity<VacancyDto>>
 
     fun getVacanciesByCompanyName(companyName: String, pageNumber: Int): Mono<ResponseEntity<Flux<VacancyDto>>>
+
+    fun archiveVacancy(archiveVacancyDto: Mono<ArchiveVacancyDto>): Mono<ResponseEntity<Any>>
 }

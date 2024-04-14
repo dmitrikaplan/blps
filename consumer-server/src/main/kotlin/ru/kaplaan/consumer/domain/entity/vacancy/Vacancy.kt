@@ -7,11 +7,14 @@ import org.springframework.data.relational.core.mapping.Table
 import ru.kaplaan.consumer.web.dto.vacancy.Currency
 
 @Table("vacancy")
-class Vacancy() {
+class Vacancy{
 
     @Id
     @Column("vacancy_id")
-    var id: Long? = null
+    var vacancyId: Long? = null
+
+    @Column("company_id")
+    var companyId: Long? = null
 
     lateinit var title: String
     var salary: String? = null
@@ -23,21 +26,6 @@ class Vacancy() {
     @Transient
     lateinit var companyName: String
 
-    @Column("company_id")
-    var companyId: Long? = null
-
-
-    constructor(
-        title: String,
-        salary: String,
-        address: String,
-        description: String,
-        hashTags: String
-    ): this(){
-        this.title = title
-        this.salary = salary
-        this.address = address
-        this.description = description
-        this.hashTags = hashTags
-    }
+    @Column("is_archived")
+    var isArchived = false
 }

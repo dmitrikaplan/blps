@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import ru.kaplaan.api.service.consumerServer.VacancyService
+import ru.kaplaan.api.web.dto.consumerServer.vacancy.ArchiveVacancyDto
 import ru.kaplaan.api.web.dto.consumerServer.vacancy.VacancyDto
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnUpdate
@@ -69,4 +70,20 @@ class VacancyController(
         @PathVariable page: Int
     ): Mono<ResponseEntity<Flux<VacancyDto>>> =
         vacancyService.getVacanciesByCompanyName(companyName, page)
+
+
+    @PostMapping("/archive")
+    @PreAuthorize("hasRole(COMPANY)")
+    fun archiveVacancy(
+        @RequestBody @Validated(OnCreate::class)
+        archiveVacancyDto: Mono<ArchiveVacancyDto>,
+        principal: Principal
+    ): Mono<ResponseEntity<Any>> =
+        vacancyService.archiveVacancy(
+            archiveVacancyDto.map {
+                it.apply {
+                    this.companyName = principal.name
+                }
+            }
+        )
 }

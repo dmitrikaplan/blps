@@ -37,6 +37,7 @@ create table if not exists vacancy(
     hash_tags text not null,
     currency text not null,
     company_id bigint
+    is_archived bool not null
 );
 
 create table if not exists vacancy_response(

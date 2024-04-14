@@ -3,18 +3,18 @@ package ru.kaplaan.consumer.service.impl
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
-import ru.kaplaan.consumer.domain.entity.VacancyResponse
+import ru.kaplaan.consumer.domain.entity.vacancyResponse.VacancyResponse
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyNotFoundException
 import ru.kaplaan.consumer.repository.VacancyRepository
 import ru.kaplaan.consumer.repository.VacancyResponseRepository
-import ru.kaplaan.consumer.service.UserService
+import ru.kaplaan.consumer.service.UserServiceInfo
 import ru.kaplaan.consumer.service.VacancyResponseService
 
 @Service
 class VacancyResponseServiceImpl(
     private val vacancyResponseRepository: VacancyResponseRepository,
     private val vacancyRepository: VacancyRepository,
-    private val userService: UserService
+    private val userServiceInfo: UserServiceInfo
 ): VacancyResponseService {
 
     @Value("\${vacancy-response.page-size}")
@@ -24,23 +24,23 @@ class VacancyResponseServiceImpl(
         vacancyResponse.apply {
             pk = VacancyResponse.PK(
                 vacancyId,
-                userService.getUserIdByUsername(vacancyResponse.username)
+                userServiceInfo.getUserIdByUsername(vacancyResponse.username)
             )
         }
-        return vacancyRepository.findVacancyByVacancyId(vacancyResponse.pk.vacancyId)?.let{
+        return vacancyRepository.findVacancyByVacancyIdAndNotIsArchived(vacancyResponse.pk.vacancyId)?.let{
             vacancyResponseRepository.save(vacancyResponse)
         } ?: throw VacancyNotFoundException()
     }
 
 
     override fun delete(vacancyId: Long, username: String) =
-        userService.getUserIdByUsername(username).let { userId ->
+        userServiceInfo.getUserIdByUsername(username).let { userId ->
             vacancyResponseRepository.deleteById(VacancyResponse.PK(vacancyId, userId))
         }
 
 
     override fun getAllUsernamesByCompanyName(companyName: String, pageNumber: Int): List<String>{
-        val companyId = userService.getUserIdByUsername(companyName)
+        val companyId = userServiceInfo.getUserIdByUsername(companyName)
       return vacancyRepository.findVacancyIdByCompanyId(companyId).let { vacancyId ->
             vacancyResponseRepository.findAllUsernameByVacancyId(vacancyId, PageRequest.of(pageNumber, pageSize!!))
         }

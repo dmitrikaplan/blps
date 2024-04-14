@@ -45,8 +45,7 @@ class AuthServiceImpl(
         }
 
         userRepository.save(user)
-        //TODO: когда будет сеть раскомментить
-        //emailService.activateUserByEmail(user.email, user.username, activationCode)
+        emailService.activateUserByEmail(user.email, user.username, activationCode)
     }
 
     override fun authenticate(userIdentification: UserIdentification): JwtResponse {

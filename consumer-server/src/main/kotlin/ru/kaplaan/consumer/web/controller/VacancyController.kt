@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.kaplaan.consumer.service.VacancyService
+import ru.kaplaan.consumer.web.dto.vacancy.ArchiveVacancyDto
 import ru.kaplaan.consumer.web.dto.vacancy.VacancyDto
 import ru.kaplaan.consumer.web.mapper.vacancy.toDto
 import ru.kaplaan.consumer.web.mapper.vacancy.toEntity
@@ -30,12 +31,18 @@ class VacancyController(
     fun update(@RequestBody @Validated(OnUpdate::class) vacancyDto: VacancyDto): VacancyDto =
         vacancyService.update(vacancyDto.toEntity()).toDto()
 
+
+    @PostMapping("/archive")
+    fun archiveVacancy(@RequestBody archiveVacancyDto: ArchiveVacancyDto) =
+        archiveVacancyDto.let {
+            vacancyService.archiveVacancy(it.companyName, it.vacancyId)
+        }
+
     @DeleteMapping("{companyName}/{vacancyId}")
     fun delete(
         @PathVariable companyName: String,
         @PathVariable vacancyId: Long
-    ) =
-        vacancyService.delete(companyName, vacancyId)
+    ) = vacancyService.delete(companyName, vacancyId)
 
     @GetMapping("/{vacancyId}")
     fun getVacancyById(@PathVariable vacancyId: Long): VacancyDto =
@@ -45,6 +52,5 @@ class VacancyController(
     fun getVacanciesByCompanyName(
         @PathVariable companyName: String,
         @PathVariable page: Int
-    ): List<VacancyDto> =
-        vacancyService.getVacanciesByCompanyName(companyName, page).toDto()
+    ): List<VacancyDto> = vacancyService.getVacanciesByCompanyName(companyName, page).toDto()
 }

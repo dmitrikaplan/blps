@@ -1,13 +1,16 @@
 package ru.kaplaan.api.service.consumerServer.impl
 
+import io.netty.handler.codec.http2.Http2Connection.Endpoint
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.body
+import org.springframework.web.reactive.function.client.toEntity
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import ru.kaplaan.api.service.consumerServer.VacancyService
+import ru.kaplaan.api.web.dto.consumerServer.vacancy.ArchiveVacancyDto
 import ru.kaplaan.api.web.dto.consumerServer.vacancy.VacancyDto
 
 @Service
@@ -35,6 +38,9 @@ class VacancyServiceImpl(
 
     @Value("\${consumer-server.vacancy.get-vacancies-by-company-id}")
     lateinit var getVacanciesByCompanyIdEndpoint: String
+
+    @Value("\${consumer-server.vacancy.archive-vacancy}")
+    lateinit var archiveVacancyEndpoint: String
 
     override fun save(vacancyDto: Mono<VacancyDto>): Mono<ResponseEntity<VacancyDto>> =
         webClient
@@ -72,4 +78,12 @@ class VacancyServiceImpl(
             .uri("$baseUrl$url$getVacanciesByCompanyIdEndpoint$companyName/$pageNumber")
             .retrieve()
             .toEntityFlux(VacancyDto::class.java)
+
+    override fun archiveVacancy(archiveVacancyDto: Mono<ArchiveVacancyDto>): Mono<ResponseEntity<Any>> =
+        webClient
+            .post()
+            .uri("$baseUrl$url$archiveVacancyEndpoint")
+            .body(archiveVacancyDto)
+            .retrieve()
+            .toEntity(Any::class.java)
 }

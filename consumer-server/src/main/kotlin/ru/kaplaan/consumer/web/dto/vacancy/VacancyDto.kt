@@ -24,9 +24,11 @@ data class VacancyDto(
     val hashTags: List<String>,
 
     @field:NotBlank(message = "Название компании не должно быть пустым!")
-    val companyName: String
+    val companyName: String,
 ){
     @field:Null(message = "Id вакансии должен быть равен null!", groups = [OnCreate::class])
-    @field:NotNull(message = "Id вакансии должен быть равен null!", groups = [OnUpdate::class])
+    @field:NotNull(message = "Id вакансии не должен быть равен null!", groups = [OnUpdate::class])
     var vacancyId: Long? = null
+
+    var isArchived: Boolean = false
 }

@@ -19,8 +19,7 @@ class UserInfoServiceImpl(
             ?: throw UserNotFoundException()
 
     override fun getUsernamesByUserIds(userIds: List<Long>): List<String> =
-        userIds
-            .map {
-                getUsernameByUserId(it)
-            }
+        userIds.map {
+            getUsernameByUserId(it)
+        }
 }

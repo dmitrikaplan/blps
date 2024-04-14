@@ -12,18 +12,23 @@ fun Vacancy.toDto(): VacancyDto =
         description = description,
         hashTags = hashTags.hashTagsToList(),
         companyName = companyName
-    )
+    ).apply {
+        this.vacancyId = this@toDto.vacancyId
+        this.isArchived = this@toDto.isArchived
+    }
 
 
 fun VacancyDto.toEntity(): Vacancy =
     Vacancy().apply {
-        title = this@toEntity.title
-        salary = this@toEntity.salaryRange.toSalary()
-        address = this@toEntity.address
-        description = this@toEntity.description
-        hashTags = this@toEntity.hashTags.hashTagsToString()
-        currency = this@toEntity.currency
-        companyName = this@toEntity.companyName
+        this.title = this@toEntity.title
+        this.salary = this@toEntity.salaryRange.toSalary()
+        this.address = this@toEntity.address
+        this.description = this@toEntity.description
+        this.hashTags = this@toEntity.hashTags.hashTagsToString()
+        this.currency = this@toEntity.currency
+        this.companyName = this@toEntity.companyName
+        this.isArchived = this@toEntity.isArchived
+        this.vacancyId = this@toEntity.vacancyId
     }
 
 
