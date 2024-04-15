@@ -18,7 +18,7 @@ class UserInfoServiceImpl(
         userRepository.findUserById(userId)?.username
             ?: throw UserNotFoundException()
 
-    override fun getUsernamesByUserIds(userIds: List<Long>): List<String> =
+    override fun getUsernamesByUsersId(userIds: List<Long>): List<String> =
         userIds.map {
             getUsernameByUserId(it)
         }

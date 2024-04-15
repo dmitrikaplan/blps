@@ -1,0 +1,26 @@
+package ru.kaplaan.authserver.web.controller
+
+import org.springframework.amqp.rabbit.annotation.EnableRabbit
+import org.springframework.amqp.rabbit.annotation.RabbitListener
+import org.springframework.stereotype.Component
+import org.springframework.web.bind.annotation.*
+import ru.kaplaan.authserver.service.UserInfoService
+
+@Component
+@EnableRabbit
+class UserInfoListener(
+    private val userInfoService: UserInfoService
+) {
+
+    @RabbitListener(queues = ["get-user-id-by-username"])
+    fun getUserIdByUsername(username: String): Long =
+        userInfoService.getUserIdByUsername(username)
+
+    @RabbitListener(queues = ["get-username-by-user-id"])
+    fun getUsernameByUserId(userId: Long): String =
+        userInfoService.getUsernameByUserId(userId)
+
+    @RabbitListener(queues = ["get-usernames-by-users-id"])
+    fun getUsernamesByUserIds(@RequestBody ids: List<Long>): List<String> =
+        userInfoService.getUsernamesByUsersId(ids)
+}

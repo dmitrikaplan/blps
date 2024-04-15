@@ -23,11 +23,11 @@ dependencies {
 	//starters
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-amqp")
 
 	//jwt
 	implementation(group = "io.jsonwebtoken", name = "jjwt-api",version = "0.11.5")
@@ -44,8 +44,9 @@ dependencies {
 	//validation
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 
-
-
+	//test
+	testImplementation("org.springframework.amqp:spring-rabbit-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.withType<KotlinCompile> {

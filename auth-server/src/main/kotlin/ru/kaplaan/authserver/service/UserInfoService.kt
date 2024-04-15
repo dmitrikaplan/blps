@@ -9,5 +9,5 @@ interface UserInfoService {
 
     fun getUsernameByUserId(userId: Long): String
 
-    fun getUsernamesByUserIds(userIds: List<Long>): List<String>
+    fun getUsernamesByUsersId(userIds: List<Long>): List<String>
 }
