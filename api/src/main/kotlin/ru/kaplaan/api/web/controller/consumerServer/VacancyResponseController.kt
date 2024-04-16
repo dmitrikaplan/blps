@@ -1,5 +1,9 @@
 package ru.kaplaan.api.web.controller.consumerServer
 
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.constraints.Min
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.annotation.Validated
@@ -13,12 +17,14 @@ import java.security.Principal
 
 @RestController
 @RequestMapping("/api/v1/vacancy-response")
+@Tag(name = "Vacancy Response Controller", description = "Контролер отклика на вакансию")
 class VacancyResponseController(
     private val vacancyResponseService: VacancyResponseService
 ) {
 
     @PostMapping
     @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Откликнуться на вакансию")
     fun save(
         @RequestBody @Validated(OnCreate::class)
         vacancyResponseDto: Mono<VacancyResponseDto>,
@@ -33,13 +39,22 @@ class VacancyResponseController(
         )
 
     @DeleteMapping("/{vacancyId}")
-    fun delete(@PathVariable vacancyId: Long, principal: Principal) =
-        vacancyResponseService.delete(vacancyId, principal.name)
+    @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Удалить отклик на вакансию")
+    fun delete(
+        @Validated @Min(0)
+        @Parameter(description = "Id вакансии", required = true)
+        @PathVariable vacancyId: Long,
+        principal: Principal
+    ): Mono<ResponseEntity<Any>> = vacancyResponseService.delete(vacancyId, principal.name)
 
 
     @GetMapping("/{pageNumber}")
     @PreAuthorize("hasRole('COMPANY')")
-    fun getAllUserIdByCompanyId(
+    @Operation(summary = "Получить все Id пользователей")
+    //TODO: сделать получение id пользователей для конкретной вакансии
+    fun getAllUserIdByCompanyName(
+        @Parameter(description = "Номер страницы", required = true)
         @PathVariable pageNumber: Int,
         principal: Principal
     ): Mono<ResponseEntity<Flux<Long>>> =

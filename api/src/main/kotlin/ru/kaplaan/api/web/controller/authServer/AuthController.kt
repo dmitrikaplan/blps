@@ -3,7 +3,7 @@ package ru.kaplaan.api.web.controller.authServer
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.hibernate.validator.constraints.Length
+import jakarta.validation.constraints.NotBlank
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -34,7 +34,6 @@ class AuthController(
     @Operation(summary = "Регистрация пользователя")
     fun registerCompany(
         @RequestBody @Validated
-        @Parameter(description = "логин, почта и пароль пользователя в формате json", required = true)
         userDto: Mono<UserDto>,
         @PathVariable role: String
     ): Mono<ResponseEntity<MessageResponse>> {
@@ -58,28 +57,26 @@ class AuthController(
     @Operation(summary = "Авторизация пользователя")
     @PostMapping("/login")
     fun login(
-        @RequestBody @Validated
-        @Parameter(description = "логин или почта пользователя и пароль в формате json", required = true)
+        @RequestBody @Validated(OnCreate::class)
         userIdentificationDto: Mono<UserIdentificationDto>,
     ): Mono<ResponseEntity<JwtResponse>> = authService.login(userIdentificationDto)
 
-    @GetMapping("/activation/{code}")
+    @GetMapping("/activation/{activationCode}")
     @Operation(
         summary = "Активация аккаунта пользователя"
     )
     fun activateAccount(
-        @PathVariable @Length(min = 1)
+        @PathVariable @Validated @NotBlank
         @Parameter(description = "код активации аккаунта", required = true)
-        code: String,
-    ): Mono<ResponseEntity<String>> = authService.activateAccount(code)
+        activationCode: String,
+    ): Mono<ResponseEntity<String>> = authService.activateAccount(activationCode)
 
     @PostMapping("/recovery")
     @Operation(
         summary = "Восстановление доступа пользователя"
     )
     fun passwordRecovery(
-        @RequestBody(required = true) @Validated(OnRecovery::class)
-        @Parameter(description = "логин или почта пользователя и пароль в формате json", required = true)
+        @RequestBody @Validated(OnRecovery::class)
         userIdentificationDto: Mono<UserIdentificationDto>,
     ): Mono<ResponseEntity<MessageResponse>> = authService.passwordRecovery(userIdentificationDto)
 
@@ -88,7 +85,6 @@ class AuthController(
     )
     @PostMapping("/refresh")
     fun refresh(
-        @Parameter(description = "Refresh token в формате json", required = true)
-        @RequestBody refreshTokenDto: Mono<RefreshTokenDto>
+        @RequestBody @Validated refreshTokenDto: Mono<RefreshTokenDto>
     ): Mono<ResponseEntity<JwtResponse>> = authService.refresh(refreshTokenDto)
 }

@@ -6,15 +6,15 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.body
 import reactor.core.publisher.Mono
-import ru.kaplaan.api.service.consumerServer.DetailsService
-import ru.kaplaan.api.web.dto.consumerServer.details.CompanyDataDto
-import ru.kaplaan.api.web.dto.consumerServer.details.UserDataDto
+import ru.kaplaan.api.service.consumerServer.DataService
+import ru.kaplaan.api.web.dto.consumerServer.data.CompanyDataDto
+import ru.kaplaan.api.web.dto.consumerServer.data.UserDataDto
 
 
 @Service
-class DetailsServiceImpl(
+class DataServiceImpl(
     private val webClient: WebClient
-): DetailsService {
+): DataService {
 
     @Value("\${consumer-server.base-url}")
     lateinit var baseUrl: String
@@ -22,16 +22,22 @@ class DetailsServiceImpl(
     @Value("\${consumer-server.data.url}")
     lateinit var url: String
 
-    @Value("\${consumer-server.data.save-company-details}")
+    @Value("\${consumer-server.data.save-company-data}")
     lateinit var saveCompanyDataEndpoint: String
 
-    @Value("\${consumer-server.data.get-company-details}")
+    @Value("\${consumer-server.data.update-company-data}")
+    lateinit var updateCompanyDataEndpoint: String
+
+    @Value("\${consumer-server.data.get-company-data}")
     lateinit var getCompanyDataEndpoint: String
 
-    @Value("\${consumer-server.data.save-user-details}")
+    @Value("\${consumer-server.data.save-user-data}")
     lateinit var saveUserDataEndpoint: String
 
-    @Value("\${consumer-server.data.get-user-details}")
+    @Value("\${consumer-server.data.update-user-data}")
+    lateinit var updateUserDataEndpoint: String
+
+    @Value("\${consumer-server.data.get-user-data}")
     lateinit var getUserDataEndpoint: String
 
     
@@ -39,6 +45,14 @@ class DetailsServiceImpl(
         webClient
             .post()
             .uri("$baseUrl$url$saveCompanyDataEndpoint")
+            .body(companyDataDto)
+            .retrieve()
+            .toEntity(String::class.java)
+
+    override fun updateCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<String>> =
+        webClient
+            .put()
+            .uri("$baseUrl$url$updateCompanyDataEndpoint")
             .body(companyDataDto)
             .retrieve()
             .toEntity(String::class.java)
@@ -54,6 +68,14 @@ class DetailsServiceImpl(
         webClient
             .post()
             .uri("$baseUrl$url$saveUserDataEndpoint")
+            .body(userDataDto)
+            .retrieve()
+            .toEntity(String::class.java)
+
+    override fun updateUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<String>> =
+        webClient
+            .put()
+            .uri("$baseUrl$url$updateUserDataEndpoint")
             .body(userDataDto)
             .retrieve()
             .toEntity(String::class.java)

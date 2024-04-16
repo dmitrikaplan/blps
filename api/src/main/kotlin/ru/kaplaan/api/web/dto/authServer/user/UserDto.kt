@@ -30,7 +30,7 @@ class UserDto(
     )
     var password: String,
 ){
-
+    @Schema(hidden = true)
     @field:Null(message = "Роль не должна быть заполнена!")
     var role: Role? = null
 }

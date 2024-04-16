@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder
@@ -53,7 +52,7 @@ class SecurityConfig (
 
                 it.pathMatchers(HttpMethod.GET, "api/v1/vacancy/**").permitAll()
 
-                it.anyExchange().authenticated()
+                it.anyExchange().permitAll()
             }
             .addFilterBefore(JwtAuthenticationFilter("$baseUrl$authenticationEndpoint", jwtAuthenticationConverter, webClient), SecurityWebFiltersOrder.AUTHENTICATION)
             .build()
