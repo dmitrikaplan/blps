@@ -36,7 +36,7 @@ create table if not exists vacancy(
     description text not null check(length(description) > 0),
     hash_tags text not null,
     currency text not null,
-    company_id bigint
+    company_id bigint,
     is_archived bool not null
 );
 
