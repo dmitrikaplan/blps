@@ -19,7 +19,7 @@ class UserInfoListener(
     fun getUsernameByUserId(userId: Long): String =
         userInfoService.getUsernameByUserId(userId)
 
-    @RabbitListener(queues = ["get-usernames-by-users-id"])
+    @RabbitListener(queues = ["get-all-usernames-by-users-id"])
     fun getUsernamesByUserIds(ids: List<Long>): List<String> =
         userInfoService.getUsernamesByUsersId(ids)
 }
