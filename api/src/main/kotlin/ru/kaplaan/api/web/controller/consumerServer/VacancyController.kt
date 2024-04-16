@@ -23,7 +23,7 @@ class VacancyController(
     private val log = LoggerFactory.getLogger(javaClass)
 
     @PostMapping
-    @PreAuthorize("hasRole(COMPANY)")
+    @PreAuthorize("hasRole('COMPANY')")
     fun save(
         @RequestBody @Validated(OnCreate::class) vacancyDto: Mono<VacancyDto>,
         principal: Principal
@@ -37,7 +37,7 @@ class VacancyController(
         )
 
     @PutMapping
-    @PreAuthorize("hasRole(COMPANY)")
+    @PreAuthorize("hasRole('COMPANY')")
     fun update(
         @RequestBody @Validated(OnUpdate::class) vacancyDto: Mono<VacancyDto>,
         principal: Principal
@@ -51,7 +51,7 @@ class VacancyController(
         )
 
     @DeleteMapping("/{vacancyId}")
-    @PreAuthorize("hasRole(COMPANY)")
+    @PreAuthorize("hasRole('COMPANY')")
     fun delete(
         @PathVariable vacancyId: Long,
         principal: Principal
@@ -73,7 +73,7 @@ class VacancyController(
 
 
     @PostMapping("/archive")
-    @PreAuthorize("hasRole(COMPANY)")
+    @PreAuthorize("hasRole('COMPANY')")
     fun archiveVacancy(
         @RequestBody @Validated(OnCreate::class)
         archiveVacancyDto: Mono<ArchiveVacancyDto>,

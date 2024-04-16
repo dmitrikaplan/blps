@@ -22,7 +22,7 @@ class DataController(
     private val log = LoggerFactory.getLogger(javaClass)
 
     @PostMapping("/company")
-    @PreAuthorize("hasRole(COMPANY)")
+    @PreAuthorize("hasRole('COMPANY')")
     fun saveCompanyData(
         @RequestBody @Validated(OnCreate::class)
         companyDataDto: Mono<CompanyDataDto>,
@@ -46,7 +46,7 @@ class DataController(
         detailsService.getCompanyDataByCompanyName(companyName)
 
     @PostMapping("/user")
-    @PreAuthorize("hasRole(USER)")
+    @PreAuthorize("hasRole('USER')")
     fun saveUserData(
         @RequestBody @Validated(OnCreate::class)
         userDataDto: Mono<UserDataDto>,

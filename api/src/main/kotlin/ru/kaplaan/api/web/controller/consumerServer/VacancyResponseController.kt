@@ -18,7 +18,7 @@ class VacancyResponseController(
 ) {
 
     @PostMapping
-    @PreAuthorize("hasRole(USER)")
+    @PreAuthorize("hasRole('USER')")
     fun save(
         @RequestBody @Validated(OnCreate::class)
         vacancyResponseDto: Mono<VacancyResponseDto>,
@@ -38,7 +38,7 @@ class VacancyResponseController(
 
 
     @GetMapping("/{pageNumber}")
-    @PreAuthorize("hasRole(COMPANY)")
+    @PreAuthorize("hasRole('COMPANY')")
     fun getAllUserIdByCompanyId(
         @PathVariable pageNumber: Int,
         principal: Principal
