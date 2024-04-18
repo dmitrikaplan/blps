@@ -19,9 +19,9 @@ class DataServiceImpl(
     private val userInfoService: UserInfoService
 ): DetailsService {
 
-    override fun saveCompanyData(companyData: CompanyData) {
+    override fun saveCompanyData(companyData: CompanyData): CompanyData {
         val companyId = userInfoService.getUserIdByUsername(companyData.companyName)
-        companyDataRepository.findCompanyDataByCompanyId(companyId)?.let {
+        return companyDataRepository.findCompanyDataByCompanyId(companyId)?.let {
             throw CompanyDataAlreadyExistsException()
         } ?: companyDataRepository.save(
                 companyData.apply {
@@ -45,9 +45,9 @@ class DataServiceImpl(
 
 
 
-    override fun saveUserData(userData: UserData) {
+    override fun saveUserData(userData: UserData): UserData {
         val userId = userInfoService.getUserIdByUsername(userData.username)
-        userDataRepository.findUserDataByUserId(userId)?.let {
+        return userDataRepository.findUserDataByUserId(userId)?.let {
             throw UserDataAlreadyExistsException()
         } ?: userDataRepository.save(
             userData.apply {

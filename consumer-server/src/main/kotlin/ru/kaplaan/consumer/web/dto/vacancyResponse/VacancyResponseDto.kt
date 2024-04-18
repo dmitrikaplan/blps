@@ -7,11 +7,8 @@ import ru.kaplaan.consumer.web.validation.OnCreate
 import ru.kaplaan.consumer.web.validation.OnUpdate
 
 data class VacancyResponseDto(
-    @field:NotBlank(message = "Username не должен быть пустым!")
+    @field:NotBlank(message = "Username не должен быть пустым!", groups = [OnCreate::class])
     val username: String,
-    @field:Min(value = 0, message = "Id вакансии должен быть больше 0", groups = [OnCreate::class, OnUpdate::class])
+    @field:Min(value = 0, message = "Id вакансии должен быть больше 0", groups = [OnCreate::class])
     val vacancyId: Long
-){
-    @field:Null(message = "Id отклика на вакансию должен быть null!")
-    var vacancyResponseId: Long? = null
-}
+)

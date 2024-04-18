@@ -12,26 +12,26 @@ import java.time.LocalDate
 @Schema(description = "Сущность информации о пользователе")
 data class UserDataDto(
     @Schema(description = "Имя пользователя", example = "Иван")
-    @field:NotBlank(message = "Имя не должно быть пустым!")
+    @field:NotBlank(message = "Имя не должно быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val firstname: String,
 
     @Schema(description = "Фамилия пользователя", example = "Иванов")
-    @field:NotBlank(message = "Фамилия не должна быть пуста!")
+    @field:NotBlank(message = "Фамилия не должна быть пуста!", groups = [OnCreate::class, OnUpdate::class])
     val surname: String,
 
     @Schema(description = "Дата рождения пользователя", example = "1998-03-01")
     val dateOfBirth: LocalDate,
 
     @Schema(description = "Номер телефона пользователя", example = "+79529999999")
-    @field:Length(min = 12, max = 12, message = "Номер телефон должен состоять из 12 символов!")
+    @field:Length(min = 12, max = 12, message = "Номер телефон должен состоять из 12 символов!", groups = [OnCreate::class, OnUpdate::class])
     val phoneNumber: String,
 
     @Schema(description = "Почта пользователя", example = "account@yandex.ru")
-    @field:Email
+    @field:Email(message = "Почта пользователя должна подходить под паттерн почты!", groups = [OnCreate::class, OnUpdate::class])
     val email: String,
 
     @Schema(description = "Позиция в компании, которую хочет получить пользователь", example = "CEO")
-    @field:NotBlank(message = "Должность не должна быть пустой!")
+    @field:NotBlank(message = "Должность не должна быть пустой!", groups = [OnCreate::class, OnUpdate::class])
     val position: String,
 
     @Schema(description = "Ожидаемая зарплата", example = "100 000")

@@ -1,8 +1,10 @@
 package ru.kaplaan.consumer.web.controller
 
+import jakarta.validation.constraints.NotBlank
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import ru.kaplaan.consumer.domain.entity.data.CompanyData
 import ru.kaplaan.consumer.service.DetailsService
 import ru.kaplaan.consumer.web.dto.data.CompanyDataDto
 import ru.kaplaan.consumer.web.dto.data.UserDataDto
@@ -21,37 +23,36 @@ class DataController(
     fun saveCompanyData(
         @RequestBody @Validated(OnCreate::class)
         companyDataDto: CompanyDataDto
-    ): ResponseEntity<String> {
-        detailsService.saveCompanyData(companyDataDto.toEntity())
-        return ResponseEntity.ok().body("Информация о компании сохранена")
-    }
+    ): CompanyDataDto = detailsService.saveCompanyData(companyDataDto.toEntity()).toDto()
 
     @PutMapping("/company")
     fun updateCompanyData(
         @RequestBody @Validated(OnUpdate::class)
         companyDto: CompanyDataDto
-    ): CompanyDataDto =
-        detailsService.updateCompanyData(companyDto.toEntity()).toDto()
+    ): CompanyDataDto = detailsService.updateCompanyData(companyDto.toEntity()).toDto()
 
     @GetMapping("/company/{companyName}")
-    fun getCompanyDataByCompanyName(@PathVariable companyName: String): CompanyDataDto =
-        detailsService.getCompanyDataByCompanyName(companyName).toDto()
+    fun getCompanyDataByCompanyName(
+        @PathVariable @Validated @NotBlank
+        companyName: String
+    ): CompanyDataDto = detailsService.getCompanyDataByCompanyName(companyName).toDto()
 
     @PostMapping("/user")
-    fun saveUserData(@RequestBody userDataDto: UserDataDto): ResponseEntity<String> {
-        detailsService.saveUserData(userDataDto.toEntity())
-        return ResponseEntity.ok().body("Информация о пользователе сохранена")
-    }
+    fun saveUserData(
+        @RequestBody @Validated(OnCreate::class)
+        userDataDto: UserDataDto
+    ): UserDataDto = detailsService.saveUserData(userDataDto.toEntity()).toDto()
 
     @PutMapping("/user")
     fun updateUserData(
         @RequestBody @Validated(OnUpdate::class)
         userDataDto: UserDataDto
-    ): UserDataDto =
-        detailsService.updateUserData(userDataDto.toEntity()).toDto()
+    ): UserDataDto = detailsService.updateUserData(userDataDto.toEntity()).toDto()
 
     @GetMapping("/user/{username}")
-    fun getUserDataByUsername(@PathVariable username: String): UserDataDto =
-        detailsService.getUserDataByUsername(username).toDto()
+    fun getUserDataByUsername(
+        @PathVariable @Validated @NotBlank
+        username: String
+    ): UserDataDto = detailsService.getUserDataByUsername(username).toDto()
 
 }

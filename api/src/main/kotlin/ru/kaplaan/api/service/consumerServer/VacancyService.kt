@@ -22,4 +22,6 @@ interface VacancyService {
     fun getVacanciesByCompanyName(companyName: String, pageNumber: Int): Mono<ResponseEntity<Flux<VacancyDto>>>
 
     fun archiveVacancy(archiveVacancyDto: Mono<ArchiveVacancyDto>): Mono<ResponseEntity<Any>>
+
+    fun unarchiveVacancy(archiveVacancyDto: Mono<ArchiveVacancyDto>): Mono<ResponseEntity<Any>>
 }

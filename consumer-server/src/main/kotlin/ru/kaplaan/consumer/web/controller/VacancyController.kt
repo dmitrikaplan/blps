@@ -1,5 +1,8 @@
 package ru.kaplaan.consumer.web.controller
 
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotBlank
+import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,6 +19,7 @@ import ru.kaplaan.consumer.web.mapper.vacancy.toDto
 import ru.kaplaan.consumer.web.mapper.vacancy.toEntity
 import ru.kaplaan.consumer.web.validation.OnCreate
 import ru.kaplaan.consumer.web.validation.OnUpdate
+import java.security.Principal
 
 @RestController
 @RequestMapping("/consumer/vacancy")
@@ -32,15 +36,11 @@ class VacancyController(
         vacancyService.update(vacancyDto.toEntity()).toDto()
 
 
-    @PostMapping("/archive")
-    fun archiveVacancy(@RequestBody archiveVacancyDto: ArchiveVacancyDto) =
-        archiveVacancyDto.let {
-            vacancyService.archiveVacancy(it.companyName, it.vacancyId)
-        }
-
     @DeleteMapping("{companyName}/{vacancyId}")
     fun delete(
+        @Validated @NotBlank(message = "Название компании не должно быть пустым!")
         @PathVariable companyName: String,
+        @Validated @Min(0, message = "Минимальное ID вакансии 0!")
         @PathVariable vacancyId: Long
     ) = vacancyService.delete(companyName, vacancyId)
 
@@ -50,7 +50,26 @@ class VacancyController(
 
     @GetMapping("/{companyName}/{page}")
     fun getVacanciesByCompanyName(
+        @Validated @NotBlank(message = "Название компании не должно быть пустым!")
         @PathVariable companyName: String,
         @PathVariable page: Int
     ): List<VacancyDto> = vacancyService.getVacanciesByCompanyName(companyName, page).toDto()
+
+    @PostMapping("/archive")
+    fun archiveVacancy(
+        @RequestBody @Validated(OnCreate::class)
+        archiveVacancyDto: ArchiveVacancyDto
+    ): Unit =
+        archiveVacancyDto.let {
+            vacancyService.archiveVacancy(it.companyName, it.vacancyId)
+        }
+
+    @PostMapping("/unarchive")
+    fun unarchiveVacancy(
+        @RequestBody @Validated(OnUpdate::class)
+        archiveVacancyDto: ArchiveVacancyDto
+    ): Unit =
+        archiveVacancyDto.let {
+            vacancyService.unarchiveVacancy(it.companyName, it.vacancyId)
+        }
 }

@@ -42,6 +42,9 @@ class VacancyServiceImpl(
     @Value("\${consumer-server.vacancy.archive-vacancy}")
     lateinit var archiveVacancyEndpoint: String
 
+    @Value("\${consumer-server.vacancy.unarchive-vacancy}")
+    lateinit var unarchiveVacancyEndpoint: String
+
     override fun save(vacancyDto: Mono<VacancyDto>): Mono<ResponseEntity<VacancyDto>> =
         webClient
             .post()
@@ -83,6 +86,14 @@ class VacancyServiceImpl(
         webClient
             .post()
             .uri("$baseUrl$url$archiveVacancyEndpoint")
+            .body(archiveVacancyDto)
+            .retrieve()
+            .toEntity(Any::class.java)
+
+    override fun unarchiveVacancy(archiveVacancyDto: Mono<ArchiveVacancyDto>): Mono<ResponseEntity<Any>> =
+        webClient
+            .post()
+            .uri("$baseUrl$url$unarchiveVacancyEndpoint")
             .body(archiveVacancyDto)
             .retrieve()
             .toEntity(Any::class.java)

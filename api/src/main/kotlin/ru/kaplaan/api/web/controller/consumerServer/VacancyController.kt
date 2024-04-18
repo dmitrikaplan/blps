@@ -64,7 +64,7 @@ class VacancyController(
     @PreAuthorize("hasRole('COMPANY')")
     @Operation(summary = "Удаление вакансии")
     fun delete(
-        @PathVariable @Validated @Min(0)
+        @PathVariable @Validated @Min(0, message = "Минимальное Id вакансии 0!")
         @Parameter(description = "Id вакансии", required = true)
         vacancyId: Long,
         principal: Principal
@@ -84,7 +84,7 @@ class VacancyController(
     @GetMapping("/{companyName}/{page}")
     @Operation(summary = "Получить вакансии по названию компании")
     fun getVacanciesByCompanyName(
-        @Validated @NotBlank
+        @Validated @NotBlank(message = "Название компании не должно быть пустым!")
         @Parameter(description = "Название компании", required = true)
         @PathVariable companyName: String,
         @Parameter(description = "Номер страницы", required = true)
@@ -118,5 +118,5 @@ class VacancyController(
         archiveVacancyDto: Mono<ArchiveVacancyDto>,
         principal: Principal
     ): Mono<ResponseEntity<Any>> =
-        TODO("Сделать разархивирование вакансии ")
+        vacancyService.unarchiveVacancy(archiveVacancyDto)
 }

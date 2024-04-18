@@ -41,21 +41,21 @@ class DataServiceImpl(
     lateinit var getUserDataEndpoint: String
 
     
-    override fun saveCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<String>> =
+    override fun saveCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<CompanyDataDto>> =
         webClient
             .post()
             .uri("$baseUrl$url$saveCompanyDataEndpoint")
             .body(companyDataDto)
             .retrieve()
-            .toEntity(String::class.java)
+            .toEntity(CompanyDataDto::class.java)
 
-    override fun updateCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<String>> =
+    override fun updateCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<CompanyDataDto>> =
         webClient
             .put()
             .uri("$baseUrl$url$updateCompanyDataEndpoint")
             .body(companyDataDto)
             .retrieve()
-            .toEntity(String::class.java)
+            .toEntity(CompanyDataDto::class.java)
 
     override fun getCompanyDataByCompanyName(companyName: String): Mono<ResponseEntity<CompanyDataDto>> =
         webClient
@@ -64,21 +64,21 @@ class DataServiceImpl(
             .retrieve()
             .toEntity(CompanyDataDto::class.java)
 
-    override fun saveUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<String>> =
+    override fun saveUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<UserDataDto>> =
         webClient
             .post()
             .uri("$baseUrl$url$saveUserDataEndpoint")
             .body(userDataDto)
             .retrieve()
-            .toEntity(String::class.java)
+            .toEntity(UserDataDto::class.java)
 
-    override fun updateUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<String>> =
+    override fun updateUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<UserDataDto>> =
         webClient
             .put()
             .uri("$baseUrl$url$updateUserDataEndpoint")
             .body(userDataDto)
             .retrieve()
-            .toEntity(String::class.java)
+            .toEntity(UserDataDto::class.java)
 
     override fun getUserDataByUsername(username: String): Mono<ResponseEntity<UserDataDto>> =
         webClient

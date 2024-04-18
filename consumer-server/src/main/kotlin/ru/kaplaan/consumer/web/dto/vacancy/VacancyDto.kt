@@ -8,22 +8,22 @@ import ru.kaplaan.consumer.web.validation.OnUpdate
 
 data class VacancyDto(
 
-    @field:NotBlank(message = "Заголовок вакансии не должен быть пустым!")
+    @field:NotBlank(message = "Заголовок вакансии не должен быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val title: String,
 
     val salaryRange: IntRange?,
 
     val currency: Currency,
 
-    @field:NotBlank(message = "Адрес не должен быть пустым!")
+    @field:NotBlank(message = "Адрес не должен быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val address: String,
 
-    @field:NotBlank(message = "Описание не должно быть пустым!")
+    @field:NotBlank(message = "Описание не должно быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val description: String,
 
     val hashTags: List<String>,
 
-    @field:NotBlank(message = "Название компании не должно быть пустым!")
+    @field:NotBlank(message = "Название компании не должно быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val companyName: String,
 ){
     @field:Null(message = "Id вакансии должен быть равен null!", groups = [OnCreate::class])

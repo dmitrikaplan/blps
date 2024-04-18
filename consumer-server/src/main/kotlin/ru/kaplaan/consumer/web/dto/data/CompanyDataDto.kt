@@ -8,13 +8,13 @@ import ru.kaplaan.consumer.web.validation.OnCreate
 import ru.kaplaan.consumer.web.validation.OnUpdate
 
 data class CompanyDataDto(
-    @field:NotBlank(message = "Название компании не должно быть пустым!")
+    @field:NotBlank(message = "Название компании не должно быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val companyName: String,
 
-    @field:NotBlank(message = "Описание не должно быть пустым!")
+    @field:NotBlank(message = "Описание не должно быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val description: String,
 
-    @field:URL(message = "URL сайта должен подходить под паттерн URL")
+    @field:URL(message = "URL сайта должен подходить под паттерн URL", groups = [OnCreate::class, OnUpdate::class])
     val site: String,
 
     val contactPerson: ContactPersonDto

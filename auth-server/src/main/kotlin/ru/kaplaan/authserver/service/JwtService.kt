@@ -82,7 +82,6 @@ class JwtService {
         validateToken(refreshToken, getRefreshSignKey()) && isNotExpired(refreshToken, getRefreshSignKey())
 
     private fun validateToken(token: String, key: Key): Boolean =
-
         runCatching {
             Jwts
                 .parserBuilder()
@@ -136,5 +135,4 @@ class JwtService {
             .build()
             .parseClaimsJws(jwtToken)
             .body
-
 }

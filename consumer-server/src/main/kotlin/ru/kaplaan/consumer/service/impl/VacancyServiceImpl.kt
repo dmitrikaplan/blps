@@ -53,4 +53,10 @@ class VacancyServiceImpl(
             vacancyRepository.archiveVacancyByCompanyIdAndVacancyId(companyId, vacancyId)
         }
     }
+
+    override fun unarchiveVacancy(companyName: String, vacancyId: Long) {
+        userInfoService.getUserIdByUsername(companyName).let { companyId ->
+            vacancyRepository.unarchiveVacancyByCompanyIdAndVacancyId(companyId, vacancyId)
+        }
+    }
 }

@@ -22,11 +22,11 @@ data class VacancyDto(
     val currency: Currency,
 
     @Schema(description = "Адрес компании", example = "Улица Пушкина, 1")
-    @field:NotBlank(message = "Адрес не должен быть пустым!")
+    @field:NotBlank(message = "Адрес не должен быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val address: String,
 
     @Schema(description = "Описание вакансии", example = "Ожидаемый опыт коммерческой разработки - 100 лет на позицию Junior")
-    @field:NotBlank(message = "Описание не должно быть пустым!")
+    @field:NotBlank(message = "Описание не должно быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val description: String,
 
     @Schema(description = "Список хэштегов")

@@ -10,30 +10,28 @@ import ru.kaplaan.consumer.web.validation.OnUpdate
 import java.time.LocalDate
 
 data class UserDataDto(
-    @field:NotBlank(message = "Username пользователя не должен быть пустым!")
+    @field:NotBlank(message = "Username пользователя не должен быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val username: String,
 
-    @field:NotBlank(message = "Имя не должно быть пустым!")
+    @field:NotBlank(message = "Имя не должно быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val firstname: String,
 
-    @field:NotBlank(message = "Фамилия не должна быть пуста!")
+    @field:NotBlank(message = "Фамилия не должна быть пуста!", groups = [OnCreate::class, OnUpdate::class])
     val surname: String,
 
     val dateOfBirth: LocalDate,
 
-    @field:Length(min = 12, max = 12, message = "Номер телефон должен состоять из 12 символов!")
+    @field:Length(min = 12, max = 12, message = "Номер телефон должен состоять из 12 символов!", groups = [OnCreate::class, OnUpdate::class])
     val phoneNumber: String,
 
-    @field:Email
+    @field:Email(message = "Почта пользователя должна подходить под паттерн почты!", groups = [OnCreate::class, OnUpdate::class])
     val email: String,
 
-    @field:NotBlank(message = "Должность не должна быть пустой!")
+    @field:NotBlank(message = "Должность не должна быть пустой!", groups = [OnCreate::class, OnUpdate::class])
     val position: String,
 
     val salary: UInt,
-
     val readyToMove: Boolean,
-
     val readyForBusinessTrips: Boolean
 ){
     @field:NotNull(message = "Id данных пользователя должен быть заполнен!", groups = [OnUpdate::class])

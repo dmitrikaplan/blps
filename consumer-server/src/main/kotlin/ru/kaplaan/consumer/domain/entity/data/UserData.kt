@@ -16,8 +16,6 @@ class UserData{
     @Column("user_id")
     var userId: Long? = null
 
-    @Transient
-    lateinit var username: String
     lateinit var firstname: String
     lateinit var surname: String
     lateinit var dateOfBirth: LocalDate
@@ -27,6 +25,9 @@ class UserData{
 
     var salary: UInt = 0u
     var readyToMove: Boolean = false
-    var readyForBusinessTrips = false
+    var readyForBusinessTrips: Boolean = false
+
+    @Transient
+    lateinit var username: String
 
 }

@@ -22,16 +22,23 @@ class VacancyResponseController(
 ) {
 
     @PostMapping
-    fun save(@RequestBody @Validated(OnCreate::class) vacancyResponseDto: VacancyResponseDto): VacancyResponseDto {
+    fun save(
+        @RequestBody @Validated(OnCreate::class)
+        vacancyResponseDto: VacancyResponseDto
+    ): VacancyResponseDto {
         return vacancyResponseService.save(vacancyResponseDto.toEntity()).toDto()
     }
 
     @DeleteMapping("/{vacancyId}/{username}")
-    fun delete(@PathVariable vacancyId: Long, @PathVariable username: String){
-        vacancyResponseService.delete(vacancyId, username)
+    fun delete(
+        @PathVariable vacancyId: Long,
+        @PathVariable username: String
+    ): Unit{
+        return vacancyResponseService.delete(vacancyId, username)
     }
 
 
+    //TODO: Сделать получение Id пользователей для конкретной вакансии
     @GetMapping("/{companyName}/{pageNumber}")
     fun getAllUsernameByCompanyName(
         @PathVariable companyName: String,

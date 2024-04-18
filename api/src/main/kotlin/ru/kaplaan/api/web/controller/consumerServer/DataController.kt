@@ -33,15 +33,14 @@ class DataController(
         @RequestBody @Validated(OnCreate::class)
         companyDataDto: Mono<CompanyDataDto>,
         principal: Principal
-    ): Mono<ResponseEntity<String>> {
-        return dataService.saveCompanyData(
+    ): Mono<ResponseEntity<CompanyDataDto>> =
+        dataService.saveCompanyData(
             companyDataDto.map {
                 it.apply {
                     companyName = principal.name
                 }
             }
         )
-    }
 
 
     @PutMapping("/company")
@@ -51,23 +50,21 @@ class DataController(
         @RequestBody @Validated(OnUpdate::class)
         companyDataDto: Mono<CompanyDataDto>,
         principal: Principal
-    ): Mono<ResponseEntity<String>> {
-        return dataService.updateCompanyData(
+    ): Mono<ResponseEntity<CompanyDataDto>> =
+        dataService.updateCompanyData(
             companyDataDto.map {
                 it.apply {
                     companyName = principal.name
                 }
             }
         )
-    }
 
     @GetMapping("/company/{companyName}")
     @Operation(description = "Получить информацию о компании по названию компании")
     fun getCompanyDataByCompanyName(
         @Validated @NotBlank(message = "Название компании не должно быть пустым!")
         @PathVariable companyName: String,
-    ): Mono<ResponseEntity<CompanyDataDto>> =
-        dataService.getCompanyDataByCompanyName(companyName)
+    ): Mono<ResponseEntity<CompanyDataDto>> = dataService.getCompanyDataByCompanyName(companyName)
 
 
     @PostMapping("/user")
@@ -77,7 +74,7 @@ class DataController(
         @RequestBody @Validated(OnCreate::class)
         userDataDto: Mono<UserDataDto>,
         principal: Principal
-    ): Mono<ResponseEntity<String>> =
+    ): Mono<ResponseEntity<UserDataDto>> =
         dataService.saveUserData(
             userDataDto.map {
                 log.debug("username is ${principal.name}")
@@ -94,7 +91,7 @@ class DataController(
         @RequestBody @Validated(OnUpdate::class)
         userDataDto: Mono<UserDataDto>,
         principal: Principal
-    ): Mono<ResponseEntity<String>> =
+    ): Mono<ResponseEntity<UserDataDto>> =
         dataService.updateUserData(
             userDataDto.map {
                 it.apply {
@@ -109,6 +106,5 @@ class DataController(
         @Validated @NotBlank(message = "Никнейм пользователя не должен быть пустым!")
         @Parameter(description = "Username пользователя")
         @PathVariable username: String
-    ): Mono<ResponseEntity<UserDataDto>> =
-        dataService.getUserDataByUsername(username)
+    ): Mono<ResponseEntity<UserDataDto>> = dataService.getUserDataByUsername(username)
 }

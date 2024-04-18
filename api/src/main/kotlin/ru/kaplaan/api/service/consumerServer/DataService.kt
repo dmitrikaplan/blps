@@ -10,15 +10,15 @@ import ru.kaplaan.api.web.dto.consumerServer.data.UserDataDto
 @Service
 interface DataService {
 
-    fun saveCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<String>>
+    fun saveCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<CompanyDataDto>>
 
-    fun updateCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<String>>
+    fun updateCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<CompanyDataDto>>
 
     fun getCompanyDataByCompanyName(companyName: String): Mono<ResponseEntity<CompanyDataDto>>
 
-    fun saveUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<String>>
+    fun saveUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<UserDataDto>>
 
-    fun updateUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<String>>
+    fun updateUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<UserDataDto>>
 
     fun getUserDataByUsername(username: String): Mono<ResponseEntity<UserDataDto>>
 }
