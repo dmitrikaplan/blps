@@ -54,9 +54,9 @@ class VacancyResponseController(
     @Operation(summary = "Получить все Id пользователей")
     fun getAllUserIdByCompanyName(
         @Parameter(description = "Id вакансии", required = true)
-        @Validated @Min(0)
         @PathVariable vacancyId: Long,
         @Parameter(description = "Номер страницы", required = true)
+        @Validated @Min(0, message = "Номер страницы должен быть положительным числом!")
         @PathVariable pageNumber: Int,
         principal: Principal
     ): Mono<ResponseEntity<Flux<Long>>> =

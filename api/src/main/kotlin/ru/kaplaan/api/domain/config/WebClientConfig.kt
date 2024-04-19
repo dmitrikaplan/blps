@@ -3,7 +3,6 @@ package ru.kaplaan.api.domain.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.ProblemDetail
-import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 import ru.kaplaan.api.domain.exception.BadResponseException

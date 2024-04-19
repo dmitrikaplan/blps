@@ -37,8 +37,8 @@ class VacancyServiceImpl(
     @Value("\${consumer-server.vacancy.get-vacancy-by-id}")
     private lateinit var getVacancyByIdEndpoint: String
 
-    @Value("\${consumer-server.vacancy.get-vacancies-by-company-id}")
-    private lateinit var getVacanciesByCompanyIdEndpoint: String
+    @Value("\${consumer-server.vacancy.get-vacancies-by-company-name}")
+    private lateinit var getVacanciesByCompanyNameEndpoint: String
 
     @Value("\${consumer-server.vacancy.get-vacancies}")
     private lateinit var getVacanciesEndpoint: String
@@ -85,7 +85,7 @@ class VacancyServiceImpl(
     override fun getVacanciesByCompanyName(companyName: String, pageNumber: Int): Mono<ResponseEntity<Flux<VacancyDto>>> =
         webClient
             .get()
-            .uri("$baseUrl$url$getVacanciesByCompanyIdEndpoint$companyName/$pageNumber")
+            .uri("$baseUrl$url$getVacanciesByCompanyNameEndpoint/$companyName/$pageNumber")
             .retrieve()
             .toEntityFlux(VacancyDto::class.java)
 
@@ -99,7 +99,7 @@ class VacancyServiceImpl(
     override fun getVacanciesByText(text: String, pageNumber: Int): Mono<ResponseEntity<Flux<VacancyDto>>> =
         webClient
             .get()
-            .uri("$baseUrl$url$getVacanciesByTextEndpoint/$text$pageNumber")
+            .uri("$baseUrl$url$getVacanciesByTextEndpoint/$text/$pageNumber")
             .retrieve()
             .toEntityFlux(VacancyDto::class.java)
 

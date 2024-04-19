@@ -43,13 +43,13 @@ class VacancyController(
         @PathVariable vacancyId: Long
     ): Unit = vacancyService.delete(companyName, vacancyId)
 
-    @GetMapping("/{vacancyId}")
+    @GetMapping("/get-by-vacancy-id/{vacancyId}")
     fun getVacancyById(
         @PathVariable @Validated
         @Min(0) vacancyId: Long
     ): VacancyDto = vacancyService.getVacancyById(vacancyId).toDto()
 
-    @GetMapping("/{companyName}/{page}")
+    @GetMapping("/get-by-company-name/{companyName}/{page}")
     fun getVacanciesByCompanyName(
         @Validated @NotBlank(message = "Название компании не должно быть пустым!")
         @PathVariable companyName: String,
@@ -61,7 +61,7 @@ class VacancyController(
         @PathVariable page: Int
     ): List<VacancyDto> = vacancyService.getVacancies(page).toDto()
 
-    @GetMapping("/{text}/{page}")
+    @GetMapping("/get-by-text/{text}/{page}")
     fun getVacanciesByText(
         @PathVariable text: String,
         @PathVariable page: Int

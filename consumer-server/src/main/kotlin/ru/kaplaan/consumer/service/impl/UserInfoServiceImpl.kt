@@ -8,6 +8,7 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
 import ru.kaplaan.consumer.domain.exception.BodilessResponseException
+import ru.kaplaan.consumer.domain.exception.notFound.UserNotFoundException
 import ru.kaplaan.consumer.service.UserInfoService
 
 @Service
@@ -32,7 +33,7 @@ class UserInfoServiceImpl(
             userDataExchangeName,
             getUserIdRoutingKey,
             username
-        ) as Long
+        ) as Long? ?: throw UserNotFoundException()
     }
 
     override fun getUsernameByUserId(userId: Long): String {
@@ -40,14 +41,19 @@ class UserInfoServiceImpl(
             userDataExchangeName,
             getUsernameRoutingKey,
             userId
-        ) as String
+        ) as String? ?: throw UserNotFoundException()
     }
 
     override fun getAllUsernamesByUserIds(id: List<Long>): List<String> {
-        return amqpTemplate.convertSendAndReceive(
+        val list = amqpTemplate.convertSendAndReceive(
             userDataExchangeName,
             getAllUsernamesRoutingKey,
             id
-        ) as List<String>
+        ) as List<String?>
+
+        if(list.any { it == null }) throw UserNotFoundException()
+
+        return list.map { it as String }
+
     }
 }

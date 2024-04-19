@@ -64,7 +64,7 @@ class VacancyController(
     @PreAuthorize("hasRole('COMPANY')")
     @Operation(summary = "Удаление вакансии")
     fun delete(
-        @PathVariable @Validated @Min(0, message = "Минимальное Id вакансии 0!")
+        @PathVariable
         @Parameter(description = "Id вакансии", required = true)
         vacancyId: Long,
         principal: Principal
@@ -73,7 +73,7 @@ class VacancyController(
             log.debug(principal.name)
         }
 
-    @GetMapping("/{vacancyId}")
+    @GetMapping("/get-by-vacancy-id/{vacancyId}")
     @Operation(summary = "Получить вакансию по Id вакансии")
     fun getVacancyById(
         @Parameter(description = "Id вакансии", required = true)
@@ -81,13 +81,14 @@ class VacancyController(
     ): Mono<ResponseEntity<VacancyDto>> =
         vacancyService.getVacancyById(vacancyId)
 
-    @GetMapping("/{companyName}/{page}")
+    @GetMapping("/get-by-company-name/{companyName}/{page}")
     @Operation(summary = "Получить вакансии по названию компании")
     fun getVacanciesByCompanyName(
         @Validated @NotBlank(message = "Название компании не должно быть пустым!")
         @Parameter(description = "Название компании", required = true)
         @PathVariable companyName: String,
         @Parameter(description = "Номер страницы", required = true)
+        @Validated @Min(0, message = "Номер страницы должен быть положительным числом!")
         @PathVariable page: Int
     ): Mono<ResponseEntity<Flux<VacancyDto>>> =
         vacancyService.getVacanciesByCompanyName(companyName, page)
@@ -97,15 +98,17 @@ class VacancyController(
     @Operation(summary = "Получить все вакансии")
     fun getVacancies(
         @Parameter(description = "номер страницы", required = true)
+        @Validated @Min(0, message = "Номер страницы должен быть положительным числом!")
         @PathVariable page: Int
     ): Mono<ResponseEntity<Flux<VacancyDto>>> = vacancyService.getVacancies(page)
 
-    @GetMapping("/{text}/{page}")
+    @GetMapping("/get-by-text/{text}/{page}")
     @Operation(summary = "Получить вакансии по тексту")
-    fun getVacanciesByText(
+    fun     getVacanciesByText(
         @Parameter(description = "текст", required = true)
         @PathVariable text: String,
         @Parameter(description = "номер страницы", required = true)
+        @Validated @Min(0, message = "Номер страницы должен быть положительным числом!")
         @PathVariable page: Int
     ):  Mono<ResponseEntity<Flux<VacancyDto>>> = vacancyService.getVacanciesByText(text, page)
 
