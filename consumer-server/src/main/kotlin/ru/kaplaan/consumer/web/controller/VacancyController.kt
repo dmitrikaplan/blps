@@ -2,7 +2,6 @@ package ru.kaplaan.consumer.web.controller
 
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
-import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,7 +18,6 @@ import ru.kaplaan.consumer.web.mapper.vacancy.toDto
 import ru.kaplaan.consumer.web.mapper.vacancy.toEntity
 import ru.kaplaan.consumer.web.validation.OnCreate
 import ru.kaplaan.consumer.web.validation.OnUpdate
-import java.security.Principal
 
 @RestController
 @RequestMapping("/consumer/vacancy")
@@ -78,7 +76,7 @@ class VacancyController(
 
     @PostMapping("/unarchive")
     fun unarchiveVacancy(
-        @RequestBody @Validated(OnUpdate::class)
+        @RequestBody @Validated(OnCreate::class)
         archiveVacancyDto: ArchiveVacancyDto
     ): Unit =
         archiveVacancyDto.let {

@@ -35,6 +35,7 @@ class VacancyServiceImpl(
             this.companyName = userInfoService.getUsernameByUserId(this.companyId!!)
         } ?: throw VacancyNotFoundException()
 
+
     override fun getVacanciesByCompanyName(companyName: String, pageNumber: Int): List<Vacancy> =
         userInfoService.getUserIdByUsername(companyName).let { companyId ->
 
@@ -49,11 +50,23 @@ class VacancyServiceImpl(
         }
 
     override fun getVacancies(pageNumber: Int): List<Vacancy> {
-        return vacancyRepository.findAllVacancies(PageRequest.of(pageNumber, pageSize!!))
+        return vacancyRepository.findAllVacancies(PageRequest.of(pageNumber, pageSize!!)).also { vacancies ->
+            val usernames = userInfoService.getAllUsernamesByUserIds(vacancies.map { it.id!!})
+
+            vacancies.forEachIndexed{index, vacancy ->
+                vacancy.companyName = usernames[index]
+            }
+        }
     }
 
     override fun getVacanciesByText(text: String, pageNumber: Int): List<Vacancy> {
-        return vacancyRepository.findAllByVacanciesByText(text, PageRequest.of(pageNumber, pageSize!!))
+        return vacancyRepository.findAllByVacanciesByText(text, PageRequest.of(pageNumber, pageSize!!)).also { vacancies ->
+            val usernames = userInfoService.getAllUsernamesByUserIds(vacancies.map { it.id!!})
+
+            vacancies.forEachIndexed{index, vacancy ->
+                vacancy.companyName = usernames[index]
+            }
+        }
     }
 
     override fun archiveVacancy(companyName: String, vacancyId: Long) {
