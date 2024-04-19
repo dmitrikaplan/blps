@@ -60,9 +60,10 @@ class DataController(
         )
 
     @GetMapping("/company/{companyName}")
-    @Operation(description = "Получить информацию о компании по названию компании")
+    @Operation(summary = "Получить информацию о компании по названию компании")
     fun getCompanyDataByCompanyName(
         @Validated @NotBlank(message = "Название компании не должно быть пустым!")
+        @Parameter(description = "название компании", required = true)
         @PathVariable companyName: String,
     ): Mono<ResponseEntity<CompanyDataDto>> = dataService.getCompanyDataByCompanyName(companyName)
 
