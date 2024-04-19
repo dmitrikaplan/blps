@@ -3,8 +3,8 @@ package ru.kaplaan.api.domain.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.ProblemDetail
+import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.toEntity
 import reactor.core.publisher.Mono
 import ru.kaplaan.api.domain.exception.BadResponseException
 
@@ -15,8 +15,8 @@ class WebClientConfig {
     fun webClient(): WebClient =
         WebClient
             .builder()
-            .defaultStatusHandler({it.isError}){
-                Mono.error(BadResponseException(it.toEntity<ProblemDetail>()))
+            .defaultStatusHandler({it.isError}){ response ->
+                Mono.error(BadResponseException(response.toEntity(ProblemDetail::class.java)))
             }
             .build()
 }

@@ -10,7 +10,7 @@ import ru.kaplaan.consumer.domain.exception.alreadyExists.AlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.NotFoundException
 
 @RestControllerAdvice
-class DetailsExceptionHandler {
+class DataExceptionHandler {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
@@ -25,7 +25,7 @@ class DetailsExceptionHandler {
                 log.debug(e.message)
             }
             .let {
-                ResponseEntity.badRequest().body(it)
+                ResponseEntity.status(it.status).body(it)
             }
 
 
@@ -40,6 +40,6 @@ class DetailsExceptionHandler {
                 log.debug(e.message)
             }
             .let {
-                ResponseEntity.badRequest().body(it)
+                ResponseEntity.status(it.status).body(it)
             }
 }

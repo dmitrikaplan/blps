@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindException
-import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
@@ -25,7 +24,7 @@ class ValidationExceptionHandler {
                 setProperty("errors", bindException.allErrors.map { it.defaultMessage })
             }
             .let {
-                ResponseEntity.badRequest().body(it)
+                ResponseEntity.status(it.status).body(it)
             }
     }
 }

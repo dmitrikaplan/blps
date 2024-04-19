@@ -13,7 +13,7 @@ data class UserIdentificationDto(
     @field:Length(
         min = 6, max = 320,
         message = "The password must be greater than 7, but less than 321",
-        groups = [OnCreate::class]
+        groups = [OnCreate::class, OnRecovery::class]
     )
     val usernameOrEmail: String,
 
@@ -21,7 +21,7 @@ data class UserIdentificationDto(
     @field:Length(
         min = 8, max = 1024,
         message = "The password must be greater than 9, but less than 1025",
-        groups = [OnCreate::class]
+        groups = [OnCreate::class, OnRecovery::class]
     )
     val password: String
 )

@@ -23,7 +23,7 @@ class PermissionExceptionHandler {
                 log.debug(e.message)
             }
             .let {
-                ResponseEntity.status(HttpStatus.FORBIDDEN).body(it)
+                ResponseEntity.status(it.status).body(it)
             }
     }
 }

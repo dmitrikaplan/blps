@@ -24,6 +24,6 @@ class ResponseExceptionHandler {
                 log.debug(e.message)
             }
             .let {
-                ResponseEntity.badRequest().body(it)
+                ResponseEntity.status(it.status).body(it)
             }
 }

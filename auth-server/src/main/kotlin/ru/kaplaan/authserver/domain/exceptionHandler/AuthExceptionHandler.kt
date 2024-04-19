@@ -30,7 +30,7 @@ class AuthExceptionHandler {
                 log.debug(userException.message)
             }
             .let {
-                ResponseEntity.badRequest().body(it)
+                ResponseEntity.status(it.status).body(it)
             }
 
 
@@ -45,7 +45,7 @@ class AuthExceptionHandler {
                 log.debug(refreshTokenException.message)
             }
             .let {
-                ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(it)
+                ResponseEntity.status(it.status).body(it)
             }
 
 

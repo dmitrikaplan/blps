@@ -33,7 +33,7 @@ class AuthController(
     @PostMapping("/registration/{role}")
     @Operation(summary = "Регистрация пользователя")
     fun registerCompany(
-        @RequestBody @Validated
+        @RequestBody @Validated(OnCreate::class)
         userDto: Mono<UserDto>,
         @PathVariable role: String
     ): Mono<ResponseEntity<MessageResponse>> {
