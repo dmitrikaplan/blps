@@ -53,7 +53,6 @@ class AuthController(
         )
     }
 
-
     @PostMapping("/login")
     @Operation(summary = "Авторизация пользователя")
     fun login(
