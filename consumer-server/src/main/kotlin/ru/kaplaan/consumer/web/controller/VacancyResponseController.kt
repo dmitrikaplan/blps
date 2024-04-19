@@ -37,8 +37,7 @@ class VacancyResponseController(
         return vacancyResponseService.delete(vacancyId, username)
     }
 
-
-    @GetMapping("/{companyName}/{vacancyId}{pageNumber}")
+    @GetMapping("/{companyName}/{vacancyId}/{pageNumber}")
     fun getAllUsernameByCompanyName(
         @PathVariable companyName: String,
         @PathVariable vacancyId: Long,

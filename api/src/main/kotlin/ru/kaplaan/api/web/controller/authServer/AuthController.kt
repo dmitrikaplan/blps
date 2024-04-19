@@ -54,17 +54,15 @@ class AuthController(
     }
 
 
-    @Operation(summary = "Авторизация пользователя")
     @PostMapping("/login")
+    @Operation(summary = "Авторизация пользователя")
     fun login(
         @RequestBody @Validated(OnCreate::class)
         userIdentificationDto: Mono<UserIdentificationDto>,
     ): Mono<ResponseEntity<JwtResponse>> = authService.login(userIdentificationDto)
 
     @GetMapping("/activation/{activationCode}")
-    @Operation(
-        summary = "Активация аккаунта пользователя"
-    )
+    @Operation(summary = "Активация аккаунта пользователя")
     fun activateAccount(
         @PathVariable @Validated @NotBlank
         @Parameter(description = "код активации аккаунта", required = true)
@@ -72,17 +70,13 @@ class AuthController(
     ): Mono<ResponseEntity<String>> = authService.activateAccount(activationCode)
 
     @PostMapping("/recovery")
-    @Operation(
-        summary = "Восстановление доступа пользователя"
-    )
+    @Operation(summary = "Восстановление доступа пользователя", hidden = true)
     fun passwordRecovery(
         @RequestBody @Validated(OnRecovery::class)
         userIdentificationDto: Mono<UserIdentificationDto>,
     ): Mono<ResponseEntity<MessageResponse>> = authService.passwordRecovery(userIdentificationDto)
 
-    @Operation(
-        summary = "Обновление jwt access токена"
-    )
+    @Operation(summary = "Обновление jwt access токена")
     @PostMapping("/refresh")
     fun refresh(
         @RequestBody @Validated refreshTokenDto: Mono<RefreshTokenDto>

@@ -44,48 +44,36 @@ class AuthController(
     @PostMapping("/login")
     fun login(
         @RequestBody @Validated(OnCreate::class)
-        userIdentificationDto: UserIdentificationDto,
-    ): ResponseEntity<JwtResponse> =
-        authService.authenticate(userIdentificationDto.toEntity()).let {
-            ResponseEntity.status(HttpStatus.OK).body(it)
-        }
+        userIdentificationDto: UserIdentificationDto
+    ): JwtResponse =
+        authService.authenticate(userIdentificationDto.toEntity())
 
     @GetMapping("/activation/{code}")
     fun activateAccount(
         @PathVariable @Length(min = 1)
         code: String,
-    ): ResponseEntity<String> =
+    ): String =
         authService.activateAccount(code).let {
-            ResponseEntity.status(HttpStatus.OK).body("Аккаунт успешно активирован")
+            "Аккаунт успешно активирован"
         }
 
     @PostMapping("/recovery")
     fun passwordRecovery(
         @RequestBody(required = true) @Validated(OnRecovery::class)
         userIdentificationDto: UserIdentificationDto,
-    ): ResponseEntity<MessageResponse> {
+    ): MessageResponse {
         authService.passwordRecovery(userIdentificationDto.toEntity())
-
-        return MessageResponse("Код восстановления отправлен Вам на почту").let {
-            ResponseEntity.status(HttpStatus.OK).body(it)
-        }
-
-
+        return MessageResponse("Код восстановления отправлен Вам на почту")
     }
 
     @PostMapping("/authenticate")
-    fun authenticate(
-        @RequestBody authenticationDto: AuthenticationDto
-    ): ResponseEntity<AuthenticationDto> =
-        authService.authenticate(authenticationDto.toUnauthenticatedToken()).let {
-            ResponseEntity.ok().body(it.toDto())
-        }
+    fun authenticate(@RequestBody authenticationDto: AuthenticationDto): AuthenticationDto =
+        authService.authenticate(authenticationDto.toUnauthenticatedToken()).toDto()
 
 
     @PostMapping("/refresh")
     fun getNewRefreshToken(
         @RequestBody refreshTokenDto: RefreshTokenDto
-    ): JwtResponse =
-         authService.refresh(refreshTokenDto.refreshToken)
+    ): JwtResponse = authService.refresh(refreshTokenDto.refreshToken)
 
 }

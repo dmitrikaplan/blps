@@ -12,5 +12,5 @@ interface VacancyResponseService {
 
     fun delete(vacancyId: Long, username: String): Mono<ResponseEntity<Any>>
 
-    fun getAllUserIdByCompanyName(companyName: String, pageNumber: Int): Mono<ResponseEntity<Flux<Long>>>
+    fun getAllUserIdByCompanyName(companyName: String, vacancyId: Long, pageNumber: Int): Mono<ResponseEntity<Flux<Long>>>
 }

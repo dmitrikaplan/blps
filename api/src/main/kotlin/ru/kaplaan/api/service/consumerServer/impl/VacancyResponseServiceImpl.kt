@@ -45,10 +45,10 @@ class VacancyResponseServiceImpl(
             .retrieve()
             .toEntity(Any::class.java)
 
-    override fun getAllUserIdByCompanyName(companyName: String, pageNumber: Int): Mono<ResponseEntity<Flux<Long>>> =
+    override fun getAllUserIdByCompanyName(companyName: String, vacancyId: Long, pageNumber: Int): Mono<ResponseEntity<Flux<Long>>> =
         webClient
             .get()
-            .uri("$baseUrl$url$getAllUserIdByCompanyIdEndpoint$companyName/$pageNumber")
+            .uri("$baseUrl$url$getAllUserIdByCompanyIdEndpoint$companyName/$vacancyId/$pageNumber")
             .retrieve()
             .toEntityFlux(Long::class.java)
 }

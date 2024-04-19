@@ -41,11 +41,13 @@ class VacancyController(
         @PathVariable companyName: String,
         @Validated @Min(0, message = "Минимальное ID вакансии 0!")
         @PathVariable vacancyId: Long
-    ) = vacancyService.delete(companyName, vacancyId)
+    ): Unit = vacancyService.delete(companyName, vacancyId)
 
     @GetMapping("/{vacancyId}")
-    fun getVacancyById(@PathVariable vacancyId: Long): VacancyDto =
-        vacancyService.getVacancyById(vacancyId).toDto()
+    fun getVacancyById(
+        @PathVariable @Validated
+        @Min(0) vacancyId: Long
+    ): VacancyDto = vacancyService.getVacancyById(vacancyId).toDto()
 
     @GetMapping("/{companyName}/{page}")
     fun getVacanciesByCompanyName(

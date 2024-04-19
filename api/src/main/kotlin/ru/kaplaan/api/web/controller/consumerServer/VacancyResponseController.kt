@@ -49,15 +49,17 @@ class VacancyResponseController(
     ): Mono<ResponseEntity<Any>> = vacancyResponseService.delete(vacancyId, principal.name)
 
 
-    @GetMapping("/{pageNumber}")
+    @GetMapping("/{vacancyId}/{pageNumber}")
     @PreAuthorize("hasRole('COMPANY')")
     @Operation(summary = "Получить все Id пользователей")
-    //TODO: сделать получение id пользователей для конкретной вакансии
     fun getAllUserIdByCompanyName(
+        @Parameter(description = "Id вакансии", required = true)
+        @Validated @Min(0)
+        @PathVariable vacancyId: Long,
         @Parameter(description = "Номер страницы", required = true)
         @PathVariable pageNumber: Int,
         principal: Principal
     ): Mono<ResponseEntity<Flux<Long>>> =
-        vacancyResponseService.getAllUserIdByCompanyName(principal.name, pageNumber)
+        vacancyResponseService.getAllUserIdByCompanyName(principal.name,vacancyId, pageNumber)
 
 }

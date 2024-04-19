@@ -75,9 +75,8 @@ class AuthServiceImpl(
 
     }
 
-    // TODO: Полностью переделать восстановление пароля
     override fun passwordRecovery(userIdentification: UserIdentification) {
-        TODO()
+        TODO("Полностью переделать восстановление пароля")
     }
 
     @Transactional
