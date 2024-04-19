@@ -40,6 +40,10 @@ class SecurityConfig (
                 it.disable()
             }
             .authorizeExchange {
+                it.pathMatchers("swagger-ui.html").permitAll()
+                it.pathMatchers("webjars/swagger-ui/**").permitAll()
+                it.pathMatchers("v3/api-docs/**").permitAll()
+
                 it.pathMatchers(HttpMethod.POST, "api/v1/auth/registration/user").permitAll()
                 it.pathMatchers(HttpMethod.POST, "api/v1/auth/registration/company").permitAll()
                 it.pathMatchers(HttpMethod.POST, "api/v1/auth/login").permitAll()
@@ -47,12 +51,12 @@ class SecurityConfig (
                 it.pathMatchers(HttpMethod.POST, "api/v1/auth/recovery").permitAll()
                 it.pathMatchers(HttpMethod.POST, "api/v1/auth/refresh").permitAll()
 
-                it.pathMatchers(HttpMethod.GET, "api/v1/details/user/**").permitAll()
-                it.pathMatchers(HttpMethod.GET, "api/v1/details/company/**").permitAll()
+                it.pathMatchers(HttpMethod.GET, "api/v1/data/user/**").permitAll()
+                it.pathMatchers(HttpMethod.GET, "api/v1/data/company/**").permitAll()
 
                 it.pathMatchers(HttpMethod.GET, "api/v1/vacancy/**").permitAll()
 
-                it.anyExchange().permitAll()
+                it.anyExchange().authenticated()
             }
             .addFilterBefore(JwtAuthenticationFilter("$baseUrl$authenticationEndpoint", jwtAuthenticationConverter, webClient), SecurityWebFiltersOrder.AUTHENTICATION)
             .build()
