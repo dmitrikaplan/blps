@@ -3,6 +3,7 @@ package ru.kaplaan.api.domain.filter
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
 import org.springframework.security.web.server.authentication.ServerAuthenticationConverter

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.vacancyResponse.VacancyResponse
+import ru.kaplaan.consumer.domain.exception.PermissionDeniedException
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyNotFoundException
 import ru.kaplaan.consumer.repository.VacancyRepository
 import ru.kaplaan.consumer.repository.VacancyResponseRepository
@@ -39,10 +40,15 @@ class VacancyResponseServiceImpl(
         }
 
 
-    override fun getAllUsernamesByCompanyName(companyName: String, pageNumber: Int): List<String>{
-        val companyId = userInfoService.getUserIdByUsername(companyName)
-      return vacancyRepository.findVacancyIdByCompanyId(companyId).let { vacancyId ->
-            vacancyResponseRepository.findAllUsernameByVacancyId(vacancyId, PageRequest.of(pageNumber, pageSize!!))
+    override fun getAllUsernamesByVacancyIdAndCompanyName(vacancyId: Long, companyName: String, pageNumber: Int): List<String>{
+       return userInfoService.getUserIdByUsername(companyName).let { companyId: Long ->
+
+           if(vacancyId in vacancyRepository.findAllVacancyIdByCompanyId(companyId))
+               throw PermissionDeniedException()
+
+            vacancyResponseRepository.findAllUserIdByVacancyId(vacancyId, PageRequest.of(pageNumber, pageSize!!)).let { usersId: List<Long> ->
+                userInfoService.getAllUsernamesByUserIds(usersId)
+            }
         }
     }
 

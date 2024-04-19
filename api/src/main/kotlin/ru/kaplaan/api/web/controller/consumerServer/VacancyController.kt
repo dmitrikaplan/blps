@@ -93,6 +93,23 @@ class VacancyController(
         vacancyService.getVacanciesByCompanyName(companyName, page)
 
 
+    @GetMapping("/{page}")
+    @Operation(summary = "Получить все вакансии")
+    fun getVacancies(
+        @Parameter(description = "номер страницы", required = true)
+        @PathVariable page: Int
+    ): Mono<ResponseEntity<Flux<VacancyDto>>> = vacancyService.getVacancies(page)
+
+    @GetMapping("/{text}/{page}")
+    @Operation(summary = "Получить вакансии по тексту")
+    fun getVacanciesByText(
+        @Parameter(description = "текст", required = true)
+        @PathVariable text: String,
+        @Parameter(description = "номер страницы", required = true)
+        @PathVariable page: Int
+    ):  Mono<ResponseEntity<Flux<VacancyDto>>> = vacancyService.getVacanciesByText(text, page)
+
+
     @PostMapping("/archive")
     @PreAuthorize("hasRole('COMPANY')")
     @Operation(summary = "Архивирование вакансии")

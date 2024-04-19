@@ -48,6 +48,14 @@ class VacancyServiceImpl(
 
         }
 
+    override fun getVacancies(pageNumber: Int): List<Vacancy> {
+        return vacancyRepository.findAllVacancies(PageRequest.of(pageNumber, pageSize!!))
+    }
+
+    override fun getVacanciesByText(text: String, pageNumber: Int): List<Vacancy> {
+        return vacancyRepository.findAllByVacanciesByText(text, PageRequest.of(pageNumber, pageSize!!))
+    }
+
     override fun archiveVacancy(companyName: String, vacancyId: Long) {
         userInfoService.getUserIdByUsername(companyName).let { companyId ->
             vacancyRepository.archiveVacancyByCompanyIdAndVacancyId(companyId, vacancyId)

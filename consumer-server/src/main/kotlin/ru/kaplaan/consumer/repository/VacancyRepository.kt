@@ -12,7 +12,14 @@ interface VacancyRepository: CrudRepository<Vacancy, Long> {
     fun findAllByCompanyId(companyId: Long, pageable: Pageable): List<Vacancy>
 
     @Query("select vacancy_id from vacancy where company_id = :companyId")
-    fun findVacancyIdByCompanyId(companyId: Long): Long
+    fun findAllVacancyIdByCompanyId(companyId: Long): List<Long>
+
+
+    @Query("select * from vacancy")
+    fun findAllVacancies(pageable: Pageable): List<Vacancy>
+
+    @Query("select * from vacancy where title ~* ^.*:text.*\$ or description ~* ^.*:text.*\$")
+    fun findAllByVacanciesByText(text: String, pageable: Pageable): List<Vacancy>
 
     @Query("delete from vacancy where company_id = :companyId and vacancy_id = :vacancyId")
     fun deleteByCompanyIdAndVacancyId(companyId: Long, vacancyId: Long)

@@ -35,7 +35,6 @@ class VacancyController(
     fun update(@RequestBody @Validated(OnUpdate::class) vacancyDto: VacancyDto): VacancyDto =
         vacancyService.update(vacancyDto.toEntity()).toDto()
 
-
     @DeleteMapping("{companyName}/{vacancyId}")
     fun delete(
         @Validated @NotBlank(message = "Название компании не должно быть пустым!")
@@ -54,6 +53,17 @@ class VacancyController(
         @PathVariable companyName: String,
         @PathVariable page: Int
     ): List<VacancyDto> = vacancyService.getVacanciesByCompanyName(companyName, page).toDto()
+
+    @GetMapping("/{page}")
+    fun getVacancies(
+        @PathVariable page: Int
+    ): List<VacancyDto> = vacancyService.getVacancies(page).toDto()
+
+    @GetMapping("/{text}/{page}")
+    fun getVacanciesByText(
+        @PathVariable text: String,
+        @PathVariable page: Int
+    ): List<VacancyDto> = vacancyService.getVacanciesByText(text, page).toDto()
 
     @PostMapping("/archive")
     fun archiveVacancy(

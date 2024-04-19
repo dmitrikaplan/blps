@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.body
 import org.springframework.web.reactive.function.client.toEntity
+import org.springframework.web.reactive.function.client.toEntityFlux
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import ru.kaplaan.api.service.consumerServer.VacancyService
@@ -19,25 +20,31 @@ class VacancyServiceImpl(
 ): VacancyService {
 
     @Value("\${consumer-server.base-url}")
-    lateinit var baseUrl: String
+    private lateinit var baseUrl: String
 
     @Value("\${consumer-server.vacancy.url}")
-    lateinit var url: String
+    private lateinit var url: String
 
     @Value("\${consumer-server.vacancy.save}")
-    lateinit var saveEndpoint: String
+    private lateinit var saveEndpoint: String
 
     @Value("\${consumer-server.vacancy.update}")
-    lateinit var updateEndpoint: String
+    private lateinit var updateEndpoint: String
 
     @Value("\${consumer-server.vacancy.delete}")
-    lateinit var deleteEndpoint: String
+    private lateinit var deleteEndpoint: String
 
     @Value("\${consumer-server.vacancy.get-vacancy-by-id}")
-    lateinit var getVacancyByIdEndpoint: String
+    private lateinit var getVacancyByIdEndpoint: String
 
     @Value("\${consumer-server.vacancy.get-vacancies-by-company-id}")
-    lateinit var getVacanciesByCompanyIdEndpoint: String
+    private lateinit var getVacanciesByCompanyIdEndpoint: String
+
+    @Value("\${consumer-server.vacancy.get-vacancies}")
+    private lateinit var getVacanciesEndpoint: String
+
+    @Value("\${consumer-server.vacancy.get-vacancies-by-text}")
+    private lateinit var getVacanciesByTextEndpoint: String
 
     @Value("\${consumer-server.vacancy.archive-vacancy}")
     lateinit var archiveVacancyEndpoint: String
@@ -79,6 +86,20 @@ class VacancyServiceImpl(
         webClient
             .get()
             .uri("$baseUrl$url$getVacanciesByCompanyIdEndpoint$companyName/$pageNumber")
+            .retrieve()
+            .toEntityFlux(VacancyDto::class.java)
+
+    override fun getVacancies(pageNumber: Int): Mono<ResponseEntity<Flux<VacancyDto>>> =
+        webClient
+            .get()
+            .uri("$baseUrl$url$getVacanciesEndpoint$pageNumber")
+            .retrieve()
+            .toEntityFlux(VacancyDto::class.java)
+
+    override fun getVacanciesByText(text: String, pageNumber: Int): Mono<ResponseEntity<Flux<VacancyDto>>> =
+        webClient
+            .get()
+            .uri("$baseUrl$url$getVacanciesByTextEndpoint/$text$pageNumber")
             .retrieve()
             .toEntityFlux(VacancyDto::class.java)
 

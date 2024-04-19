@@ -36,7 +36,7 @@ data class VacancyDto(
     @field:Null(message = "Имя компании не должно быть заполнено!", groups = [OnCreate::class, OnUpdate::class])
     var companyName: String? = null
 
-    @Schema(description = "Id вакансии", example = "1")
+    @Schema(description = "Id вакансии", example = "1", hidden = true)
     @field:Null(message = "Id вакансии не должен быть заполнен!", groups = [OnCreate::class])
     @field:NotNull(message = "Id вакансии должен быть заполнен!", groups = [OnUpdate::class])
     @field:Min(0, message = "Минимальное значение id - 0", groups = [OnUpdate::class])

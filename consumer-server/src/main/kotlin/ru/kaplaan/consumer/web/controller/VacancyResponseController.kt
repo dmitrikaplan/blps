@@ -33,17 +33,17 @@ class VacancyResponseController(
     fun delete(
         @PathVariable vacancyId: Long,
         @PathVariable username: String
-    ): Unit{
+    ){
         return vacancyResponseService.delete(vacancyId, username)
     }
 
 
-    //TODO: Сделать получение Id пользователей для конкретной вакансии
-    @GetMapping("/{companyName}/{pageNumber}")
+    @GetMapping("/{companyName}/{vacancyId}{pageNumber}")
     fun getAllUsernameByCompanyName(
         @PathVariable companyName: String,
+        @PathVariable vacancyId: Long,
         @PathVariable pageNumber: Int
     ): List<String> {
-        return vacancyResponseService.getAllUsernamesByCompanyName(companyName, pageNumber)
+        return vacancyResponseService.getAllUsernamesByVacancyIdAndCompanyName(vacancyId, companyName, pageNumber)
     }
 }
