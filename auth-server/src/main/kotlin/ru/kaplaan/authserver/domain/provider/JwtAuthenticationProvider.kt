@@ -15,7 +15,7 @@ class JwtAuthenticationProvider(
 ): AbstractUserDetailsAuthenticationProvider() {
     override fun authenticate(authentication: Authentication): Authentication {
         val userDetails = retrieveUser(authentication.name, authentication as UsernamePasswordAuthenticationToken)
-
+        additionalAuthenticationChecks(userDetails, authentication)
         return UsernamePasswordAuthenticationToken.authenticated(
             userDetails,
             authentication.credentials as String,
