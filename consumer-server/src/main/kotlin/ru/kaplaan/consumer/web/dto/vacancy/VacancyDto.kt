@@ -28,7 +28,7 @@ data class VacancyDto(
 ){
     @field:Null(message = "Id вакансии должен быть равен null!", groups = [OnCreate::class])
     @field:NotNull(message = "Id вакансии не должен быть равен null!", groups = [OnUpdate::class])
-    var vacancyId: Long? = null
+    var id: Long? = null
 
     var isArchived: Boolean = false
 }

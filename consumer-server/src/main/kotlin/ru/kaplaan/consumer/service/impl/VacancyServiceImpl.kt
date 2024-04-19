@@ -39,7 +39,7 @@ class VacancyServiceImpl(
         userInfoService.getUserIdByUsername(companyName).let { companyId ->
 
             vacancyRepository.findAllByCompanyId(companyId, PageRequest.of(pageNumber, pageSize!!)).also { vacancies ->
-                val usernames = userInfoService.getAllUsernamesByUserIds(vacancies.map { it.vacancyId!!})
+                val usernames = userInfoService.getAllUsernamesByUserIds(vacancies.map { it.id!!})
 
                 vacancies.forEachIndexed{index, vacancy ->
                     vacancy.companyName = usernames[index]

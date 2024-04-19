@@ -13,7 +13,7 @@ fun Vacancy.toDto(): VacancyDto =
         hashTags = hashTags.hashTagsToList(),
         companyName = companyName
     ).apply {
-        this.vacancyId = this@toDto.vacancyId
+        this.id = this@toDto.id
         this.isArchived = this@toDto.isArchived
     }
 
@@ -28,7 +28,7 @@ fun VacancyDto.toEntity(): Vacancy =
         this.currency = this@toEntity.currency
         this.companyName = this@toEntity.companyName
         this.isArchived = this@toEntity.isArchived
-        this.vacancyId = this@toEntity.vacancyId
+        this.id = this@toEntity.id
     }
 
 

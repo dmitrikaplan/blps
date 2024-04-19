@@ -11,7 +11,7 @@ class Vacancy{
 
     @Id
     @Column("vacancy_id")
-    var vacancyId: Long? = null
+    var id: Long? = null
 
     @Column("company_id")
     var companyId: Long? = null
