@@ -5,12 +5,12 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
-import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 import ru.kaplaan.api.service.authServer.AuthService
+import ru.kaplaan.api.service.authServer.UserInfoService
 import ru.kaplaan.api.web.dto.authServer.refresh_token.RefreshTokenDto
 import ru.kaplaan.api.web.dto.authServer.response.JwtResponse
 import ru.kaplaan.api.web.dto.authServer.response.MessageResponse
@@ -25,11 +25,9 @@ import javax.management.relation.RoleNotFoundException
 @RequestMapping("/api/v1/auth")
 @Tag(name = "Auth Controller", description = "Контроллер аутентификации")
 class AuthController(
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val userInfoService: UserInfoService
 ) {
-
-    private val log = LoggerFactory.getLogger(AuthController::class.java)
-
 
     @PostMapping("/registration/{role}")
     @Operation(summary = "Регистрация пользователя")
@@ -87,5 +85,5 @@ class AuthController(
     fun getUsernameById(
         @Validated @Min(0, message = "Минимальное Id пользователя - 0!")
         @PathVariable userId: Long
-    ): String = UserInf
+    ): Mono<ResponseEntity<String>> = userInfoService.getUsernameByUserId(userId)
 }
