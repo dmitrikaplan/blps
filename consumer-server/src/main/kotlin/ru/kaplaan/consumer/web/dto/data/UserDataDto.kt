@@ -18,7 +18,11 @@ data class UserDataDto(
 
     val dateOfBirth: LocalDate,
 
-    @field:Length(min = 12, max = 12, message = "Номер телефон должен состоять из 12 символов!", groups = [OnCreate::class, OnUpdate::class])
+    @field:Pattern(
+        regexp = "[+]?\\d{11}",
+        message = "Номер телефона должен состоять или из 11 цифр или из 12 с первым знаком '+'",
+        groups = [OnCreate::class, OnUpdate::class]
+    )
     val phoneNumber: String,
 
     @field:Email(message = "Почта пользователя должна подходить под паттерн почты!", groups = [OnCreate::class, OnUpdate::class])
