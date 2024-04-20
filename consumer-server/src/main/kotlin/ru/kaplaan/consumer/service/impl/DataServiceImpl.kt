@@ -39,7 +39,9 @@ class DataServiceImpl(
 
     override fun getCompanyDataByCompanyName(companyName: String): CompanyData =
         userInfoService.getUserIdByUsername(companyName).let { companyId ->
-            companyDataRepository.findCompanyDataByCompanyId(companyId)
+            companyDataRepository.findCompanyDataByCompanyId(companyId)?.apply {
+                this.companyName = companyName
+            }
                 ?: throw CompanyDataNotFoundException()
         }
 
@@ -68,8 +70,10 @@ class DataServiceImpl(
 
     override fun getUserDataByUsername(username: String): UserData =
         userInfoService.getUserIdByUsername(username).let { userId ->
-            userDataRepository.findUserDataByUserId(userId)
-                ?: throw UserDetailsNotFoundException()
+            userDataRepository.findUserDataByUserId(userId)?.apply {
+                this.username = username
+
+            } ?: throw UserDetailsNotFoundException()
         }
 
 }

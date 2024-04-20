@@ -94,17 +94,17 @@ class VacancyController(
         vacancyService.getVacanciesByCompanyName(companyName, page)
 
 
-    @GetMapping("/{page}")
-    @Operation(summary = "Получить все вакансии")
-    fun getVacancies(
-        @Parameter(description = "номер страницы", required = true)
-        @Validated @Min(0, message = "Номер страницы должен быть положительным числом!")
-        @PathVariable page: Int
-    ): Mono<ResponseEntity<Flux<VacancyDto>>> = vacancyService.getVacancies(page)
+//    @GetMapping("/{page}")
+//    @Operation(summary = "Получить все вакансии")
+//    fun getVacancies(
+//        @Parameter(description = "номер страницы", required = true)
+//        @Validated @Min(0, message = "Номер страницы должен быть положительным числом!")
+//        @PathVariable page: Int
+//    ): Mono<ResponseEntity<Flux<VacancyDto>>> = vacancyService.getVacancies(page)
 
     @GetMapping("/get-by-text/{text}/{page}")
     @Operation(summary = "Получить вакансии по тексту")
-    fun     getVacanciesByText(
+    fun getVacanciesByText(
         @Parameter(description = "текст", required = true)
         @PathVariable text: String,
         @Parameter(description = "номер страницы", required = true)

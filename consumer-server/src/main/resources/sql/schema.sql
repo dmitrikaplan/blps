@@ -36,12 +36,12 @@ create table if not exists vacancy(
     description text not null check(length(description) > 0),
     hash_tags text not null,
     currency text not null,
-    company_id bigint,
+    company_id bigint not null,
     is_archived bool not null
 );
 
 create table if not exists vacancy_response(
    vacancy_id bigint references vacancy(vacancy_id),
-   user_id bigint,
+   user_id bigint not null,
    primary key(vacancy_id, user_id)
 );

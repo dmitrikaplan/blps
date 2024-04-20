@@ -20,10 +20,16 @@ class VacancyServiceImpl(
     val pageSize: Int? = null
 
     override fun save(vacancy: Vacancy): Vacancy =
-        vacancyRepository.save(vacancy)
+        userInfoService.getUserIdByUsername(vacancy.companyName).let { companyId: Long ->
+            vacancy.companyId = companyId
+            vacancyRepository.save(vacancy)
+        }
 
     override fun update(vacancy: Vacancy): Vacancy =
-        vacancyRepository.save(vacancy)
+        userInfoService.getUserIdByUsername(vacancy.companyName).let { companyId: Long ->
+            vacancy.companyId = companyId
+            vacancyRepository.save(vacancy)
+        }
 
     override fun delete(companyName: String, vacancyId: Long) =
         userInfoService.getUserIdByUsername(companyName).let { companyId ->
@@ -31,7 +37,7 @@ class VacancyServiceImpl(
         }
 
     override fun getVacancyById(vacancyId: Long): Vacancy =
-        vacancyRepository.findByIdOrNull(vacancyId)?.apply {
+        vacancyRepository.findVacancyById(vacancyId)?.apply {
             this.companyName = userInfoService.getUsernameByUserId(this.companyId!!)
         } ?: throw VacancyNotFoundException()
 
@@ -40,7 +46,11 @@ class VacancyServiceImpl(
         userInfoService.getUserIdByUsername(companyName).let { companyId ->
 
             vacancyRepository.findAllByCompanyId(companyId, PageRequest.of(pageNumber, pageSize!!)).also { vacancies ->
-                val usernames = userInfoService.getAllUsernamesByUserIds(vacancies.map { it.id!!})
+
+                if(vacancies.isEmpty())
+                    return@also
+
+                val usernames = userInfoService.getAllUsernamesByUserIds(vacancies.map { it.companyId!!})
 
                 vacancies.forEachIndexed{index, vacancy ->
                     vacancy.companyName = usernames[index]
@@ -51,6 +61,9 @@ class VacancyServiceImpl(
 
     override fun getVacancies(pageNumber: Int): List<Vacancy> {
         return vacancyRepository.findAllVacancies(PageRequest.of(pageNumber, pageSize!!)).also { vacancies ->
+            if(vacancies.isEmpty())
+                return@also
+
             val usernames = userInfoService.getAllUsernamesByUserIds(vacancies.map { it.id!!})
 
             vacancies.forEachIndexed{index, vacancy ->
@@ -61,6 +74,10 @@ class VacancyServiceImpl(
 
     override fun getVacanciesByText(text: String, pageNumber: Int): List<Vacancy> {
         return vacancyRepository.findAllByVacanciesByText(text, PageRequest.of(pageNumber, pageSize!!)).also { vacancies ->
+
+            if(vacancies.isEmpty())
+                return@also
+
             val usernames = userInfoService.getAllUsernamesByUserIds(vacancies.map { it.id!!})
 
             vacancies.forEachIndexed{index, vacancy ->

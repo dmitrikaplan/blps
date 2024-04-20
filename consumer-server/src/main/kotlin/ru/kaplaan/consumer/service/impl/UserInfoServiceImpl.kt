@@ -1,13 +1,8 @@
 package ru.kaplaan.consumer.service.impl
 
 import org.springframework.amqp.core.AmqpTemplate
-import org.springframework.amqp.rabbit.annotation.EnableRabbit
-import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.ParameterizedTypeReference
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestClient
-import ru.kaplaan.consumer.domain.exception.BodilessResponseException
 import ru.kaplaan.consumer.domain.exception.notFound.UserNotFoundException
 import ru.kaplaan.consumer.service.UserInfoService
 
@@ -45,15 +40,6 @@ class UserInfoServiceImpl(
     }
 
     override fun getAllUsernamesByUserIds(id: List<Long>): List<String> {
-        val list = amqpTemplate.convertSendAndReceive(
-            userDataExchangeName,
-            getAllUsernamesRoutingKey,
-            id
-        ) as List<String?>
-
-        if(list.any { it == null }) throw UserNotFoundException()
-
-        return list.map { it as String }
-
+        return id.map { getUsernameByUserId(it) }
     }
 }

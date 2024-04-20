@@ -31,5 +31,9 @@ interface VacancyRepository: CrudRepository<Vacancy, Long> {
     fun archiveVacancyByCompanyIdAndVacancyId(companyId: Long, vacancyId: Long)
 
     @Query("update vacancy set is_archived = false where company_id = :companyId and vacancy_id = :vacancyId")
+
     fun unarchiveVacancyByCompanyIdAndVacancyId(companyId: Long, vacancyId: Long)
+
+    @Query("select * from vacancy where vacancy_id = :vacancyId")
+    fun findVacancyById(vacancyId: Long): Vacancy?
 }

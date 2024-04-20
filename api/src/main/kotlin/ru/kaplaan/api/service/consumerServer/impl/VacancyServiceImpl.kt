@@ -78,7 +78,7 @@ class VacancyServiceImpl(
     override fun getVacancyById(vacancyId: Long): Mono<ResponseEntity<VacancyDto>> =
         webClient
             .get()
-            .uri("$baseUrl$url$getVacancyByIdEndpoint$vacancyId")
+            .uri("$baseUrl$url$getVacancyByIdEndpoint/$vacancyId")
             .retrieve()
             .toEntity(VacancyDto::class.java)
 
