@@ -2,7 +2,9 @@ package ru.kaplaan.consumer.domain.entity.data
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
+import org.springframework.data.relational.core.mapping.Table
 
+@Table(name = "contact_person")
 class ContactPerson{
 
     @Id

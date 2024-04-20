@@ -9,6 +9,7 @@ import ru.kaplaan.consumer.domain.exception.notFound.CompanyDataNotFoundExceptio
 import ru.kaplaan.consumer.domain.exception.notFound.CompanyNotFoundException
 import ru.kaplaan.consumer.domain.exception.notFound.UserDetailsNotFoundException
 import ru.kaplaan.consumer.repository.CompanyDataRepository
+import ru.kaplaan.consumer.repository.ContactPersonRepository
 import ru.kaplaan.consumer.repository.UserDataRepository
 import ru.kaplaan.consumer.service.DetailsService
 import ru.kaplaan.consumer.service.UserInfoService
@@ -17,7 +18,7 @@ import ru.kaplaan.consumer.service.UserInfoService
 class DataServiceImpl(
     private val companyDataRepository: CompanyDataRepository,
     private val userDataRepository: UserDataRepository,
-    private val userInfoService: UserInfoService
+    private val userInfoService: UserInfoService, private val contactPersonRepository: ContactPersonRepository
 ): DetailsService {
 
     override fun saveCompanyData(companyData: CompanyData): CompanyData {
@@ -43,8 +44,9 @@ class DataServiceImpl(
         userInfoService.getUserIdByUsername(companyName).let { companyId ->
             companyDataRepository.findCompanyDataByCompanyId(companyId)?.apply {
                 this.companyName = companyName
-            }
-                ?: throw CompanyDataNotFoundException()
+                this.contactPerson = contactPersonRepository.findByCompanyDataId(this.id!!)
+
+            } ?: throw CompanyDataNotFoundException()
         }
 
 
