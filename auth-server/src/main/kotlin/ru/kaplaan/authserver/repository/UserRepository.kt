@@ -19,5 +19,4 @@ interface UserRepository : CrudRepository<User, Long> {
 
     @Query("select * from users where user_id = :userId")
     fun findUserById(userId: Long): User?
-
 }
