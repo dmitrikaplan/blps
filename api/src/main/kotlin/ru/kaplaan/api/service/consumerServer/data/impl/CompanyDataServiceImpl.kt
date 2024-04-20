@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.body
 import reactor.core.publisher.Mono
 import ru.kaplaan.api.service.consumerServer.data.CompanyDataService
 import ru.kaplaan.api.web.dto.consumerServer.data.CompanyDataDto
+import ru.kaplaan.api.web.dto.consumerServer.data.ContactPersonDto
 
 
 @Service
@@ -29,6 +30,9 @@ class CompanyDataServiceImpl(
 
     @Value("\${consumer-server.data.get-company-data}")
     lateinit var getCompanyDataEndpoint: String
+
+    @Value("\${consumer-server.data.get-contact-person-by-company-id}")
+    lateinit var getContactPersonByCompanyIdEndpoint: String
 
     
     override fun saveCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<CompanyDataDto>> =
@@ -53,4 +57,11 @@ class CompanyDataServiceImpl(
             .uri("$baseUrl$url$getCompanyDataEndpoint/$companyId")
             .retrieve()
             .toEntity(CompanyDataDto::class.java)
+
+    override fun getContactPersonByCompanyId(companyId: Long): Mono<ResponseEntity<ContactPersonDto>> =
+        webClient
+            .get()
+            .uri("$baseUrl$url$getContactPersonByCompanyIdEndpoint/$companyId")
+            .retrieve()
+            .toEntity(ContactPersonDto::class.java)
 }

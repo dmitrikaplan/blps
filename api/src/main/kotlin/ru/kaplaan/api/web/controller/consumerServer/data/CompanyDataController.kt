@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 import ru.kaplaan.api.service.consumerServer.data.CompanyDataService
 import ru.kaplaan.api.web.dto.consumerServer.data.CompanyDataDto
+import ru.kaplaan.api.web.dto.consumerServer.data.ContactPersonDto
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnUpdate
 
@@ -62,5 +63,14 @@ class CompanyDataController(
         @Parameter(description = "название компании", required = true)
         @PathVariable companyId: Long
     ): Mono<ResponseEntity<CompanyDataDto>> = companyDataService.getCompanyDataByCompanyId(companyId)
+
+
+    @GetMapping("/contact-person/{companyId}")
+    fun updateContactPerson(
+        @Validated @Min(0, message = "Id компании не должно быть меньше 0!")
+        @PathVariable companyId: Long,
+    ): Mono<ResponseEntity<ContactPersonDto>> {
+        return companyDataService.getContactPersonByCompanyId(companyId)
+    }
 
 }
