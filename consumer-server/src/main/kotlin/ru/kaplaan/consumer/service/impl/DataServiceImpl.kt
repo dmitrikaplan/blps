@@ -6,6 +6,7 @@ import ru.kaplaan.consumer.domain.entity.data.UserData
 import ru.kaplaan.consumer.domain.exception.alreadyExists.CompanyDataAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.alreadyExists.UserDataAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.CompanyDataNotFoundException
+import ru.kaplaan.consumer.domain.exception.notFound.CompanyNotFoundException
 import ru.kaplaan.consumer.domain.exception.notFound.UserDetailsNotFoundException
 import ru.kaplaan.consumer.repository.CompanyDataRepository
 import ru.kaplaan.consumer.repository.UserDataRepository
@@ -34,6 +35,7 @@ class DataServiceImpl(
         companyDataRepository.save(
             companyData.apply {
                 companyId = userInfoService.getUserIdByUsername(companyData.companyName)
+                id = companyDataRepository.findCompanyDataIdByCompanyId(companyId!!)
             }
         )
 
@@ -63,6 +65,7 @@ class DataServiceImpl(
             userDataRepository.save(
                 userData.apply {
                     this.userId = userId
+                    this.id = userDataRepository.findUserDataIdByUserId(userId)
                 }
             )
         }

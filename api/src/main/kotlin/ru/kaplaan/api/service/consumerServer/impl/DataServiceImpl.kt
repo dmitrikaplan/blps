@@ -60,7 +60,7 @@ class DataServiceImpl(
     override fun getCompanyDataByCompanyName(companyName: String): Mono<ResponseEntity<CompanyDataDto>> =
         webClient
             .get()
-            .uri("$baseUrl$url$getCompanyDataEndpoint$companyName")
+            .uri("$baseUrl$url$getCompanyDataEndpoint/$companyName")
             .retrieve()
             .toEntity(CompanyDataDto::class.java)
 
@@ -83,7 +83,7 @@ class DataServiceImpl(
     override fun getUserDataByUsername(username: String): Mono<ResponseEntity<UserDataDto>> =
         webClient
             .get()
-            .uri("$baseUrl$url$getUserDataEndpoint$username")
+            .uri("$baseUrl$url$getUserDataEndpoint/$username")
             .retrieve()
             .toEntity(UserDataDto::class.java)
 }

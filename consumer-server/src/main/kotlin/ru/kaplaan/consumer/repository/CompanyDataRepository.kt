@@ -11,4 +11,7 @@ interface CompanyDataRepository: CrudRepository<CompanyData, Long> {
 
     @Query("select * from company_data where company_id = :company_id")
     fun findCompanyDataByCompanyId(@Param("company_id") companyId: Long): CompanyData?
+
+    @Query("select company_data_id from company_data where company_id = :companyId")
+    fun findCompanyDataIdByCompanyId(companyId: Long): Long?
 }

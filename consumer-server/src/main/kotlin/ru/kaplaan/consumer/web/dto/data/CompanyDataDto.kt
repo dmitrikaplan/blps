@@ -18,8 +18,4 @@ data class CompanyDataDto(
     val site: String,
 
     val contactPerson: ContactPersonDto
-){
-    @field:NotNull(message = "Id данных компании должен быть заполнен!", groups = [OnUpdate::class])
-    @field:Null(message = "Id данных компании не должен быть заполнен!", groups = [OnCreate::class])
-    var id: Long? = null
-}
+)

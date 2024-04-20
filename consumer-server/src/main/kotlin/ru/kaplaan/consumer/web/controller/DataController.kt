@@ -35,7 +35,7 @@ class DataController(
     fun getCompanyDataByCompanyName(
         @PathVariable @Validated @NotBlank
         companyName: String
-    ): CompanyDataDto = detailsService.getCompanyDataByCompanyName(companyName).toDto()
+    ): CompanyDataDto = detailsService.getCompanyDataByCompanyName(companyName).toDto().also { println(it) }
 
     @PostMapping("/user")
     fun saveUserData(
