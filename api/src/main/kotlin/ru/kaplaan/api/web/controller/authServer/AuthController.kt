@@ -3,6 +3,7 @@ package ru.kaplaan.api.web.controller.authServer
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -80,4 +81,11 @@ class AuthController(
     fun refresh(
         @RequestBody @Validated refreshTokenDto: Mono<RefreshTokenDto>
     ): Mono<ResponseEntity<JwtResponse>> = authService.refresh(refreshTokenDto)
+
+    @Operation(summary = "Получить username пользователя по Id")
+    @GetMapping("/{userId}")
+    fun getUsernameById(
+        @Validated @Min(0, message = "Минимальное Id пользователя - 0!")
+        @PathVariable userId: Long
+    ): String = UserInf
 }
