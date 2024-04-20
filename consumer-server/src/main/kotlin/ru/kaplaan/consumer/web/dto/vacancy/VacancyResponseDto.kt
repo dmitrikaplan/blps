@@ -1,4 +1,4 @@
-package ru.kaplaan.consumer.web.dto.vacancyResponse
+package ru.kaplaan.consumer.web.dto.vacancy
 
 import jakarta.validation.constraints.Min
 import ru.kaplaan.consumer.web.validation.OnCreate

@@ -1,4 +1,4 @@
-package ru.kaplaan.consumer.web.controller
+package ru.kaplaan.consumer.web.controller.vacancy
 
 import jakarta.validation.constraints.Min
 import org.springframework.validation.annotation.Validated

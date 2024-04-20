@@ -6,5 +6,5 @@ import ru.kaplaan.consumer.domain.entity.data.ContactPerson
 
 interface ContactPersonRepository: CrudRepository<ContactPerson, Long> {
     @Query("select * from contact_person where company_data_id = :companyDataId")
-    fun findByCompanyDataId(companyDataId: Long): ContactPerson
+    fun findByCompanyDataId(companyDataId: Long): ContactPerson?
 }

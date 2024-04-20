@@ -1,23 +1,21 @@
 package ru.kaplaan.consumer.service.impl
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.data.CompanyData
-import ru.kaplaan.consumer.domain.entity.data.UserData
+import ru.kaplaan.consumer.domain.entity.data.ContactPerson
 import ru.kaplaan.consumer.domain.exception.alreadyExists.CompanyDataAlreadyExistsException
-import ru.kaplaan.consumer.domain.exception.alreadyExists.UserDataAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.CompanyDataNotFoundException
-import ru.kaplaan.consumer.domain.exception.notFound.UserDetailsNotFoundException
+import ru.kaplaan.consumer.domain.exception.notFound.ContactPersonNotFoundException
 import ru.kaplaan.consumer.repository.CompanyDataRepository
 import ru.kaplaan.consumer.repository.ContactPersonRepository
-import ru.kaplaan.consumer.repository.UserDataRepository
-import ru.kaplaan.consumer.service.DetailsService
+import ru.kaplaan.consumer.service.CompanyDataService
 
 @Service
-class DataServiceImpl(
+class CompanyDataServiceImpl(
     private val companyDataRepository: CompanyDataRepository,
-    private val userDataRepository: UserDataRepository,
     private val contactPersonRepository: ContactPersonRepository
-): DetailsService {
+): CompanyDataService {
 
     override fun saveCompanyData(companyData: CompanyData): CompanyData {
         return companyDataRepository.findCompanyDataByCompanyId(companyData.companyId!!)?.let {
@@ -35,26 +33,13 @@ class DataServiceImpl(
     override fun getCompanyDataByCompanyId(companyId: Long): CompanyData =
             companyDataRepository.findCompanyDataByCompanyId(companyId)?.apply {
                 this.contactPerson = contactPersonRepository.findByCompanyDataId(this.id!!)
+                    ?: throw ContactPersonNotFoundException()
             } ?: throw CompanyDataNotFoundException()
 
-
-
-    override fun saveUserData(userData: UserData): UserData {
-        return userDataRepository.findUserDataByUserId(userData.userId!!)?.let {
-            throw UserDataAlreadyExistsException()
-        } ?: userDataRepository.save(userData)
+    override fun getContactPersonByCompanyId(companyId: Long): ContactPerson {
+        return companyDataRepository.findCompanyDataIdByCompanyId(companyId)?.let { companyDataId ->
+                contactPersonRepository.findByCompanyDataId(companyDataId)
+                    ?: throw ContactPersonNotFoundException()
+        } ?: throw CompanyDataNotFoundException()
     }
-
-    override fun updateUserData(userData: UserData): UserData =
-            userDataRepository.save(
-                userData.apply {
-                    this.id = userDataRepository.findUserDataIdByUserId(userId!!)
-                }
-            )
-
-
-    override fun getUserDataByUserId(userId: Long): UserData =
-            userDataRepository.findUserDataByUserId(userId)
-                ?: throw UserDetailsNotFoundException()
-
 }

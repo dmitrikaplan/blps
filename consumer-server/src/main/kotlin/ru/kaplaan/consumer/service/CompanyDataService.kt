@@ -2,10 +2,10 @@ package ru.kaplaan.consumer.service
 
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.data.CompanyData
-import ru.kaplaan.consumer.domain.entity.data.UserData
+import ru.kaplaan.consumer.domain.entity.data.ContactPerson
 
 @Service
-interface DetailsService {
+interface CompanyDataService {
 
 
     fun saveCompanyData(companyData: CompanyData): CompanyData
@@ -14,9 +14,5 @@ interface DetailsService {
 
     fun getCompanyDataByCompanyId(companyId: Long): CompanyData
 
-    fun saveUserData(userData: UserData): UserData
-
-    fun updateUserData(userData: UserData): UserData
-
-    fun getUserDataByUserId(userId: Long): UserData
+    fun getContactPersonByCompanyId(companyId: Long): ContactPerson
 }

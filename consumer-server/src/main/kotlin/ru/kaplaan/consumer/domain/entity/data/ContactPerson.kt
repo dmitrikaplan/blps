@@ -13,4 +13,7 @@ class ContactPerson{
     lateinit var name: String
     lateinit var surname: String
     lateinit var position: String
+
+    @Column("company_data_id")
+    var companyDataId: Long? = null
 }
