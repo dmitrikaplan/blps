@@ -60,14 +60,16 @@ class CompanyDataController(
     @Operation(summary = "Получить информацию о компании по названию компании")
     fun getCompanyDataByCompanyId(
         @Validated @Min(0, message = "Id компании не должен быть больше или равен 0!")
-        @Parameter(description = "название компании", required = true)
+        @Parameter(description = "Название компании", required = true)
         @PathVariable companyId: Long
     ): Mono<ResponseEntity<CompanyDataDto>> = companyDataService.getCompanyDataByCompanyId(companyId)
 
 
     @GetMapping("/contact-person/{companyId}")
-    fun updateContactPerson(
+    @Operation(summary = "Получить контактное лицо по id компании")
+    fun getContactPersonByCompanyId(
         @Validated @Min(0, message = "Id компании не должно быть меньше 0!")
+        @Parameter(description = "Id компании", required = true)
         @PathVariable companyId: Long,
     ): Mono<ResponseEntity<ContactPersonDto>> {
         return companyDataService.getContactPersonByCompanyId(companyId)
