@@ -3,7 +3,7 @@ package ru.kaplaan.consumer.service.impl
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
-import ru.kaplaan.consumer.domain.entity.vacancyResponse.VacancyResponse
+import ru.kaplaan.consumer.domain.entity.vacancy.VacancyResponse
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyNotFoundException
 import ru.kaplaan.consumer.repository.VacancyRepository
 import ru.kaplaan.consumer.repository.VacancyResponseRepository

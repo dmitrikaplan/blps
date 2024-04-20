@@ -1,7 +1,7 @@
 package ru.kaplaan.consumer.web.mapper.vacancyResponse
 
-import ru.kaplaan.consumer.domain.entity.vacancyResponse.VacancyResponse
-import ru.kaplaan.consumer.web.dto.vacancyResponse.VacancyResponseDto
+import ru.kaplaan.consumer.domain.entity.vacancy.VacancyResponse
+import ru.kaplaan.consumer.web.dto.vacancy.VacancyResponseDto
 
 fun VacancyResponseDto.toEntity(): VacancyResponse =
     VacancyResponse().apply {
