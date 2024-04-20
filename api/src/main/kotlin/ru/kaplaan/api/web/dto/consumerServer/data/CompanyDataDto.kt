@@ -23,7 +23,8 @@ data class CompanyDataDto(
     @field:NotNull(message = "Данные контактного лица должны быть заполнены!", groups = [OnCreate::class, OnUpdate::class])
     val contactPerson: ContactPersonDto
 ){
-    @Schema(description = "Название компании", hidden = true)
-    @field:Null(message = "Название компании не должно быть заполнено!!", groups = [OnCreate::class, OnUpdate::class])
-    var companyName: String? = null
+
+    @Schema(description = "Id компании", hidden = true)
+    @field:Null(message = "Id компании не должно быть заполнено!!", groups = [OnCreate::class, OnUpdate::class])
+    var companyId: Long? = null
 }

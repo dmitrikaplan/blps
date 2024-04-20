@@ -1,5 +1,6 @@
 package ru.kaplaan.consumer.web.dto.vacancy
 
+import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Null
@@ -23,12 +24,11 @@ data class VacancyDto(
 
     val hashTags: List<String>,
 
-    @field:NotBlank(message = "Название компании не должно быть пустым!", groups = [OnCreate::class, OnUpdate::class])
-    val companyName: String,
+    @field:Min(0, message = "Id компании не должно быть меньше 0!", groups = [OnCreate::class, OnUpdate::class])
+    val companyId: Long,
+    var isArchived: Boolean
 ){
     @field:Null(message = "Id вакансии должен быть равен null!", groups = [OnCreate::class])
     @field:NotNull(message = "Id вакансии не должен быть равен null!", groups = [OnUpdate::class])
     var id: Long? = null
-
-    var isArchived: Boolean = false
 }

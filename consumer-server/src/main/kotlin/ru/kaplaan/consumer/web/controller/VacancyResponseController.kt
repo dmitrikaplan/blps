@@ -1,5 +1,6 @@
 package ru.kaplaan.consumer.web.controller
 
+import jakarta.validation.constraints.Min
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -29,20 +30,22 @@ class VacancyResponseController(
         return vacancyResponseService.save(vacancyResponseDto.toEntity()).toDto()
     }
 
-    @DeleteMapping("/{vacancyId}/{username}")
+    @DeleteMapping("/{vacancyId}/{userId}")
     fun delete(
+        @Validated @Min(0, message = "Id вакансии не должен быть меньше 0!")
         @PathVariable vacancyId: Long,
-        @PathVariable username: String
+        @Validated @Min(0, message = "Id пользователя не должен быть меньше 0!")
+        @PathVariable userId: Long
     ){
-        return vacancyResponseService.delete(vacancyId, username)
+        return vacancyResponseService.delete(vacancyId, userId)
     }
 
-    @GetMapping("/{companyName}/{vacancyId}/{pageNumber}")
-    fun getAllUsernameByCompanyName(
-        @PathVariable companyName: String,
+    @GetMapping("/{companyId}/{vacancyId}/{pageNumber}")
+    fun getAllUsernameByCompanyId(
+        @PathVariable companyId: Long,
         @PathVariable vacancyId: Long,
         @PathVariable pageNumber: Int
-    ): List<String> {
-        return vacancyResponseService.getAllUsernamesByVacancyIdAndCompanyName(vacancyId, companyName, pageNumber)
+    ): List<Long> {
+        return vacancyResponseService.getAllUserIdByVacancyIdAndCompanyId(vacancyId, companyId, pageNumber)
     }
 }

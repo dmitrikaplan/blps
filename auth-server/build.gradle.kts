@@ -27,7 +27,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springframework.boot:spring-boot-starter-amqp")
+	//implementation("org.springframework.boot:spring-boot-starter-amqp")
 
 	//jwt
 	implementation(group = "io.jsonwebtoken", name = "jjwt-api",version = "0.11.5")

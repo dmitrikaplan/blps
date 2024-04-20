@@ -37,8 +37,8 @@ class VacancyServiceImpl(
     @Value("\${consumer-server.vacancy.get-vacancy-by-id}")
     private lateinit var getVacancyByIdEndpoint: String
 
-    @Value("\${consumer-server.vacancy.get-vacancies-by-company-name}")
-    private lateinit var getVacanciesByCompanyNameEndpoint: String
+    @Value("\${consumer-server.vacancy.get-vacancies-by-company-id}")
+    private lateinit var getVacanciesByCompanyIdEndpoint: String
 
     @Value("\${consumer-server.vacancy.get-vacancies}")
     private lateinit var getVacanciesEndpoint: String
@@ -68,10 +68,10 @@ class VacancyServiceImpl(
             .retrieve()
             .toEntity(VacancyDto::class.java)
 
-    override fun delete(companyName: String, vacancyId: Long): Mono<ResponseEntity<Any>> =
+    override fun delete(companyId: Long, vacancyId: Long): Mono<ResponseEntity<Any>> =
         webClient
             .delete()
-            .uri("$baseUrl$url$deleteEndpoint$companyName/$vacancyId")
+            .uri("$baseUrl$url$deleteEndpoint$companyId/$vacancyId")
             .retrieve()
             .toEntity(Any::class.java)
 
@@ -82,10 +82,10 @@ class VacancyServiceImpl(
             .retrieve()
             .toEntity(VacancyDto::class.java)
 
-    override fun getVacanciesByCompanyName(companyName: String, pageNumber: Int): Mono<ResponseEntity<Flux<VacancyDto>>> =
+    override fun getVacanciesByCompanyId(companyId: Long, pageNumber: Int): Mono<ResponseEntity<Flux<VacancyDto>>> =
         webClient
             .get()
-            .uri("$baseUrl$url$getVacanciesByCompanyNameEndpoint/$companyName/$pageNumber")
+            .uri("$baseUrl$url$getVacanciesByCompanyIdEndpoint/$companyId/$pageNumber")
             .retrieve()
             .toEntityFlux(VacancyDto::class.java)
 

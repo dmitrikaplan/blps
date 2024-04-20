@@ -29,16 +29,18 @@ data class VacancyDto(
     @field:NotBlank(message = "Описание не должно быть пустым!", groups = [OnCreate::class, OnUpdate::class])
     val description: String,
 
-    @Schema(description = "Список хэштегов")
+    @Schema(description = "Список хэш-тегов")
     val hashTags: List<String>,
 ){
-    @Schema(description = "Название компании", hidden = true)
-    @field:Null(message = "Имя компании не должно быть заполнено!", groups = [OnCreate::class, OnUpdate::class])
-    var companyName: String? = null
+    @Schema(description = "Id компании", hidden = true)
+    @field:Null(message = "Id компании не должно быть заполнено!", groups = [OnCreate::class, OnUpdate::class])
+    var companyId: Long? = null
 
     @Schema(description = "Id вакансии", example = "1", hidden = true)
     @field:Null(message = "Id вакансии не должен быть заполнен!", groups = [OnCreate::class])
     @field:NotNull(message = "Id вакансии должен быть заполнен!", groups = [OnUpdate::class])
     @field:Min(0, message = "Минимальное значение id - 0", groups = [OnUpdate::class])
     var id: Long? = null
+
+    val isArchived: Boolean = false
 }

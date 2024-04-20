@@ -14,11 +14,11 @@ interface DataService {
 
     fun updateCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<CompanyDataDto>>
 
-    fun getCompanyDataByCompanyName(companyName: String): Mono<ResponseEntity<CompanyDataDto>>
+    fun getCompanyDataByCompanyId(companyId: Long): Mono<ResponseEntity<CompanyDataDto>>
 
     fun saveUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<UserDataDto>>
 
     fun updateUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<UserDataDto>>
 
-    fun getUserDataByUsername(username: String): Mono<ResponseEntity<UserDataDto>>
+    fun getUserDataByUserId(userId: Long): Mono<ResponseEntity<UserDataDto>>
 }

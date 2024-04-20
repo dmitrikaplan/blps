@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.Authentication
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
@@ -34,12 +35,12 @@ class VacancyController(
     fun save(
         @RequestBody @Validated(OnCreate::class)
         vacancyDto: Mono<VacancyDto>,
-        principal: Principal
+        authentication: Authentication
     ): Mono<ResponseEntity<VacancyDto>> =
         vacancyService.save(
             vacancyDto.map {
                 it.apply {
-                    companyName = principal.name
+                    companyId = authentication.details as Long
                 }
             }
         )
@@ -50,12 +51,12 @@ class VacancyController(
     fun update(
         @RequestBody @Validated(OnUpdate::class)
         vacancyDto: Mono<VacancyDto>,
-        principal: Principal
+        authentication: Authentication
     ): Mono<ResponseEntity<VacancyDto>> =
         vacancyService.update(
             vacancyDto.map {
                 it.apply {
-                    companyName = principal.name
+                    companyId = authentication.details as Long
                 }
             }
         )
@@ -67,11 +68,9 @@ class VacancyController(
         @PathVariable
         @Parameter(description = "Id вакансии", required = true)
         vacancyId: Long,
-        principal: Principal
+        authentication: Authentication
     ): Mono<ResponseEntity<Any>> =
-        vacancyService.delete(principal.name, vacancyId).also {
-            log.debug(principal.name)
-        }
+        vacancyService.delete(authentication.details as Long, vacancyId)
 
     @GetMapping("/get-by-vacancy-id/{vacancyId}")
     @Operation(summary = "Получить вакансию по Id вакансии")
@@ -81,17 +80,17 @@ class VacancyController(
     ): Mono<ResponseEntity<VacancyDto>> =
         vacancyService.getVacancyById(vacancyId)
 
-    @GetMapping("/get-by-company-name/{companyName}/{page}")
+    @GetMapping("/get-by-company-id/{companyId}/{page}")
     @Operation(summary = "Получить вакансии по названию компании")
     fun getVacanciesByCompanyName(
-        @Validated @NotBlank(message = "Название компании не должно быть пустым!")
-        @Parameter(description = "Название компании", required = true)
-        @PathVariable companyName: String,
+        @Validated @Min(0, message = "Id компании не должен быть больше или равен 0!")
+        @Parameter(description = "Id компании", required = true)
+        @PathVariable companyId: Long,
         @Parameter(description = "Номер страницы", required = true)
         @Validated @Min(0, message = "Номер страницы должен быть положительным числом!")
         @PathVariable page: Int
     ): Mono<ResponseEntity<Flux<VacancyDto>>> =
-        vacancyService.getVacanciesByCompanyName(companyName, page)
+        vacancyService.getVacanciesByCompanyId(companyId, page)
 
 
 //    @GetMapping("/{page}")
@@ -119,12 +118,12 @@ class VacancyController(
     fun archiveVacancy(
         @RequestBody @Validated(OnCreate::class)
         archiveVacancyDto: Mono<ArchiveVacancyDto>,
-        principal: Principal
+        authentication: Authentication
     ): Mono<ResponseEntity<Any>> =
         vacancyService.archiveVacancy(
             archiveVacancyDto.map {
                 it.apply {
-                    this.companyName = principal.name
+                    this.companyId = authentication.details as Long
                 }
             }
         )
@@ -136,7 +135,13 @@ class VacancyController(
     fun unarchiveVacancy(
         @RequestBody @Validated(OnUpdate::class)
         archiveVacancyDto: Mono<ArchiveVacancyDto>,
-        principal: Principal
+        authentication: Authentication
     ): Mono<ResponseEntity<Any>> =
-        vacancyService.unarchiveVacancy(archiveVacancyDto)
+        vacancyService.unarchiveVacancy(
+            archiveVacancyDto.map {
+                it.apply {
+                    this.companyId = authentication.details as Long
+                }
+            }
+        )
 }

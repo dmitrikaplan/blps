@@ -12,13 +12,15 @@ import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.authentication.ServerAuthenticationConverter
 import org.springframework.web.reactive.function.client.WebClient
 import ru.kaplaan.api.domain.filter.JwtAuthenticationFilter
+import ru.kaplaan.api.service.JwtService
 
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 class SecurityConfig (
     private val webClient: WebClient,
-    private val jwtAuthenticationConverter: ServerAuthenticationConverter
+    private val jwtAuthenticationConverter: ServerAuthenticationConverter,
+    private val jwtService: JwtService
 ) {
 
     @Value("\${auth-server.base-url}")
@@ -58,7 +60,7 @@ class SecurityConfig (
 
                 it.anyExchange().authenticated()
             }
-            .addFilterBefore(JwtAuthenticationFilter("$baseUrl$authenticationEndpoint", jwtAuthenticationConverter, webClient), SecurityWebFiltersOrder.AUTHENTICATION)
+            .addFilterBefore(JwtAuthenticationFilter("$baseUrl$authenticationEndpoint", jwtAuthenticationConverter, webClient, jwtService), SecurityWebFiltersOrder.AUTHENTICATION)
             .build()
 
 

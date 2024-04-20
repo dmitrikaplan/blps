@@ -9,7 +9,7 @@ data class ArchiveVacancyDto(
     @Schema(description = "Id вакансии", example = "1")
     val vacancyId: Long
 ){
-    @Schema(description = "Название компании", example = "Yandex", hidden = true)
-    @field:Null(message = "Название компании должно быть пустым!", groups = [OnCreate::class])
-    var companyName: String? = null
+    @Schema(description = "Id компании", example = "Yandex", hidden = true)
+    @field:Null(message = "Id компании должно быть пустым!", groups = [OnCreate::class])
+    var companyId: Long? = null
 }

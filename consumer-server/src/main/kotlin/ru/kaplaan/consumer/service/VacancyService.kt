@@ -10,17 +10,17 @@ interface VacancyService {
 
     fun update(vacancy: Vacancy): Vacancy
 
-    fun delete(companyName: String, vacancyId: Long)
+    fun delete(companyId: Long, vacancyId: Long)
 
     fun getVacancyById(vacancyId: Long): Vacancy
 
-    fun getVacanciesByCompanyName(companyName: String, pageNumber: Int): List<Vacancy>
+    fun getVacanciesByCompanyId(companyId: Long, pageNumber: Int): List<Vacancy>
 
     fun getVacancies(pageNumber: Int): List<Vacancy>
 
     fun getVacanciesByText(text: String, pageNumber: Int): List<Vacancy>
 
-    fun archiveVacancy(companyName: String, vacancyId: Long)
+    fun archiveVacancy(companyId: Long, vacancyId: Long)
 
-    fun unarchiveVacancy(companyName: String, vacancyId: Long)
+    fun unarchiveVacancy(companyId: Long, vacancyId: Long)
 }

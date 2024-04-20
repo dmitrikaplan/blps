@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Null
+import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnUpdate
@@ -12,7 +13,7 @@ import java.time.LocalDate
 @Schema(description = "Сущность информации о пользователе")
 data class UserDataDto(
     @Schema(description = "Имя пользователя", example = "Иван")
-    @field:NotBlank(message = "Имя не должно быть пустым!", groups = [OnCreate::class, OnUpdate::class])
+    @field:NotBlank(message = "Имя пользователя должно быть заполнено!", groups = [OnCreate::class, OnUpdate::class])
     val firstname: String,
 
     @Schema(description = "Фамилия пользователя", example = "Иванов")
@@ -43,7 +44,7 @@ data class UserDataDto(
     @Schema(description = "Готовность к командировкам", example = "true")
     val readyForBusinessTrips: Boolean
 ){
-    @Schema(description = "Username пользователя", hidden = true)
-    @field:Null(message = "Username не должен быть заполнен!", groups = [OnCreate::class, OnUpdate::class])
-    var username: String? = null
+    @Schema(description = "Id пользователя", hidden = true)
+    @field:Null(message = "Id пользователя не должен быть заполнен!", groups = [OnCreate::class, OnUpdate::class])
+    var userId: Long? = null
 }

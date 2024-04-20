@@ -4,52 +4,37 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.vacancyResponse.VacancyResponse
-import ru.kaplaan.consumer.domain.exception.PermissionDeniedException
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyNotFoundException
 import ru.kaplaan.consumer.repository.VacancyRepository
 import ru.kaplaan.consumer.repository.VacancyResponseRepository
-import ru.kaplaan.consumer.service.UserInfoService
 import ru.kaplaan.consumer.service.VacancyResponseService
 
 @Service
 class VacancyResponseServiceImpl(
     private val vacancyResponseRepository: VacancyResponseRepository,
     private val vacancyRepository: VacancyRepository,
-    private val userInfoService: UserInfoService
-): VacancyResponseService {
+) : VacancyResponseService {
 
     @Value("\${vacancy-response.page-size}")
     var pageSize: Int? = null
 
     override fun save(vacancyResponse: VacancyResponse): VacancyResponse {
-        vacancyResponse.apply {
-            pk = VacancyResponse.PK(
-                vacancyId,
-                userInfoService.getUserIdByUsername(vacancyResponse.username)
-            )
-        }
-        return vacancyRepository.findVacancyByVacancyIdAndNotIsArchived(vacancyResponse.pk.vacancyId)?.let{
+        return vacancyRepository.findVacancyByVacancyIdAndNotIsArchived(vacancyResponse.pk.vacancyId)?.let {
             vacancyResponseRepository.save(vacancyResponse)
         } ?: throw VacancyNotFoundException()
     }
 
 
-    override fun delete(vacancyId: Long, username: String) =
-        userInfoService.getUserIdByUsername(username).let { userId ->
-            vacancyResponseRepository.deleteById(VacancyResponse.PK(vacancyId, userId))
-        }
+    override fun delete(vacancyId: Long, userId: Long) =
+        vacancyResponseRepository.deleteById(VacancyResponse.PK(vacancyId, userId))
 
 
-    override fun getAllUsernamesByVacancyIdAndCompanyName(vacancyId: Long, companyName: String, pageNumber: Int): List<String>{
-       return userInfoService.getUserIdByUsername(companyName).let { companyId: Long ->
-
-           if(vacancyId in vacancyRepository.findAllVacancyIdByCompanyId(companyId))
-               throw PermissionDeniedException()
-
-            vacancyResponseRepository.findAllUserIdByVacancyId(vacancyId, PageRequest.of(pageNumber, pageSize!!)).let { usersId: List<Long> ->
-                userInfoService.getAllUsernamesByUserIds(usersId)
-            }
-        }
+    override fun getAllUserIdByVacancyIdAndCompanyId(
+        vacancyId: Long,
+        companyId: Long,
+        pageNumber: Int,
+    ): List<Long> {
+        return vacancyResponseRepository.findAllUserIdByVacancyIdAndCompanyId(vacancyId, companyId, PageRequest.of(pageNumber, pageSize!!))
     }
 
 }

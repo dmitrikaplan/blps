@@ -9,6 +9,6 @@ import ru.kaplaan.consumer.domain.entity.vacancyResponse.VacancyResponse
 @Repository
 interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResponse.PK> {
 
-    @Query("select user_id from vacancy_response where vacancy_id = :vacancyId")
-    fun findAllUserIdByVacancyId(vacancyId: Long, pageable: Pageable): List<Long>
+    @Query("select user_id from vacancy_response where vacancy_id = :vacancyId and company_id = :companyId")
+    fun findAllUserIdByVacancyIdAndCompanyId(vacancyId: Long, companyId: Long, pageable: Pageable): List<Long>
 }

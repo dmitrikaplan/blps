@@ -4,14 +4,13 @@ import ru.kaplaan.consumer.domain.entity.vacancyResponse.VacancyResponse
 import ru.kaplaan.consumer.web.dto.vacancyResponse.VacancyResponseDto
 
 fun VacancyResponseDto.toEntity(): VacancyResponse =
-    VacancyResponse(
-        vacancyId,
-        username
-    )
+    VacancyResponse().apply {
+        pk = VacancyResponse.PK(vacancyId, userId)
+    }
 
 
 fun VacancyResponse.toDto(): VacancyResponseDto =
     VacancyResponseDto(
-        username = username,
+        userId = pk.userId,
         vacancyId = pk.vacancyId
     )

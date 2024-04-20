@@ -48,6 +48,7 @@ class JwtService {
             .setClaims(
                 mapOf(
                     "username" to user.username,
+                    "userId" to user.id!!,
                     "password" to user.password
                 )
             )
@@ -64,6 +65,7 @@ class JwtService {
                 mapOf(
                     "username" to user.username,
                     "email" to user.email,
+                    "userId" to user.id!!,
                     "password" to user.password
                 )
             )

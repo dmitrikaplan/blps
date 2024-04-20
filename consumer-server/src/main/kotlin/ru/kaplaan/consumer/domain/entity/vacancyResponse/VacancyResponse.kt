@@ -6,10 +6,8 @@ import org.springframework.data.relational.core.mapping.Embedded
 import org.springframework.data.relational.core.mapping.Table
 
 @Table("vacancy_response")
-data class VacancyResponse(
-    val vacancyId: Long,
-    val username: String
-) {
+class VacancyResponse{
+
     @Id
     @Embedded(onEmpty = Embedded.OnEmpty.USE_EMPTY)
     lateinit var pk: PK

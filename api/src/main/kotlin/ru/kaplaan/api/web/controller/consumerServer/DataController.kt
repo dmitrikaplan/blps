@@ -3,10 +3,12 @@ package ru.kaplaan.api.web.controller.consumerServer
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.Authentication
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
@@ -24,20 +26,18 @@ class DataController(
     private val dataService: DataService
 ) {
 
-    private val log = LoggerFactory.getLogger(javaClass)
-
     @PostMapping("/company")
     @PreAuthorize("hasRole('COMPANY')")
     @Operation(summary = "Добавление информации о компании")
     fun saveCompanyData(
         @RequestBody @Validated(OnCreate::class)
         companyDataDto: Mono<CompanyDataDto>,
-        principal: Principal
+        authentication: Authentication
     ): Mono<ResponseEntity<CompanyDataDto>> =
         dataService.saveCompanyData(
             companyDataDto.map {
                 it.apply {
-                    companyName = principal.name
+                    companyId = authentication.details as Long
                 }
             }
         )
@@ -49,23 +49,23 @@ class DataController(
     fun updateCompanyData(
         @RequestBody @Validated(OnUpdate::class)
         companyDataDto: Mono<CompanyDataDto>,
-        principal: Principal
+        authentication: Authentication
     ): Mono<ResponseEntity<CompanyDataDto>> =
         dataService.updateCompanyData(
             companyDataDto.map {
                 it.apply {
-                    companyName = principal.name
+                    companyId = authentication.details as Long
                 }
             }
         )
 
-    @GetMapping("/company/{companyName}")
+    @GetMapping("/company/{companyId}")
     @Operation(summary = "Получить информацию о компании по названию компании")
-    fun getCompanyDataByCompanyName(
-        @Validated @NotBlank(message = "Название компании не должно быть пустым!")
+    fun getCompanyDataByCompanyId(
+        @Validated @Min(0, message = "Id компании не должен быть больше или равен 0!")
         @Parameter(description = "название компании", required = true)
-        @PathVariable companyName: String,
-    ): Mono<ResponseEntity<CompanyDataDto>> = dataService.getCompanyDataByCompanyName(companyName)
+        @PathVariable companyId: Long
+    ): Mono<ResponseEntity<CompanyDataDto>> = dataService.getCompanyDataByCompanyId(companyId)
 
 
     @PostMapping("/user")
@@ -74,13 +74,12 @@ class DataController(
     fun saveUserData(
         @RequestBody @Validated(OnCreate::class)
         userDataDto: Mono<UserDataDto>,
-        principal: Principal
+        authentication: Authentication
     ): Mono<ResponseEntity<UserDataDto>> =
         dataService.saveUserData(
             userDataDto.map {
-                log.debug("username is ${principal.name}")
                 it.apply {
-                    username = principal.name
+                    userId = authentication.details as Long
                 }
             }
         )
@@ -91,21 +90,21 @@ class DataController(
     fun updateUserData(
         @RequestBody @Validated(OnUpdate::class)
         userDataDto: Mono<UserDataDto>,
-        principal: Principal
+        authentication: Authentication
     ): Mono<ResponseEntity<UserDataDto>> =
         dataService.updateUserData(
             userDataDto.map {
                 it.apply {
-                    username = principal.name
+                    userId = authentication.details as Long
                 }
             }
         )
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/user/{userId}")
     @Operation(summary = "Получить информацию о пользователе")
     fun getUserDataByUsername(
-        @Validated @NotBlank(message = "Никнейм пользователя не должен быть пустым!")
-        @Parameter(description = "Username пользователя")
-        @PathVariable username: String
-    ): Mono<ResponseEntity<UserDataDto>> = dataService.getUserDataByUsername(username)
+        @Validated @Min(0, message = "Id пользователя должен быть больше или равен 0!")
+        @Parameter(description = "Id пользователя")
+        @PathVariable userId: Long
+    ): Mono<ResponseEntity<UserDataDto>> = dataService.getUserDataByUserId(userId)
 }

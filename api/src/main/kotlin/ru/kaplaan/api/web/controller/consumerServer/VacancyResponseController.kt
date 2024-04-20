@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.constraints.Min
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.Authentication
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
@@ -13,7 +14,6 @@ import reactor.core.publisher.Mono
 import ru.kaplaan.api.service.consumerServer.VacancyResponseService
 import ru.kaplaan.api.web.dto.consumerServer.vacancyResponse.VacancyResponseDto
 import ru.kaplaan.api.web.validation.OnCreate
-import java.security.Principal
 
 @RestController
 @RequestMapping("/api/v1/vacancy-response")
@@ -28,16 +28,17 @@ class VacancyResponseController(
     fun save(
         @RequestBody @Validated(OnCreate::class)
         vacancyResponseDto: Mono<VacancyResponseDto>,
-        principal: Principal
+        authentication: Authentication
     ): Mono<ResponseEntity<VacancyResponseDto>> =
         vacancyResponseService.save(
             vacancyResponseDto.map {
                 it.apply {
-                    username = principal.name
+                    userId = authentication.details as Long
                 }
             }
         )
 
+    //TODO: удалять отклик на вакансию должен работодатель!
     @DeleteMapping("/{vacancyId}")
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Удалить отклик на вакансию")
@@ -45,8 +46,8 @@ class VacancyResponseController(
         @Validated @Min(0)
         @Parameter(description = "Id вакансии", required = true)
         @PathVariable vacancyId: Long,
-        principal: Principal
-    ): Mono<ResponseEntity<Any>> = vacancyResponseService.delete(vacancyId, principal.name)
+        authentication: Authentication
+    ): Mono<ResponseEntity<Any>> = vacancyResponseService.delete(vacancyId, authentication.details as Long)
 
 
     @GetMapping("/{vacancyId}/{pageNumber}")
@@ -58,8 +59,8 @@ class VacancyResponseController(
         @Parameter(description = "Номер страницы", required = true)
         @Validated @Min(0, message = "Номер страницы должен быть положительным числом!")
         @PathVariable pageNumber: Int,
-        principal: Principal
+        authentication: Authentication
     ): Mono<ResponseEntity<Flux<Long>>> =
-        vacancyResponseService.getAllUserIdByCompanyName(principal.name,vacancyId, pageNumber)
+        vacancyResponseService.getAllUserIdByCompanyId(authentication.details as Long, vacancyId, pageNumber)
 
 }

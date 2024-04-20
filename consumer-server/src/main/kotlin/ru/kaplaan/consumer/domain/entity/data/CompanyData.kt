@@ -1,7 +1,6 @@
 package ru.kaplaan.consumer.domain.entity.data
 
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.Transient
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.data.relational.core.mapping.Table
@@ -15,12 +14,8 @@ class CompanyData{
 
     @Column("company_id")
     var companyId: Long? = null
-
     lateinit var description: String
     lateinit var site: String
-
-    @Transient
-    lateinit var companyName: String
 
     @MappedCollection(idColumn = "company_data_id")
     lateinit var contactPerson: ContactPerson

@@ -15,11 +15,11 @@ interface VacancyService {
 
     fun update(vacancyDto: Mono<VacancyDto>): Mono<ResponseEntity<VacancyDto>>
 
-    fun delete(companyName: String, vacancyId: Long): Mono<ResponseEntity<Any>>
+    fun delete(companyId: Long, vacancyId: Long): Mono<ResponseEntity<Any>>
 
     fun getVacancyById(vacancyId: Long): Mono<ResponseEntity<VacancyDto>>
 
-    fun getVacanciesByCompanyName(companyName: String, pageNumber: Int): Mono<ResponseEntity<Flux<VacancyDto>>>
+    fun getVacanciesByCompanyId(companyId: Long, pageNumber: Int): Mono<ResponseEntity<Flux<VacancyDto>>>
 
     fun getVacancies(pageNumber: Int): Mono<ResponseEntity<Flux<VacancyDto>>>
 

@@ -1,16 +1,8 @@
 package ru.kaplaan.consumer.web.controller
 
 import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotBlank
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import ru.kaplaan.consumer.service.VacancyService
 import ru.kaplaan.consumer.web.dto.vacancy.ArchiveVacancyDto
 import ru.kaplaan.consumer.web.dto.vacancy.VacancyDto
@@ -33,13 +25,13 @@ class VacancyController(
     fun update(@RequestBody @Validated(OnUpdate::class) vacancyDto: VacancyDto): VacancyDto =
         vacancyService.update(vacancyDto.toEntity()).toDto()
 
-    @DeleteMapping("{companyName}/{vacancyId}")
+    @DeleteMapping("{companyId}/{vacancyId}")
     fun delete(
-        @Validated @NotBlank(message = "Название компании не должно быть пустым!")
-        @PathVariable companyName: String,
-        @Validated @Min(0, message = "Минимальное ID вакансии 0!")
+        @Validated @Min(0, message = "Минимальное Id компании 0!")
+        @PathVariable companyId: Long,
+        @Validated @Min(0, message = "Минимальное Id вакансии 0!")
         @PathVariable vacancyId: Long
-    ): Unit = vacancyService.delete(companyName, vacancyId)
+    ): Unit = vacancyService.delete(companyId, vacancyId)
 
     @GetMapping("/get-by-vacancy-id/{vacancyId}")
     fun getVacancyById(
@@ -47,12 +39,12 @@ class VacancyController(
         @Min(0) vacancyId: Long
     ): VacancyDto = vacancyService.getVacancyById(vacancyId).toDto()
 
-    @GetMapping("/get-by-company-name/{companyName}/{page}")
+    @GetMapping("/get-by-company-id/{companyId}/{page}")
     fun getVacanciesByCompanyName(
-        @Validated @NotBlank(message = "Название компании не должно быть пустым!")
-        @PathVariable companyName: String,
+        @Validated @Min(0, message = "Минимальное Id компании 0!")
+        @PathVariable companyId: Long,
         @PathVariable page: Int
-    ): List<VacancyDto> = vacancyService.getVacanciesByCompanyName(companyName, page).toDto()
+    ): List<VacancyDto> = vacancyService.getVacanciesByCompanyId(companyId, page).toDto()
 
     @GetMapping("/{page}")
     fun getVacancies(
@@ -71,7 +63,7 @@ class VacancyController(
         archiveVacancyDto: ArchiveVacancyDto
     ): Unit =
         archiveVacancyDto.let {
-            vacancyService.archiveVacancy(it.companyName, it.vacancyId)
+            vacancyService.archiveVacancy(it.companyId, it.vacancyId)
         }
 
     @PostMapping("/unarchive")
@@ -80,6 +72,6 @@ class VacancyController(
         archiveVacancyDto: ArchiveVacancyDto
     ): Unit =
         archiveVacancyDto.let {
-            vacancyService.unarchiveVacancy(it.companyName, it.vacancyId)
+            vacancyService.unarchiveVacancy(it.companyId, it.vacancyId)
         }
 }

@@ -38,17 +38,17 @@ class VacancyResponseServiceImpl(
             .retrieve()
             .toEntity(VacancyResponseDto::class.java)
 
-    override fun delete(vacancyId: Long, username: String): Mono<ResponseEntity<Any>> =
+    override fun delete(vacancyId: Long, userId: Long): Mono<ResponseEntity<Any>> =
         webClient
             .delete()
-            .uri("$baseUrl$url$deleteEndpoint$vacancyId/$username")
+            .uri("$baseUrl$url$deleteEndpoint/$vacancyId/$userId")
             .retrieve()
             .toEntity(Any::class.java)
 
-    override fun getAllUserIdByCompanyName(companyName: String, vacancyId: Long, pageNumber: Int): Mono<ResponseEntity<Flux<Long>>> =
+    override fun getAllUserIdByCompanyId(companyId: Long, vacancyId: Long, pageNumber: Int): Mono<ResponseEntity<Flux<Long>>> =
         webClient
             .get()
-            .uri("$baseUrl$url$getAllUserIdByCompanyIdEndpoint$companyName/$vacancyId/$pageNumber")
+            .uri("$baseUrl$url$getAllUserIdByCompanyIdEndpoint/$companyId/$vacancyId/$pageNumber")
             .retrieve()
             .toEntityFlux(Long::class.java)
 }

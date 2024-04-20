@@ -1,10 +1,9 @@
 package ru.kaplaan.consumer.web.controller
 
+import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
-import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import ru.kaplaan.consumer.domain.entity.data.CompanyData
 import ru.kaplaan.consumer.service.DetailsService
 import ru.kaplaan.consumer.web.dto.data.CompanyDataDto
 import ru.kaplaan.consumer.web.dto.data.UserDataDto
@@ -31,11 +30,11 @@ class DataController(
         companyDto: CompanyDataDto
     ): CompanyDataDto = detailsService.updateCompanyData(companyDto.toEntity()).toDto()
 
-    @GetMapping("/company/{companyName}")
+    @GetMapping("/company/{companyId}")
     fun getCompanyDataByCompanyName(
         @PathVariable @Validated @NotBlank
-        companyName: String
-    ): CompanyDataDto = detailsService.getCompanyDataByCompanyName(companyName).toDto().also { println(it) }
+        companyId: Long
+    ): CompanyDataDto = detailsService.getCompanyDataByCompanyId(companyId).toDto()
 
     @PostMapping("/user")
     fun saveUserData(
@@ -49,10 +48,10 @@ class DataController(
         userDataDto: UserDataDto
     ): UserDataDto = detailsService.updateUserData(userDataDto.toEntity()).toDto()
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/user/{userId}")
     fun getUserDataByUsername(
-        @PathVariable @Validated @NotBlank
-        username: String
-    ): UserDataDto = detailsService.getUserDataByUsername(username).toDto()
+        @PathVariable @Validated @Min(0)
+        userId: Long
+    ): UserDataDto = detailsService.getUserDataByUserId(userId).toDto()
 
 }

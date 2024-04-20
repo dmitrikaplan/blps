@@ -79,6 +79,12 @@ class JwtService{
         }
 
 
+    fun extractUserIdFromAccessToken(jwtToken: String): Int =
+        extractClaim(jwtToken, getAccessSignKey()) {
+            it["userId"] as Int
+        }
+
+
     private fun extractExpiration(jwtToken: String, key: Key): Date =
         extractClaim(jwtToken, key, Claims::getExpiration)
 

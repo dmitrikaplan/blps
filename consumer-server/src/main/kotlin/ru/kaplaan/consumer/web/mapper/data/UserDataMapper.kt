@@ -6,7 +6,6 @@ import ru.kaplaan.consumer.web.dto.data.UserDataDto
 
 fun UserData.toDto(): UserDataDto =
     UserDataDto(
-        username = this.username,
         firstname = this.firstname,
         surname = this.surname,
         dateOfBirth = this.dateOfBirth,
@@ -15,23 +14,21 @@ fun UserData.toDto(): UserDataDto =
         position = this.position,
         salary = this.salary,
         readyToMove = this.readyToMove,
+        userId = this.userId!!,
         readyForBusinessTrips = this.readyForBusinessTrips
-    ).apply {
-        this.id = this@toDto.id
-    }
+    )
 
 
 fun UserDataDto.toEntity(): UserData =
     UserData().apply {
-        id = this@toEntity.id
-        username = this@toEntity.username
-        firstname = this@toEntity.firstname
-        surname = this@toEntity.surname
-        dateOfBirth = this@toEntity.dateOfBirth
-        phoneNumber = this@toEntity.phoneNumber
-        email = this@toEntity.email
-        position = this@toEntity.position
-        salary = this@toEntity.salary
-        readyToMove = this@toEntity.readyToMove
-        readyForBusinessTrips = this@toEntity.readyForBusinessTrips
+        this.userId = this@toEntity.userId
+        this.firstname = this@toEntity.firstname
+        this.surname = this@toEntity.surname
+        this.dateOfBirth = this@toEntity.dateOfBirth
+        this.phoneNumber = this@toEntity.phoneNumber
+        this.email = this@toEntity.email
+        this.position = this@toEntity.position
+        this.salary = this@toEntity.salary
+        this.readyToMove = this@toEntity.readyToMove
+        this.readyForBusinessTrips = this@toEntity.readyForBusinessTrips
     }

@@ -9,12 +9,15 @@ fun ContactPerson.toDto(): ContactPersonDto =
         name = this.name,
         surname = this.surname,
         position = this.position
-    )
+    ).apply {
+        this.id = this@toDto.id
+    }
 
 
 fun ContactPersonDto.toEntity(): ContactPerson =
     ContactPerson().apply {
-        name = this@toEntity.name
-        surname = this@toEntity.surname
-        position = this@toEntity.position
+        this.name = this@toEntity.name
+        this.surname = this@toEntity.surname
+        this.position = this@toEntity.position
+        this.id = this@toEntity.id
     }

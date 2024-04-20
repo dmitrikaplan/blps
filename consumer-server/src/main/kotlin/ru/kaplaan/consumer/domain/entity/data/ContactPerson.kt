@@ -6,7 +6,6 @@ import org.springframework.data.relational.core.mapping.Table
 
 @Table(name = "contact_person")
 class ContactPerson{
-
     @Id
     @Column("contact_person_id")
     var id: Long? = null

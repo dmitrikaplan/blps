@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
 import ru.kaplaan.authserver.domain.entity.user.Role
 import ru.kaplaan.authserver.web.validation.OnCreate
+import ru.kaplaan.authserver.web.validation.OnUpdate
 
 data class UserDto(
 
@@ -13,13 +14,15 @@ data class UserDto(
 
     @field:Pattern(
         regexp = "^[a-zA-Z0-9]{6,320}$",
-        message = "Login should fit the username pattern",
+        message = "Username должен содержать только символы [a-zA-Z0-9] и иметь длину из промежутка {6,320}",
+        groups = [OnCreate::class, OnUpdate::class]
     )
     var username: String,
 
     @field:Length(
         min = 8, max = 1024,
-        message = "The password must be greater than 9, but less than 1025",
+        message = "Длина пароля должна быть не меньше 8 и не более 1024 символов",
+        groups = [OnCreate::class, OnUpdate::class]
     )
     var password: String,
 
