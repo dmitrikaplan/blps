@@ -1,10 +1,10 @@
-package ru.kaplaan.api.service.consumerServer
+package ru.kaplaan.api.service.consumerServer.vacancy
 
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import ru.kaplaan.api.web.dto.consumerServer.vacancyResponse.VacancyResponseDto
+import ru.kaplaan.api.web.dto.consumerServer.vacancy.VacancyResponseDto
 
 @Service
 interface VacancyResponseService {

@@ -1,4 +1,4 @@
-package ru.kaplaan.api.web.dto.consumerServer.vacancyResponse
+package ru.kaplaan.api.web.dto.consumerServer.vacancy
 
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Min

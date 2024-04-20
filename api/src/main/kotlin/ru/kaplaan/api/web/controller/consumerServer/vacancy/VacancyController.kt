@@ -1,11 +1,9 @@
-package ru.kaplaan.api.web.controller.consumerServer
+package ru.kaplaan.api.web.controller.consumerServer.vacancy
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotBlank
-import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
@@ -13,12 +11,11 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import ru.kaplaan.api.service.consumerServer.VacancyService
+import ru.kaplaan.api.service.consumerServer.vacancy.VacancyService
 import ru.kaplaan.api.web.dto.consumerServer.vacancy.ArchiveVacancyDto
 import ru.kaplaan.api.web.dto.consumerServer.vacancy.VacancyDto
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnUpdate
-import java.security.Principal
 
 @RestController
 @RequestMapping("/api/v1/vacancy")
@@ -26,8 +23,6 @@ import java.security.Principal
 class VacancyController(
     private val vacancyService: VacancyService
 ) {
-
-    private val log = LoggerFactory.getLogger(javaClass)
 
     @PostMapping
     @PreAuthorize("hasRole('COMPANY')")

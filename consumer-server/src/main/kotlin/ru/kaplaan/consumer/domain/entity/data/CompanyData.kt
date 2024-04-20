@@ -19,6 +19,5 @@ class CompanyData{
 
     @MappedCollection(idColumn = "company_data_id")
     lateinit var contactPerson: ContactPerson
-
 }
 

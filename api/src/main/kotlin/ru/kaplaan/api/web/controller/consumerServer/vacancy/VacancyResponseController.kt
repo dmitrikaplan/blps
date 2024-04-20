@@ -1,4 +1,4 @@
-package ru.kaplaan.api.web.controller.consumerServer
+package ru.kaplaan.api.web.controller.consumerServer.vacancy
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -11,8 +11,8 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import ru.kaplaan.api.service.consumerServer.VacancyResponseService
-import ru.kaplaan.api.web.dto.consumerServer.vacancyResponse.VacancyResponseDto
+import ru.kaplaan.api.service.consumerServer.vacancy.VacancyResponseService
+import ru.kaplaan.api.web.dto.consumerServer.vacancy.VacancyResponseDto
 import ru.kaplaan.api.web.validation.OnCreate
 
 @RestController
