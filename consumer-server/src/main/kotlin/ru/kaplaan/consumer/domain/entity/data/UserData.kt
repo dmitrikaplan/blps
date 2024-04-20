@@ -8,6 +8,10 @@ import java.time.LocalDate
 @Table("user_data")
 class UserData{
 
+    @Id
+    @Column("user_data_id")
+    var id: Long? = null
+
     @Column("user_id")
     var userId: Long? = null
     lateinit var firstname: String
@@ -19,8 +23,4 @@ class UserData{
     var salary: UInt = 0u
     var readyToMove: Boolean = false
     var readyForBusinessTrips: Boolean = false
-
-    @Id
-    @Column("user_data_id")
-    var id: Long? = null
 }
