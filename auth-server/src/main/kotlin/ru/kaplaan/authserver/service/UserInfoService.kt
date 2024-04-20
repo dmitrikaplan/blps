@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service
 @Service
 interface UserInfoService {
 
-    fun getUserIdByUsername(username: String): Long
+    fun getUserIdByUsername(username: String): Long?
 
-    fun getUsernameByUserId(userId: Long): String
+    fun getUsernameByUserId(userId: Long): String?
 
-    fun getUsernamesByUsersId(userIds: List<Long>): List<String>
+    fun getUsernamesByUsersId(userIds: List<Long>): List<String?>
 }

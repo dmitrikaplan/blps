@@ -12,14 +12,14 @@ class UserInfoListener(
 ) {
 
     @RabbitListener(queues = ["get-user-id-by-username"])
-    fun getUserIdByUsername(username: String): Long =
+    fun getUserIdByUsername(username: String): Long? =
         userInfoService.getUserIdByUsername(username)
 
     @RabbitListener(queues = ["get-username-by-user-id"])
-    fun getUsernameByUserId(userId: Long): String =
+    fun getUsernameByUserId(userId: Long): String? =
         userInfoService.getUsernameByUserId(userId)
 
     @RabbitListener(queues = ["get-all-usernames-by-users-id"])
-    fun getUsernamesByUserIds(ids: List<Long>): List<String> =
+    fun getUsernamesByUserIds(ids: List<Long>): List<String?> =
         userInfoService.getUsernamesByUsersId(ids)
 }

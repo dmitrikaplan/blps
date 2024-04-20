@@ -10,15 +10,13 @@ class UserInfoServiceImpl(
     private val userRepository: UserRepository
 ): UserInfoService {
 
-    override fun getUserIdByUsername(username: String): Long =
+    override fun getUserIdByUsername(username: String): Long? =
         userRepository.findByUsername(username)?.id
-            ?: throw UserNotFoundException()
 
-    override fun getUsernameByUserId(userId: Long): String =
+    override fun getUsernameByUserId(userId: Long): String? =
         userRepository.findUserById(userId)?.username
-            ?: throw UserNotFoundException()
 
-    override fun getUsernamesByUsersId(userIds: List<Long>): List<String> =
+    override fun getUsernamesByUsersId(userIds: List<Long>): List<String?> =
         userIds.map {
             getUsernameByUserId(it)
         }
