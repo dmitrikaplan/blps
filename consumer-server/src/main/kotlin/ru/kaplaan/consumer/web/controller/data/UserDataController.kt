@@ -3,7 +3,6 @@ package ru.kaplaan.consumer.web.controller.data
 import jakarta.validation.constraints.Min
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import ru.kaplaan.consumer.service.CompanyDataService
 import ru.kaplaan.consumer.service.UserDataService
 import ru.kaplaan.consumer.web.dto.data.UserDataDto
 import ru.kaplaan.consumer.web.mapper.data.toDto
@@ -30,7 +29,7 @@ class UserDataController(
     ): UserDataDto = userDataService.updateUserData(userDataDto.toEntity()).toDto()
 
     @GetMapping("/{userId}")
-    fun getUserDataByUsername(
+    fun getUserDataByUserId(
         @PathVariable @Validated @Min(0)
         userId: Long
     ): UserDataDto = userDataService.getUserDataByUserId(userId).toDto()
