@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 import ru.kaplaan.authserver.service.AuthService
 import ru.kaplaan.authserver.service.UserInfoService
 import ru.kaplaan.authserver.web.dto.authentication.AuthenticationDto
-import ru.kaplaan.authserver.web.dto.refresh_token.RefreshTokenDto
+import ru.kaplaan.authserver.web.dto.refreshToken.RefreshTokenDto
 import ru.kaplaan.authserver.web.dto.response.JwtResponse
 import ru.kaplaan.authserver.web.dto.response.MessageResponse
 import ru.kaplaan.authserver.web.dto.user.UserDto

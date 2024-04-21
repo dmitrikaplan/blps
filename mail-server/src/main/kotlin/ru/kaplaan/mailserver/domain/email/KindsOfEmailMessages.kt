@@ -1,4 +1,4 @@
-package ru.kaplaan.authserver.domain.email
+package ru.kaplaan.mailserver.domain.email
 
 enum class KindsOfEmailMessages(val pathOfTemplate: String) {
     REGISTRATION_EMAIL("registration"),

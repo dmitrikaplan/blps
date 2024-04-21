@@ -1,4 +1,4 @@
-package ru.kaplaan.authserver.domain.config
+package ru.kaplaan.mailserver.domain.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -7,7 +7,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
 
 @Configuration
-class TemplatesConfig : WebMvcConfigurer {
+class TemplateConfig : WebMvcConfigurer {
     @Bean
     fun emailTemplateResolver(): ClassLoaderTemplateResolver =
         ClassLoaderTemplateResolver().apply {

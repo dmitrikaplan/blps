@@ -1,4 +1,4 @@
-package ru.kaplaan.authserver.domain.config
+package ru.kaplaan.mailserver.domain.config
 
 
 import org.springframework.beans.factory.annotation.Value
@@ -28,7 +28,7 @@ class MailConfig {
     private lateinit var debug: String
 
     @Bean
-    fun getMailSender(): JavaMailSender =
+    fun javaMailSender(): JavaMailSender =
         JavaMailSenderImpl().apply {
             host = this@MailConfig.host
             port = this@MailConfig.port
@@ -40,6 +40,5 @@ class MailConfig {
                 setProperty("mail.debug", debug)
             }
         }
-
 
 }

@@ -1,4 +1,4 @@
-package ru.kaplaan.authserver.domain.email
+package ru.kaplaan.mailserver.domain.email
 
 enum class KindsOfSubjects(val subject: String) {
     SUBJECT_FOR_REGISTRATION("Подтверждение регистрации"),

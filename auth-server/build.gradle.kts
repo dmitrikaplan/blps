@@ -4,8 +4,8 @@ plugins {
 	war
 	id("org.springframework.boot") version "3.1.5"
 	id("io.spring.dependency-management") version "1.1.3"
-	kotlin("jvm") version "1.9.0"
-	kotlin("plugin.spring") version "1.9.0"
+	kotlin("jvm") version "1.9.22"
+	kotlin("plugin.spring") version "1.9.22"
 }
 
 group = "ru.kaplaan"
@@ -27,7 +27,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-security")
-	//implementation("org.springframework.boot:spring-boot-starter-amqp")
+	implementation("org.springframework.boot:spring-boot-starter-amqp")
 
 	//jwt
 	implementation(group = "io.jsonwebtoken", name = "jjwt-api",version = "0.11.5")
