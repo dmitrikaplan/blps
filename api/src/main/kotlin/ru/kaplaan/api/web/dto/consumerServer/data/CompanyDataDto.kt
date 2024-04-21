@@ -1,8 +1,8 @@
 package ru.kaplaan.api.web.dto.consumerServer.data
 
 import io.swagger.v3.oas.annotations.media.Schema
+import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Null
 import org.hibernate.validator.constraints.URL
 import ru.kaplaan.api.web.validation.OnCreate
@@ -20,8 +20,8 @@ data class CompanyDataDto(
     val site: String,
 
     @Schema(description = "Контактное лицо")
-    @field:NotNull(message = "Данные контактного лица должны быть заполнены!", groups = [OnCreate::class, OnUpdate::class])
-    val contactPerson: ContactPersonDto
+    @field:Valid
+    val contactPersonDto: ContactPersonDto
 ){
 
     @Schema(description = "Id компании", hidden = true)

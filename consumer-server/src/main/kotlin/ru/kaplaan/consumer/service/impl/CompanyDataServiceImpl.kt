@@ -1,6 +1,5 @@
 package ru.kaplaan.consumer.service.impl
 
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.data.CompanyData
 import ru.kaplaan.consumer.domain.entity.data.ContactPerson
@@ -27,6 +26,7 @@ class CompanyDataServiceImpl(
         companyDataRepository.save(
             companyData.apply {
                 id = companyDataRepository.findCompanyDataIdByCompanyId(companyId!!)
+                contactPerson.id = contactPersonRepository.findByCompanyDataId(id!!)?.id
             }
         )
 

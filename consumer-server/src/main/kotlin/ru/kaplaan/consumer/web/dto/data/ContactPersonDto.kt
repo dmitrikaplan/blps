@@ -1,7 +1,6 @@
 package ru.kaplaan.consumer.web.dto.data
 
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Null
 import ru.kaplaan.consumer.web.validation.OnCreate
 import ru.kaplaan.consumer.web.validation.OnUpdate
@@ -17,7 +16,6 @@ data class ContactPersonDto(
     val position: String
 ){
 
-    @field:Null(message = "Id контактного лица не должно быть заполнено!", groups = [OnCreate::class])
-    @field:NotNull(message = "Id контактного лица должно быть заполнено!", groups = [OnUpdate::class])
+    @field:Null(message = "Id контактного лица не должно быть заполнено!", groups = [OnCreate::class, OnUpdate::class])
     var id: Long? = null
 }
