@@ -38,7 +38,7 @@ class CompanyDataController(
 
 
     @GetMapping("/contact-person/{companyId}")
-    fun updateContactPerson(
+    fun getContactPerson(
         @Validated @Min(0, message = "Id компании не должно быть меньше 0!")
         @PathVariable companyId: Long,
     ): ContactPersonDto {
