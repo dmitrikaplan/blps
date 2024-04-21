@@ -1,14 +1,10 @@
 package ru.kaplaan.api.domain.filter
 
-import org.slf4j.LoggerFactory
-import org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.server.authentication.ServerAuthenticationConverter
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.body
@@ -33,8 +29,6 @@ class JwtAuthenticationFilter(
     private val jwtService: JwtService
 ) : WebFilter {
 
-    private val log = LoggerFactory.getLogger(javaClass)
-
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
             return jwtAuthenticationConverter.convert(exchange)
                 .switchIfEmpty{
@@ -56,7 +50,6 @@ class JwtAuthenticationFilter(
                     chain.filter(exchange).contextWrite(context)
                 }
                 .onErrorResume(AuthenticationException::class){
-                    log.error(it.message)
                     chain.filter(exchange)
                 }
 
