@@ -2,7 +2,6 @@ package ru.kaplaan.authserver.service.impl
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.amqp.core.AmqpTemplate
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import ru.kaplaan.authserver.service.EmailService
