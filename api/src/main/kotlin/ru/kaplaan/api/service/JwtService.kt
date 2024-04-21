@@ -79,9 +79,9 @@ class JwtService{
         }
 
 
-    fun extractUserIdFromAccessToken(jwtToken: String): Int =
+    fun extractUserIdFromAccessToken(jwtToken: String): String =
         extractClaim(jwtToken, getAccessSignKey()) {
-            it["userId"] as Int
+            it["userId"].toString()
         }
 
 

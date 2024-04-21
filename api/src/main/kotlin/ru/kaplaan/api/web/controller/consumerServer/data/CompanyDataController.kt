@@ -34,7 +34,7 @@ class CompanyDataController(
         companyDataService.saveCompanyData(
             companyDataDto.map {
                 it.apply {
-                    companyId = authentication.details as Long
+                    companyId =  (authentication.details as String).toLong()
                 }
             }
         )
@@ -51,7 +51,7 @@ class CompanyDataController(
         companyDataService.updateCompanyData(
             companyDataDto.map {
                 it.apply {
-                    companyId = authentication.details as Long
+                    companyId = (authentication.details as String).toLong()
                 }
             }
         )

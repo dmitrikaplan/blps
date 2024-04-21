@@ -35,7 +35,7 @@ class VacancyController(
         vacancyService.save(
             vacancyDto.map {
                 it.apply {
-                    companyId = authentication.details as Long
+                    companyId = (authentication.details as String).toLong()
                 }
             }
         )
@@ -51,7 +51,7 @@ class VacancyController(
         vacancyService.update(
             vacancyDto.map {
                 it.apply {
-                    companyId = authentication.details as Long
+                    companyId = (authentication.details as String).toLong()
                 }
             }
         )
@@ -65,7 +65,7 @@ class VacancyController(
         vacancyId: Long,
         authentication: Authentication
     ): Mono<ResponseEntity<Any>> =
-        vacancyService.delete(authentication.details as Long, vacancyId)
+        vacancyService.delete((authentication.details as String).toLong(), vacancyId)
 
     @GetMapping("/get-by-vacancy-id/{vacancyId}")
     @Operation(summary = "Получить вакансию по Id вакансии")
@@ -118,7 +118,7 @@ class VacancyController(
         vacancyService.archiveVacancy(
             archiveVacancyDto.map {
                 it.apply {
-                    this.companyId = authentication.details as Long
+                    this.companyId = (authentication.details as String).toLong()
                 }
             }
         )
@@ -135,7 +135,7 @@ class VacancyController(
         vacancyService.unarchiveVacancy(
             archiveVacancyDto.map {
                 it.apply {
-                    this.companyId = authentication.details as Long
+                    this.companyId = (authentication.details as String).toLong()
                 }
             }
         )

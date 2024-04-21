@@ -34,7 +34,7 @@ class UserDataController(
         userDataService.saveUserData(
             userDataDto.map {
                 it.apply {
-                    userId = authentication.details as Long
+                    userId = (authentication.details as String).toLong()
                 }
             }
         )
@@ -50,7 +50,7 @@ class UserDataController(
         userDataService.updateUserData(
             userDataDto.map {
                 it.apply {
-                    userId = authentication.details as Long
+                    userId = (authentication.details as String).toLong()
                 }
             }
         )
