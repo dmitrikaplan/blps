@@ -33,7 +33,7 @@ class VacancyResponseController(
         vacancyResponseService.save(
             vacancyResponseDto.map {
                 it.apply {
-                    userId = authentication.details as Long
+                    userId = (authentication.details as String).toLong()
                 }
             }
         )
@@ -47,7 +47,7 @@ class VacancyResponseController(
         @Parameter(description = "Id вакансии", required = true)
         @PathVariable vacancyId: Long,
         authentication: Authentication
-    ): Mono<ResponseEntity<Any>> = vacancyResponseService.delete(vacancyId, authentication.details as Long)
+    ): Mono<ResponseEntity<Any>> = vacancyResponseService.delete(vacancyId, (authentication.details as String).toLong())
 
 
     @GetMapping("/{vacancyId}/{pageNumber}")
@@ -61,6 +61,6 @@ class VacancyResponseController(
         @PathVariable pageNumber: Int,
         authentication: Authentication
     ): Mono<ResponseEntity<Flux<Long>>> =
-        vacancyResponseService.getAllUserIdByCompanyId(authentication.details as Long, vacancyId, pageNumber)
+        vacancyResponseService.getAllUserIdByCompanyId((authentication.details as String).toLong(), vacancyId, pageNumber)
 
 }
