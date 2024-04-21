@@ -1,7 +1,6 @@
 package ru.kaplaan.consumer.web.controller.data
 
 import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotBlank
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.kaplaan.consumer.service.CompanyDataService
@@ -31,9 +30,9 @@ class CompanyDataController(
     ): CompanyDataDto = companyDataService.updateCompanyData(companyDto.toEntity()).toDto()
 
     @GetMapping("/{companyId}")
-    fun getCompanyDataByCompanyName(
-        @PathVariable @Validated @NotBlank
-        companyId: Long
+    fun getCompanyDataByCompanyId(
+        @Validated @Min(0, message = "Минимальное Id компании - 0!")
+        @PathVariable companyId: Long
     ): CompanyDataDto = companyDataService.getCompanyDataByCompanyId(companyId).toDto()
 
 
