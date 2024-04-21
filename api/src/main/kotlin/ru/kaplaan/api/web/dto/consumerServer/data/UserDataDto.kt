@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Null
+import jakarta.validation.constraints.Past
 import jakarta.validation.constraints.Pattern
-import org.hibernate.validator.constraints.Length
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnUpdate
 import java.time.LocalDate
@@ -21,6 +21,7 @@ data class UserDataDto(
     val surname: String,
 
     @Schema(description = "Дата рождения пользователя", example = "1998-03-01")
+    @field:Past(message = "Дата должна быть в прошлом!", groups = [OnCreate::class, OnUpdate::class])
     val dateOfBirth: LocalDate,
 
     @Schema(description = "Номер телефона пользователя", example = "+79529999999")
