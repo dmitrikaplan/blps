@@ -2,7 +2,6 @@ package ru.kaplaan.api.web.dto.consumerServer.data
 
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Null
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnUpdate
 
@@ -19,7 +18,4 @@ data class ContactPersonDto(
     @Schema(description = "Позиция в компании контактного лица", example = "CEO")
     @field:NotBlank(message = "Должность не должна быть пустой!", groups = [OnCreate::class, OnUpdate::class])
     val position: String
-){
-    @field:Null(message = "Id контактного лица не должно быть заполнено!", groups = [OnCreate::class, OnUpdate::class])
-    var id: Long? = null
-}
+)
