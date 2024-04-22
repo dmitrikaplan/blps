@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.constraints.Min
-import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.validation.annotation.Validated
@@ -29,7 +28,7 @@ class VacancyResponseController(
         @RequestBody @Validated(OnCreate::class)
         vacancyResponseDto: Mono<VacancyResponseDto>,
         authentication: Authentication
-    ): Mono<ResponseEntity<VacancyResponseDto>> =
+    ): Mono<VacancyResponseDto> =
         vacancyResponseService.save(
             vacancyResponseDto.map {
                 it.apply {
@@ -47,7 +46,7 @@ class VacancyResponseController(
         @Parameter(description = "Id вакансии", required = true)
         @PathVariable vacancyId: Long,
         authentication: Authentication
-    ): Mono<ResponseEntity<Any>> = vacancyResponseService.delete(vacancyId, (authentication.details as String).toLong())
+    ): Mono<Any> = vacancyResponseService.delete(vacancyId, (authentication.details as String).toLong())
 
 
     @GetMapping("/{vacancyId}/{pageNumber}")
@@ -60,7 +59,7 @@ class VacancyResponseController(
         @Validated @Min(0, message = "Номер страницы должен быть положительным числом!")
         @PathVariable pageNumber: Int,
         authentication: Authentication
-    ): Mono<ResponseEntity<Flux<Long>>> =
+    ): Flux<Long> =
         vacancyResponseService.getAllUserIdByCompanyId((authentication.details as String).toLong(), vacancyId, pageNumber)
 
 }

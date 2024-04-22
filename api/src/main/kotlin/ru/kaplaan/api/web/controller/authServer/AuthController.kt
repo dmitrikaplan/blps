@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
-import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
@@ -35,7 +34,7 @@ class AuthController(
         @RequestBody @Validated(OnCreate::class)
         userDto: Mono<UserDto>,
         @PathVariable role: String
-    ): Mono<ResponseEntity<MessageResponse>> {
+    ): Mono<MessageResponse> {
         return authService.register(
             userDto.map {
                 it.apply {
@@ -57,7 +56,7 @@ class AuthController(
     fun login(
         @RequestBody @Validated(OnCreate::class)
         userIdentificationDto: Mono<UserIdentificationDto>,
-    ): Mono<ResponseEntity<JwtResponse>> = authService.login(userIdentificationDto)
+    ): Mono<JwtResponse> = authService.login(userIdentificationDto)
 
     @GetMapping("/activation/{activationCode}")
     @Operation(summary = "Активация аккаунта пользователя")
@@ -65,25 +64,25 @@ class AuthController(
         @PathVariable @Validated @NotBlank
         @Parameter(description = "код активации аккаунта", required = true)
         activationCode: String,
-    ): Mono<ResponseEntity<String>> = authService.activateAccount(activationCode)
+    ): Mono<String> = authService.activateAccount(activationCode)
 
     @PostMapping("/recovery")
     @Operation(summary = "Восстановление доступа пользователя", hidden = true)
     fun passwordRecovery(
         @RequestBody @Validated(OnRecovery::class)
         userIdentificationDto: Mono<UserIdentificationDto>,
-    ): Mono<ResponseEntity<MessageResponse>> = authService.passwordRecovery(userIdentificationDto)
+    ): Mono<MessageResponse> = authService.passwordRecovery(userIdentificationDto)
 
     @Operation(summary = "Обновление jwt access токена")
     @PostMapping("/refresh")
     fun refresh(
         @RequestBody @Validated refreshTokenDto: Mono<RefreshTokenDto>
-    ): Mono<ResponseEntity<JwtResponse>> = authService.refresh(refreshTokenDto)
+    ): Mono<JwtResponse> = authService.refresh(refreshTokenDto)
 
     @Operation(summary = "Получить username пользователя по Id")
     @GetMapping("/{userId}")
     fun getUsernameById(
         @Validated @Min(0, message = "Минимальное Id пользователя - 0!")
         @PathVariable userId: Long
-    ): Mono<ResponseEntity<String>> = userInfoService.getUsernameByUserId(userId)
+    ): Mono<String> = userInfoService.getUsernameByUserId(userId)
 }

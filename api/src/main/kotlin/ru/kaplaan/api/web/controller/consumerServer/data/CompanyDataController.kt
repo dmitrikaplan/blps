@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.constraints.Min
-import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.validation.annotation.Validated
@@ -30,7 +29,7 @@ class CompanyDataController(
         @RequestBody @Validated(OnCreate::class)
         companyDataDto: Mono<CompanyDataDto>,
         authentication: Authentication
-    ): Mono<ResponseEntity<CompanyDataDto>> =
+    ): Mono<CompanyDataDto> =
         companyDataService.saveCompanyData(
             companyDataDto.map {
                 it.apply {
@@ -47,7 +46,7 @@ class CompanyDataController(
         @RequestBody @Validated(OnUpdate::class)
         companyDataDto: Mono<CompanyDataDto>,
         authentication: Authentication
-    ): Mono<ResponseEntity<CompanyDataDto>> =
+    ): Mono<CompanyDataDto> =
         companyDataService.updateCompanyData(
             companyDataDto.map {
                 it.apply {
@@ -62,7 +61,7 @@ class CompanyDataController(
         @Validated @Min(0, message = "Id компании не должен быть больше или равен 0!")
         @Parameter(description = "Название компании", required = true)
         @PathVariable companyId: Long
-    ): Mono<ResponseEntity<CompanyDataDto>> = companyDataService.getCompanyDataByCompanyId(companyId)
+    ): Mono<CompanyDataDto> = companyDataService.getCompanyDataByCompanyId(companyId)
 
 
     @GetMapping("/contact-person/{companyId}")
@@ -71,7 +70,7 @@ class CompanyDataController(
         @Validated @Min(0, message = "Id компании не должно быть меньше 0!")
         @Parameter(description = "Id компании", required = true)
         @PathVariable companyId: Long,
-    ): Mono<ResponseEntity<ContactPersonDto>> {
+    ): Mono<ContactPersonDto> {
         return companyDataService.getContactPersonByCompanyId(companyId)
     }
 

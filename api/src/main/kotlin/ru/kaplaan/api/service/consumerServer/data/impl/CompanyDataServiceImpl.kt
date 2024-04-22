@@ -1,7 +1,6 @@
 package ru.kaplaan.api.service.consumerServer.data.impl
 
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.body
@@ -35,33 +34,33 @@ class CompanyDataServiceImpl(
     lateinit var getContactPersonByCompanyIdEndpoint: String
 
     
-    override fun saveCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<CompanyDataDto>> =
+    override fun saveCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<CompanyDataDto> =
         webClient
             .post()
             .uri("$baseUrl$url$saveCompanyDataEndpoint")
             .body(companyDataDto)
             .retrieve()
-            .toEntity(CompanyDataDto::class.java)
+            .bodyToMono(CompanyDataDto::class.java)
 
-    override fun updateCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<ResponseEntity<CompanyDataDto>> =
+    override fun updateCompanyData(companyDataDto: Mono<CompanyDataDto>): Mono<CompanyDataDto> =
         webClient
             .put()
             .uri("$baseUrl$url$updateCompanyDataEndpoint")
             .body(companyDataDto)
             .retrieve()
-            .toEntity(CompanyDataDto::class.java)
+            .bodyToMono(CompanyDataDto::class.java)
 
-    override fun getCompanyDataByCompanyId(companyId: Long): Mono<ResponseEntity<CompanyDataDto>> =
+    override fun getCompanyDataByCompanyId(companyId: Long): Mono<CompanyDataDto> =
         webClient
             .get()
             .uri("$baseUrl$url$getCompanyDataEndpoint/$companyId")
             .retrieve()
-            .toEntity(CompanyDataDto::class.java)
+            .bodyToMono(CompanyDataDto::class.java)
 
-    override fun getContactPersonByCompanyId(companyId: Long): Mono<ResponseEntity<ContactPersonDto>> =
+    override fun getContactPersonByCompanyId(companyId: Long): Mono<ContactPersonDto> =
         webClient
             .get()
             .uri("$baseUrl$url$getContactPersonByCompanyIdEndpoint/$companyId")
             .retrieve()
-            .toEntity(ContactPersonDto::class.java)
+            .bodyToMono(ContactPersonDto::class.java)
 }

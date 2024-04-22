@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.constraints.Min
-import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.validation.annotation.Validated
@@ -31,7 +30,7 @@ class VacancyController(
         @RequestBody @Validated(OnCreate::class)
         vacancyDto: Mono<VacancyDto>,
         authentication: Authentication
-    ): Mono<ResponseEntity<VacancyDto>> =
+    ): Mono<VacancyDto> =
         vacancyService.save(
             vacancyDto.map {
                 it.apply {
@@ -47,7 +46,7 @@ class VacancyController(
         @RequestBody @Validated(OnUpdate::class)
         vacancyDto: Mono<VacancyDto>,
         authentication: Authentication
-    ): Mono<ResponseEntity<VacancyDto>> =
+    ): Mono<VacancyDto> =
         vacancyService.update(
             vacancyDto.map {
                 it.apply {
@@ -64,7 +63,7 @@ class VacancyController(
         @Parameter(description = "Id вакансии", required = true)
         vacancyId: Long,
         authentication: Authentication
-    ): Mono<ResponseEntity<Any>> =
+    ): Mono<Any> =
         vacancyService.delete((authentication.details as String).toLong(), vacancyId)
 
     @GetMapping("/get-by-vacancy-id/{vacancyId}")
@@ -72,7 +71,7 @@ class VacancyController(
     fun getVacancyById(
         @Parameter(description = "Id вакансии", required = true)
         @PathVariable vacancyId: Long
-    ): Mono<ResponseEntity<VacancyDto>> =
+    ): Mono<VacancyDto> =
         vacancyService.getVacancyById(vacancyId)
 
     @GetMapping("/get-by-company-id/{companyId}/{page}")
@@ -84,7 +83,7 @@ class VacancyController(
         @Parameter(description = "Номер страницы", required = true)
         @Validated @Min(0, message = "Номер страницы должен быть положительным числом!")
         @PathVariable page: Int
-    ): Mono<ResponseEntity<Flux<VacancyDto>>> =
+    ): Flux<VacancyDto> =
         vacancyService.getVacanciesByCompanyId(companyId, page)
 
 
@@ -104,7 +103,7 @@ class VacancyController(
         @Parameter(description = "номер страницы", required = true)
         @Validated @Min(0, message = "Номер страницы должен быть положительным числом!")
         @PathVariable page: Int
-    ):  Mono<ResponseEntity<Flux<VacancyDto>>> = vacancyService.getVacanciesByText(text, page)
+    ): Flux<VacancyDto> = vacancyService.getVacanciesByText(text, page)
 
 
     @PostMapping("/archive")
@@ -114,7 +113,7 @@ class VacancyController(
         @RequestBody @Validated(OnCreate::class)
         archiveVacancyDto: Mono<ArchiveVacancyDto>,
         authentication: Authentication
-    ): Mono<ResponseEntity<Any>> =
+    ): Mono<Any> =
         vacancyService.archiveVacancy(
             archiveVacancyDto.map {
                 it.apply {
@@ -131,7 +130,7 @@ class VacancyController(
         @RequestBody @Validated(OnUpdate::class)
         archiveVacancyDto: Mono<ArchiveVacancyDto>,
         authentication: Authentication
-    ): Mono<ResponseEntity<Any>> =
+    ): Mono<Any> =
         vacancyService.unarchiveVacancy(
             archiveVacancyDto.map {
                 it.apply {

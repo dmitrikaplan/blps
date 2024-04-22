@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.constraints.Min
-import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.validation.annotation.Validated
@@ -30,7 +29,7 @@ class UserDataController(
         @RequestBody @Validated(OnCreate::class)
         userDataDto: Mono<UserDataDto>,
         authentication: Authentication
-    ): Mono<ResponseEntity<UserDataDto>> =
+    ): Mono<UserDataDto> =
         userDataService.saveUserData(
             userDataDto.map {
                 it.apply {
@@ -46,7 +45,7 @@ class UserDataController(
         @RequestBody @Validated(OnUpdate::class)
         userDataDto: Mono<UserDataDto>,
         authentication: Authentication
-    ): Mono<ResponseEntity<UserDataDto>> =
+    ) =
         userDataService.updateUserData(
             userDataDto.map {
                 it.apply {
@@ -61,6 +60,6 @@ class UserDataController(
         @Validated @Min(0, message = "Id пользователя должен быть больше или равен 0!")
         @Parameter(description = "Id пользователя")
         @PathVariable userId: Long
-    ): Mono<ResponseEntity<UserDataDto>> = userDataService.getUserDataByUserId(userId)
+    ): Mono<UserDataDto> = userDataService.getUserDataByUserId(userId)
 
 }

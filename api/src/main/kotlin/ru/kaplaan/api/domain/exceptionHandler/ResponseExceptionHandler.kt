@@ -13,7 +13,6 @@ class ResponseExceptionHandler {
     @ExceptionHandler(BadResponseException::class)
     fun emptyBodyExceptionHandler(e: BadResponseException): Mono<ResponseEntity<ProblemDetail>> {
         return e.response
-        //TODO: переделать возврат ответа!
     }
 
 }

@@ -1,7 +1,6 @@
 package ru.kaplaan.api.service.authServer.impl
 
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
@@ -17,10 +16,11 @@ class UserInfoServiceImpl(
 
     @Value("\${auth-server.endpoint.get-username-by-user-id}")
     lateinit var getUsernameByUserIdEndpoint: String
-    override fun getUsernameByUserId(userId: Long): Mono<ResponseEntity<String>> =
+
+    override fun getUsernameByUserId(userId: Long): Mono<String> =
         webClient
             .get()
             .uri("$baseUrl$getUsernameByUserIdEndpoint/$userId")
             .retrieve()
-            .toEntity(String::class.java)
+            .bodyToMono(String::class.java)
 }

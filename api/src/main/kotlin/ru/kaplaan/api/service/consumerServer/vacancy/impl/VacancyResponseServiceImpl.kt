@@ -1,7 +1,6 @@
 package ru.kaplaan.api.service.consumerServer.vacancy.impl
 
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.body
@@ -30,25 +29,25 @@ class VacancyResponseServiceImpl(
     @Value("\${consumer-server.vacancy-response.get-all-user-id-by-company-id}")
     lateinit var getAllUserIdByCompanyIdEndpoint: String
 
-    override fun save(vacancyResponseDto: Mono<VacancyResponseDto>): Mono<ResponseEntity<VacancyResponseDto>> =
+    override fun save(vacancyResponseDto: Mono<VacancyResponseDto>): Mono<VacancyResponseDto> =
         webClient
             .post()
             .uri("$baseUrl$url$saveEndpoint")
             .body(vacancyResponseDto)
             .retrieve()
-            .toEntity(VacancyResponseDto::class.java)
+            .bodyToMono(VacancyResponseDto::class.java)
 
-    override fun delete(vacancyId: Long, userId: Long): Mono<ResponseEntity<Any>> =
+    override fun delete(vacancyId: Long, userId: Long): Mono<Any> =
         webClient
             .delete()
             .uri("$baseUrl$url$deleteEndpoint/$vacancyId/$userId")
             .retrieve()
-            .toEntity(Any::class.java)
+            .bodyToMono(Any::class.java)
 
-    override fun getAllUserIdByCompanyId(companyId: Long, vacancyId: Long, pageNumber: Int): Mono<ResponseEntity<Flux<Long>>> =
+    override fun getAllUserIdByCompanyId(companyId: Long, vacancyId: Long, pageNumber: Int): Flux<Long> =
         webClient
             .get()
             .uri("$baseUrl$url$getAllUserIdByCompanyIdEndpoint/$companyId/$vacancyId/$pageNumber")
             .retrieve()
-            .toEntityFlux(Long::class.java)
+            .bodyToFlux(Long::class.java)
 }

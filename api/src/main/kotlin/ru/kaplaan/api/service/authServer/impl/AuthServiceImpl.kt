@@ -1,7 +1,6 @@
 package ru.kaplaan.api.service.authServer.impl
 
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.body
@@ -36,43 +35,43 @@ class AuthServiceImpl(
     @Value("\${auth-server.endpoint.refresh}")
     lateinit var refreshEndpoint: String
 
-    override fun register(userDto: Mono<UserDto>): Mono<ResponseEntity<MessageResponse>> =
+    override fun register(userDto: Mono<UserDto>): Mono<MessageResponse> =
         webClient
             .post()
             .uri("$baseUrl/$registrationEndpoint")
             .body(userDto)
             .retrieve()
-            .toEntity(MessageResponse::class.java)
+            .bodyToMono(MessageResponse::class.java)
 
 
-    override fun login(userIdentificationDto: Mono<UserIdentificationDto>): Mono<ResponseEntity<JwtResponse>> =
+    override fun login(userIdentificationDto: Mono<UserIdentificationDto>): Mono<JwtResponse> =
         webClient
             .post()
             .uri("$baseUrl/$loginEndpoint")
             .body(userIdentificationDto)
             .retrieve()
-            .toEntity(JwtResponse::class.java)
+            .bodyToMono(JwtResponse::class.java)
 
-    override fun activateAccount(code: String): Mono<ResponseEntity<String>> =
+    override fun activateAccount(code: String): Mono<String> =
         webClient
             .get()
             .uri("$baseUrl/$activationEndpoint/$code")
             .retrieve()
-            .toEntity(String::class.java)
+            .bodyToMono(String::class.java)
 
-    override fun passwordRecovery(userIdentificationDto: Mono<UserIdentificationDto>): Mono<ResponseEntity<MessageResponse>> =
+    override fun passwordRecovery(userIdentificationDto: Mono<UserIdentificationDto>): Mono<MessageResponse> =
         webClient
             .post()
             .uri("$baseUrl/$recoveryEndpoint")
             .body(userIdentificationDto)
             .retrieve()
-            .toEntity(MessageResponse::class.java)
+            .bodyToMono(MessageResponse::class.java)
 
-    override fun refresh(refreshTokenDto: Mono<RefreshTokenDto>): Mono<ResponseEntity<JwtResponse>> =
+    override fun refresh(refreshTokenDto: Mono<RefreshTokenDto>): Mono<JwtResponse> =
         webClient
             .post()
             .uri("$baseUrl/$refreshEndpoint")
             .body(refreshTokenDto)
             .retrieve()
-            .toEntity(JwtResponse::class.java)
+            .bodyToMono(JwtResponse::class.java)
 }

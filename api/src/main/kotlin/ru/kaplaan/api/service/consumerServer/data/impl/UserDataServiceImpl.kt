@@ -1,7 +1,6 @@
 package ru.kaplaan.api.service.consumerServer.data.impl
 
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.body
@@ -29,26 +28,26 @@ class UserDataServiceImpl(
     @Value("\${consumer-server.data.get-user-data}")
     lateinit var getUserDataEndpoint: String
 
-    override fun saveUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<UserDataDto>> =
+    override fun saveUserData(userDataDto: Mono<UserDataDto>): Mono<UserDataDto> =
         webClient
             .post()
             .uri("$baseUrl$url$saveUserDataEndpoint")
             .body(userDataDto)
             .retrieve()
-            .toEntity(UserDataDto::class.java)
+            .bodyToMono(UserDataDto::class.java)
 
-    override fun updateUserData(userDataDto: Mono<UserDataDto>): Mono<ResponseEntity<UserDataDto>> =
+    override fun updateUserData(userDataDto: Mono<UserDataDto>): Mono<UserDataDto> =
         webClient
             .put()
             .uri("$baseUrl$url$updateUserDataEndpoint")
             .body(userDataDto)
             .retrieve()
-            .toEntity(UserDataDto::class.java)
+            .bodyToMono(UserDataDto::class.java)
 
-    override fun getUserDataByUserId(userId: Long): Mono<ResponseEntity<UserDataDto>> =
+    override fun getUserDataByUserId(userId: Long): Mono<UserDataDto> =
         webClient
             .get()
             .uri("$baseUrl$url$getUserDataEndpoint/$userId")
             .retrieve()
-            .toEntity(UserDataDto::class.java)
+            .bodyToMono(UserDataDto::class.java)
 }
