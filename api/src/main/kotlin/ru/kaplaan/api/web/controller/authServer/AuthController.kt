@@ -18,34 +18,40 @@ import ru.kaplaan.api.web.dto.authServer.user.UserDto
 import ru.kaplaan.api.web.dto.authServer.user.UserIdentificationDto
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnRecovery
-import javax.management.relation.RoleNotFoundException
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @Tag(name = "Auth Controller", description = "Контроллер аутентификации")
 class AuthController(
     private val authService: AuthService,
-    private val userInfoService: UserInfoService
+    private val userInfoService: UserInfoService,
 ) {
 
-    @PostMapping("/registration/{role}")
+    @PostMapping("/registration/user")
     @Operation(summary = "Регистрация пользователя")
-    fun registerCompany(
+    fun registerUser(
         @RequestBody @Validated(OnCreate::class)
         userDto: Mono<UserDto>,
-        @PathVariable role: String
     ): Mono<MessageResponse> {
         return authService.register(
             userDto.map {
                 it.apply {
-                    this.role = when(role.uppercase()){
+                    it.role = Role.ROLE_USER
+                }
+            }
+        )
+    }
 
-                        "USER" -> Role.ROLE_USER
-
-                        "COMPANY" -> Role.ROLE_COMPANY
-
-                        else -> throw RoleNotFoundException()
-                    }
+    @PostMapping("/registration/company")
+    @Operation(summary = "Регистрация пользователя")
+    fun registerCompany(
+        @RequestBody @Validated(OnCreate::class)
+        userDto: Mono<UserDto>,
+    ): Mono<MessageResponse> {
+        return authService.register(
+            userDto.map {
+                it.apply {
+                    this.role = Role.ROLE_COMPANY
                 }
             }
         )
@@ -76,13 +82,13 @@ class AuthController(
     @Operation(summary = "Обновление jwt access токена")
     @PostMapping("/refresh")
     fun refresh(
-        @RequestBody @Validated refreshTokenDto: Mono<RefreshTokenDto>
+        @RequestBody @Validated refreshTokenDto: Mono<RefreshTokenDto>,
     ): Mono<JwtResponse> = authService.refresh(refreshTokenDto)
 
     @Operation(summary = "Получить username пользователя по Id")
     @GetMapping("/{userId}")
     fun getUsernameById(
         @Validated @Min(0, message = "Минимальное Id пользователя - 0!")
-        @PathVariable userId: Long
+        @PathVariable userId: Long,
     ): Mono<String> = userInfoService.getUsernameByUserId(userId)
 }
