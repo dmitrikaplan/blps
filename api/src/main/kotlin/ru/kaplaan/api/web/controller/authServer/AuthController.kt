@@ -43,7 +43,7 @@ class AuthController(
     }
 
     @PostMapping("/registration/company")
-    @Operation(summary = "Регистрация пользователя")
+    @Operation(summary = "Регистрация компании")
     fun registerCompany(
         @RequestBody @Validated(OnCreate::class)
         userDto: Mono<UserDto>,
