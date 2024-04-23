@@ -11,7 +11,6 @@ interface UserDataRepository: CrudRepository<UserData, Long> {
     @Query("select * from user_data where user_id = :user_id")
     fun findUserDataByUserId(@Param("user_id") userId: Long): UserData?
 
-
     @Query("select user_data_id from user_data where user_id =:userId")
     fun findUserDataIdByUserId(userId: Long): Long?
 }

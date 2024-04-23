@@ -37,10 +37,9 @@ class VacancyResponseController(
             }
         )
 
-    //TODO: удалять отклик на вакансию должен работодатель!
     @DeleteMapping("/{vacancyId}")
     @PreAuthorize("hasRole('USER')")
-    @Operation(summary = "Удалить отклик на вакансию")
+    @Operation(summary = "Удалить отклик на вакансию пользователю")
     fun delete(
         @Validated @Min(0)
         @Parameter(description = "Id вакансии", required = true)

@@ -8,7 +8,6 @@ import ru.kaplaan.consumer.domain.entity.data.CompanyData
 
 @Repository
 interface CompanyDataRepository: CrudRepository<CompanyData, Long> {
-
     @Query("select * from company_data where company_id = :company_id")
     fun findCompanyDataByCompanyId(@Param("company_id") companyId: Long): CompanyData?
 
