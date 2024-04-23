@@ -19,4 +19,7 @@ interface UserRepository : CrudRepository<User, Long> {
 
     @Query("select * from users where user_id = :userId")
     fun findUserById(userId: Long): User?
+
+    @Query("select user_id from users where role = 'ROLE_ADMIN'")
+    fun findUserIdByRoleAdmin(): Long?
 }
