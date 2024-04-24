@@ -23,16 +23,30 @@ class VacancyResponseServiceImpl(
     @Value("\${consumer-server.vacancy-response.save}")
     lateinit var saveEndpoint: String
 
+    @Value("\${consumer-server.vacancy-response.update}")
+    lateinit var updateEndpoint: String
+
     @Value("\${consumer-server.vacancy-response.delete}")
     lateinit var deleteEndpoint: String
 
     @Value("\${consumer-server.vacancy-response.get-all-user-id-by-company-id}")
     lateinit var getAllUserIdByCompanyIdEndpoint: String
 
+    @Value("\${consumer-server.vacancy-response.get-vacancy-response-by-id}")
+    lateinit var getVacancyResponseByIdEndpoint: String
+
     override fun save(vacancyResponseDto: Mono<VacancyResponseDto>): Mono<VacancyResponseDto> =
         webClient
             .post()
             .uri("$baseUrl$url$saveEndpoint")
+            .body(vacancyResponseDto)
+            .retrieve()
+            .bodyToMono(VacancyResponseDto::class.java)
+
+    override fun update(vacancyResponseDto: Mono<VacancyResponseDto>): Mono<VacancyResponseDto> =
+        webClient
+            .put()
+            .uri("$baseUrl$url$updateEndpoint")
             .body(vacancyResponseDto)
             .retrieve()
             .bodyToMono(VacancyResponseDto::class.java)
@@ -50,4 +64,12 @@ class VacancyResponseServiceImpl(
             .uri("$baseUrl$url$getAllUserIdByCompanyIdEndpoint/$companyId/$vacancyId/$pageNumber")
             .retrieve()
             .bodyToFlux(Long::class.java)
+
+    override fun getVacancyResponseById(companyId: Long, vacancyId: Long, userId: Long): Mono<VacancyResponseDto> =
+        webClient
+            .get()
+            .uri("$baseUrl$url$getVacancyResponseByIdEndpoint/$companyId/$vacancyId/$userId")
+            .retrieve()
+            .bodyToMono(VacancyResponseDto::class.java)
+
 }
