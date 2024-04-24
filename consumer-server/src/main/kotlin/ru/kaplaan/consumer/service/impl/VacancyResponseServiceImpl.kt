@@ -5,7 +5,9 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.vacancy.VacancyResponse
 import ru.kaplaan.consumer.domain.exception.PermissionDeniedException
+import ru.kaplaan.consumer.domain.exception.alreadyExists.VacancyResponseAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyNotFoundException
+import ru.kaplaan.consumer.domain.exception.notFound.VacancyResponseNotFoundException
 import ru.kaplaan.consumer.repository.VacancyRepository
 import ru.kaplaan.consumer.repository.VacancyResponseRepository
 import ru.kaplaan.consumer.service.VacancyResponseService
@@ -21,7 +23,23 @@ class VacancyResponseServiceImpl(
 
     override fun save(vacancyResponse: VacancyResponse): VacancyResponse {
         return vacancyRepository.findVacancyByVacancyId(vacancyResponse.pk.vacancyId, false)?.let {
+
+            if(vacancyResponseRepository.findVacancyResponseById(vacancyResponse.pk) != null)
+                throw VacancyResponseAlreadyExistsException()
+
             vacancyResponseRepository.saveVacancyResponse(vacancyResponse)
+            vacancyResponse
+
+        } ?: throw VacancyNotFoundException()
+    }
+
+    override fun update(vacancyResponse: VacancyResponse): VacancyResponse {
+        return vacancyRepository.findVacancyByVacancyId(vacancyResponse.pk.vacancyId, false)?.let {
+
+            if(vacancyResponseRepository.findVacancyResponseById(vacancyResponse.pk) == null)
+                throw VacancyResponseNotFoundException()
+
+            vacancyResponseRepository.updateVacancyResponse(vacancyResponse)
             vacancyResponse
         } ?: throw VacancyNotFoundException()
     }

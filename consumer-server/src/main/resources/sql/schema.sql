@@ -43,5 +43,7 @@ create table if not exists vacancy(
 create table if not exists vacancy_response(
    vacancy_id bigint references vacancy(vacancy_id),
    user_id bigint not null,
+   status text not null check(length(status) > 0),
+   comment text not null check(length(comment) > 0),
    primary key(vacancy_id, user_id)
 );

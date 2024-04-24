@@ -12,8 +12,20 @@ interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResp
 
 
     @Modifying
-    @Query("insert into vacancy_response(vacancy_id, user_id) values(:#{#vacancyResponse.pk.vacancyId}, :#{#vacancyResponse.pk.userId})")
+    @Query("""
+        insert into vacancy_response(vacancy_id, user_id, status, comment) 
+            values(:#{#vacancyResponse.pk.vacancyId}, :#{#vacancyResponse.pk.userId}), :#{#vacancyResponse.status.name}, :#{#vacancyResponse.comment})
+    """)
     fun saveVacancyResponse(vacancyResponse: VacancyResponse)
+
+
+    @Modifying
+    @Query("""
+        update vacancy_response set status = :#{#vacanyResponse.status.name}, comment = :#{#vacancyResponse.comment}
+            where vacancy_id = :#{#vacancyResponse.pk.vacancyId} and user_id = :#{#vacancyResponse.pk.user_id}
+    """)
+    fun updateVacancyResponse(vacancyResponse: VacancyResponse)
+
 
 
     @Modifying
@@ -23,4 +35,7 @@ interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResp
 
     @Query("select user_id from vacancy_response where vacancy_id = :vacancyId")
     fun findAllUserIdByVacancyId(vacancyId: Long, pageable: Pageable): List<Long>
+
+    @Query("select * from vacancy_response where vacancy_id = :#{#id.vacancyId} and user_id = :#{#id.user_id}")
+    fun findVacancyResponseById(id: VacancyResponse.PK): VacancyResponse?
 }

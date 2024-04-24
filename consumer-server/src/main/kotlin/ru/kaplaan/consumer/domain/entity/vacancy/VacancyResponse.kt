@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Embedded
 import org.springframework.data.relational.core.mapping.Table
+import ru.kaplaan.consumer.web.dto.vacancy.VacancyResponseStatus
 
 @Table("vacancy_response")
 class VacancyResponse{
@@ -11,6 +12,11 @@ class VacancyResponse{
     @Id
     @Embedded(onEmpty = Embedded.OnEmpty.USE_EMPTY)
     lateinit var pk: PK
+
+    lateinit var comment: String
+
+    @Column("status")
+    lateinit var status: VacancyResponseStatus
 
     data class PK(
         @Column("vacancy_id")

@@ -57,7 +57,7 @@ class VacancyController(
         @PathVariable page: Int
     ): List<VacancyDto> = vacancyService.getVacanciesByText(text, page).toDto()
 
-    @PostMapping("/archive")
+    @PutMapping("/archive")
     fun archiveVacancy(
         @RequestBody @Validated(OnCreate::class)
         archiveVacancyDto: ArchiveVacancyDto
@@ -66,7 +66,7 @@ class VacancyController(
             vacancyService.archiveVacancy(it.companyId, it.vacancyId)
         }
 
-    @PostMapping("/unarchive")
+    @PutMapping("/unarchive")
     fun unarchiveVacancy(
         @RequestBody @Validated(OnCreate::class)
         archiveVacancyDto: ArchiveVacancyDto

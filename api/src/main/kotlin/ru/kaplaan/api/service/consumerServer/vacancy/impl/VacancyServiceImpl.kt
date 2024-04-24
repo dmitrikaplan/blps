@@ -67,7 +67,7 @@ class VacancyServiceImpl(
     override fun delete(companyId: Long, vacancyId: Long): Mono<Any> =
         webClient
             .delete()
-            .uri("$baseUrl$url$deleteEndpoint$companyId/$vacancyId")
+            .uri("$baseUrl$url$deleteEndpoint/$companyId/$vacancyId")
             .retrieve()
             .bodyToMono(Any::class.java)
 
@@ -88,7 +88,7 @@ class VacancyServiceImpl(
     override fun getVacancies(pageNumber: Int): Flux<VacancyDto> =
         webClient
             .get()
-            .uri("$baseUrl$url$getVacanciesEndpoint$pageNumber")
+            .uri("$baseUrl$url$getVacanciesEndpoint/$pageNumber")
             .retrieve()
             .bodyToFlux(VacancyDto::class.java)
 
@@ -101,7 +101,7 @@ class VacancyServiceImpl(
 
     override fun archiveVacancy(archiveVacancyDto: Mono<ArchiveVacancyDto>): Mono<Any> =
         webClient
-            .post()
+            .put()
             .uri("$baseUrl$url$archiveVacancyEndpoint")
             .body(archiveVacancyDto)
             .retrieve()
@@ -109,7 +109,7 @@ class VacancyServiceImpl(
 
     override fun unarchiveVacancy(archiveVacancyDto: Mono<ArchiveVacancyDto>): Mono<Any> =
         webClient
-            .post()
+            .put()
             .uri("$baseUrl$url$unarchiveVacancyEndpoint")
             .body(archiveVacancyDto)
             .retrieve()

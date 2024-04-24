@@ -15,13 +15,13 @@ interface VacancyRepository: CrudRepository<Vacancy, Long> {
     @Query("select vacancy_id from vacancy where company_id = :companyId and is_archived = :isArchived")
     fun findAllVacancyIdByCompanyId(companyId: Long, isArchived: Boolean): List<Long>
 
-
     @Query("select * from vacancy where is_archived = :isArchived")
     fun findAllVacancies(pageable: Pageable, isArchived: Boolean = false): List<Vacancy>
 
     @Query("select * from vacancy where title ~* '^. *:text .*\$' or description ~* '^. *:text .*\$' where is_archived = :isArchived")
     fun findAllByVacanciesByText(text: String, pageable: Pageable, isArchived: Boolean = false): List<Vacancy>
 
+    @Modifying
     @Query("delete from vacancy where company_id = :companyId and vacancy_id = :vacancyId")
     fun deleteByCompanyIdAndVacancyId(companyId: Long, vacancyId: Long)
 

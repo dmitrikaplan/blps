@@ -106,7 +106,7 @@ class VacancyController(
     ): Flux<VacancyDto> = vacancyService.getVacanciesByText(text, page)
 
 
-    @PostMapping("/archive")
+    @PutMapping("/archive")
     @PreAuthorize("hasRole('COMPANY')")
     @Operation(summary = "Архивирование вакансии")
     fun archiveVacancy(
@@ -123,7 +123,7 @@ class VacancyController(
         )
 
 
-    @PostMapping("/unarchive")
+    @PutMapping("/unarchive")
     @PreAuthorize("hasRole('COMPANY')")
     @Operation(summary = "Разархивирование вакансии")
     fun unarchiveVacancy(

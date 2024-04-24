@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.kaplaan.consumer.service.VacancyResponseService
 import ru.kaplaan.consumer.web.dto.vacancy.VacancyResponseDto
-import ru.kaplaan.consumer.web.mapper.vacancyResponse.toDto
-import ru.kaplaan.consumer.web.mapper.vacancyResponse.toEntity
+import ru.kaplaan.consumer.web.mapper.vacancy.toDto
+import ru.kaplaan.consumer.web.mapper.vacancy.toEntity
 import ru.kaplaan.consumer.web.validation.OnCreate
 
 
@@ -39,6 +39,7 @@ class VacancyResponseController(
     ){
         return vacancyResponseService.delete(vacancyId, userId)
     }
+
 
     @GetMapping("/{companyId}/{vacancyId}/{pageNumber}")
     fun getAllUsernameByCompanyId(
