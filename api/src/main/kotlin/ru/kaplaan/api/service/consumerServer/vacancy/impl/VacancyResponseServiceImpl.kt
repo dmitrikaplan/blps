@@ -32,8 +32,14 @@ class VacancyResponseServiceImpl(
     @Value("\${consumer-server.vacancy-response.get-all-user-id-by-company-id}")
     lateinit var getAllUserIdByCompanyIdEndpoint: String
 
+    @Value("\${consumer-server.vacancy-response.get-vacancy-response-by-company-id-and-id}")
+    lateinit var getVacancyResponseByCompanyIdAndIdEndpoint: String
+
     @Value("\${consumer-server.vacancy-response.get-vacancy-response-by-id}")
     lateinit var getVacancyResponseByIdEndpoint: String
+
+    @Value("\${consumer-server.vacancy-response.get-all-vacancy-responses-by-user-id}")
+    lateinit var getAllVacancyResponsesByUserIdEndpoint: String
 
     override fun save(vacancyResponseDto: Mono<VacancyResponseDto>): Mono<VacancyResponseDto> =
         webClient
@@ -65,11 +71,25 @@ class VacancyResponseServiceImpl(
             .retrieve()
             .bodyToFlux(Long::class.java)
 
-    override fun getVacancyResponseById(companyId: Long, vacancyId: Long, userId: Long): Mono<VacancyResponseDto> =
+    override fun getVacancyResponseByCompanyIdAndId(companyId: Long, vacancyId: Long, userId: Long): Mono<VacancyResponseDto> =
         webClient
             .get()
-            .uri("$baseUrl$url$getVacancyResponseByIdEndpoint/$companyId/$vacancyId/$userId")
+            .uri("$baseUrl$url$getVacancyResponseByCompanyIdAndIdEndpoint/$companyId/$vacancyId/$userId")
             .retrieve()
             .bodyToMono(VacancyResponseDto::class.java)
+
+    override fun getVacancyResponseById(vacancyId: Long, userId: Long): Mono<VacancyResponseDto> =
+        webClient
+            .get()
+            .uri("$baseUrl$url$getVacancyResponseByIdEndpoint/$vacancyId/$userId")
+            .retrieve()
+            .bodyToMono(VacancyResponseDto::class.java)
+
+    override fun getAllVacancyResponsesByUserId(userId: Long): Flux<VacancyResponseDto>  =
+        webClient
+            .get()
+            .uri("$baseUrl$url$getAllVacancyResponsesByUserIdEndpoint/$userId")
+            .retrieve()
+            .bodyToFlux(VacancyResponseDto::class.java)
 
 }

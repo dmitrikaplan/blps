@@ -21,3 +21,8 @@ fun VacancyResponse.toDto(): VacancyResponseDto =
         this.comment = this@toDto.comment
         this.status = this@toDto.status
     }
+
+
+
+fun List<VacancyResponse>.toDto() =
+    this.map { it.toDto() }

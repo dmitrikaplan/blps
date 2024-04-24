@@ -13,7 +13,11 @@ interface VacancyResponseService {
 
     fun delete(vacancyId: Long, userId: Long)
 
-    fun getVacancyResponseById(companyId: Long, pk: VacancyResponse.PK): VacancyResponse
+    fun getVacancyResponseById(pk: VacancyResponse.PK): VacancyResponse
+
+    fun getAllVacancyResponsesByUserId(userId: Long): List<VacancyResponse>
+
+    fun getVacancyResponseByIdAndCompanyId(companyId: Long, pk: VacancyResponse.PK): VacancyResponse
 
     fun getAllUserIdByVacancyIdAndCompanyId(vacancyId: Long, companyId: Long, pageNumber: Int): List<Long>
 }

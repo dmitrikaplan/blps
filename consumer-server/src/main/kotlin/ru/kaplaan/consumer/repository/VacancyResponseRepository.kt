@@ -32,6 +32,9 @@ interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResp
     @Query("select user_id from vacancy_response where vacancy_id = :vacancyId")
     fun findAllUserIdByVacancyId(vacancyId: Long, pageable: Pageable): List<Long>
 
+    @Query("select * from vacancy_response where user_id = :userId")
+    fun findAllVacancyResponsesByUserId(userId: Long): List<VacancyResponse>
+
     @Query("select * from vacancy_response where vacancy_id = :#{#id.vacancyId} and user_id = :#{#id.user_id}")
     fun findVacancyResponseById(id: VacancyResponse.PK): VacancyResponse?
 }

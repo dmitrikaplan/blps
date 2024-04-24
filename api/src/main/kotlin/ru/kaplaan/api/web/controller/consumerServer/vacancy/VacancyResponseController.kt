@@ -64,10 +64,30 @@ class VacancyResponseController(
         authentication: Authentication
     ): Mono<Any> = vacancyResponseService.delete(vacancyId, (authentication.details as String).toLong())
 
+    @GetMapping("/{vacancyId}")
+    @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Получить отклик на вакансию по id вакансии для пользователя")
+    fun getVacancyResponseById(
+        @Parameter(description = "Id вакансии", required = true)
+        @Validated @Min(0, message = "Минимальное id вакансии - 0!")
+        @PathVariable vacancyId: Long,
+        authentication: Authentication
+    ): Mono<VacancyResponseDto> =
+        vacancyResponseService.getVacancyResponseById(
+            (authentication.details as String).toLong(),
+            vacancyId,
+        )
+
+    @GetMapping
+    @Operation(summary = "Получить все отклики на вакансии пользователя")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllVacancyResponses(authentication: Authentication): Flux<VacancyResponseDto> =
+        vacancyResponseService.getAllVacancyResponsesByUserId((authentication.details as String).toLong())
+
     @GetMapping("/{vacancyId}/{userId}")
     @PreAuthorize("hasRole('COMPANY')")
-    @Operation(summary = "Получить отклик на вакансию по id пользователя и id вакансии")
-    fun getVacancyResponseByUserIdAndVacancyId(
+    @Operation(summary = "Получить отклик на вакансию по id вакансии и id пользователя для компании")
+    fun getVacancyResponseByCompanyIdAndId(
         @Parameter(description = "Id вакансии", required = true)
         @Validated @Min(0, message = "Минимальное id вакансии - 0!")
         @PathVariable vacancyId: Long,
@@ -76,16 +96,17 @@ class VacancyResponseController(
         @PathVariable userId: Long,
         authentication: Authentication
     ): Mono<VacancyResponseDto> =
-        vacancyResponseService.getVacancyResponseById(
+        vacancyResponseService.getVacancyResponseByCompanyIdAndId(
             (authentication.details as String).toLong(),
             vacancyId,
-            userId
+            userId,
         )
 
-    @GetMapping("/{vacancyId}/{pageNumber}")
+
+    @GetMapping("/get-all-user-id/{vacancyId}/{pageNumber}")
     @PreAuthorize("hasRole('COMPANY')")
     @Operation(summary = "Получить все Id пользователей")
-    fun getAllUserIdByCompanyName(
+    fun getAllUserIdByCompanyId(
         @Parameter(description = "Id вакансии", required = true)
         @PathVariable vacancyId: Long,
         @Parameter(description = "Номер страницы", required = true)

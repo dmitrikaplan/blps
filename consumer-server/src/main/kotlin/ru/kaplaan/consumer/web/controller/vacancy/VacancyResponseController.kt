@@ -44,12 +44,29 @@ class VacancyResponseController(
         return vacancyResponseService.delete(vacancyId, userId)
     }
 
-    @GetMapping("/get-vacancy-response/{companyId}/{vacancyId}/{userId}")
-    fun getVacancyResponseByUserIdAndVacancyId(
-        @PathVariable companyId: Long,
-        @PathVariable vacancyId: Long,
+    @GetMapping("/get-all-vacancy-responses/{userId}")
+    fun getAllVacancyResponsesByUserId(
+        @Validated @Min(0, message = "Минимальное Id пользователя - 0!")
         @PathVariable userId: Long
-    ): VacancyResponseDto = vacancyResponseService.getVacancyResponseById(companyId, VacancyResponse.PK(userId, vacancyId)).toDto()
+    ): List<VacancyResponseDto> = vacancyResponseService.getAllVacancyResponsesByUserId(userId).toDto()
+
+    @GetMapping("/get-vacancy-response/{vacancyId}/{userId}")
+    fun getVacancyResponseById(
+        @Validated @Min(0, message = "Минимальное Id вакансии 0!")
+        @PathVariable vacancyId: Long,
+        @Validated @Min(0, message = "Минимальное Id пользователя 0!")
+        @PathVariable userId: Long
+    ): VacancyResponseDto = vacancyResponseService.getVacancyResponseById(VacancyResponse.PK(vacancyId, userId)).toDto()
+
+    @GetMapping("/get-vacancy-response/{companyId}/{vacancyId}/{userId}")
+    fun getVacancyResponseByCompanyIdAndId(
+        @Validated @Min(0, message = "Минимальное Id компании 0!")
+        @PathVariable companyId: Long,
+        @Validated @Min(0, message = "Минимальное Id вакансии 0!")
+        @PathVariable vacancyId: Long,
+        @Validated @Min(0, message = "Минимальное Id пользователя 0!")
+        @PathVariable userId: Long
+    ): VacancyResponseDto = vacancyResponseService.getVacancyResponseByIdAndCompanyId(companyId, VacancyResponse.PK(userId, vacancyId)).toDto()
 
 
     @GetMapping("/get-all-user-id/{companyId}/{vacancyId}/{pageNumber}")

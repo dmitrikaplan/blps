@@ -56,9 +56,17 @@ class VacancyResponseServiceImpl(
     override fun delete(vacancyId: Long, userId: Long) =
         vacancyResponseRepository.deleteById(VacancyResponse.PK(vacancyId, userId))
 
-    override fun getVacancyResponseById(companyId: Long, pk: VacancyResponse.PK): VacancyResponse {
-        if(!vacancyService.existsVacancyByVacancyIdAndCompanyId(companyId, pk.vacancyId))
-            throw PermissionDeniedException()
+    override fun getVacancyResponseById(pk: VacancyResponse.PK): VacancyResponse {
+        return vacancyResponseRepository.findVacancyResponseById(pk)
+            ?: throw VacancyResponseNotFoundException()
+    }
+
+    override fun getAllVacancyResponsesByUserId(userId: Long): List<VacancyResponse> {
+        return vacancyResponseRepository.findAllVacancyResponsesByUserId(userId)
+    }
+
+    override fun getVacancyResponseByIdAndCompanyId(companyId: Long, pk: VacancyResponse.PK): VacancyResponse {
+        checkVacancyOwner(pk.vacancyId, companyId)
 
         return vacancyResponseRepository.findVacancyResponseById(pk)
             ?: throw VacancyResponseNotFoundException()
@@ -70,10 +78,15 @@ class VacancyResponseServiceImpl(
         companyId: Long,
         pageNumber: Int,
     ): List<Long> {
-        if(!vacancyService.existsVacancyByVacancyIdAndCompanyId(vacancyId, companyId))
-            throw PermissionDeniedException()
+        checkVacancyOwner(vacancyId, companyId)
 
         return vacancyResponseRepository.findAllUserIdByVacancyId(vacancyId, PageRequest.of(pageNumber, pageSize!!))
+    }
+
+
+    private fun checkVacancyOwner(vacancyId: Long, companyId: Long){
+        if(!vacancyService.existsVacancyByVacancyIdAndCompanyId(vacancyId, companyId))
+            throw PermissionDeniedException()
     }
 
 }
