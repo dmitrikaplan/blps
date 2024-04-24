@@ -1,4 +1,4 @@
-package ru.kaplaan.consumer.service
+package ru.kaplaan.consumer.service.data
 
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.data.UserData

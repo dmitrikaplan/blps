@@ -1,4 +1,4 @@
-package ru.kaplaan.consumer.service.impl
+package ru.kaplaan.consumer.service.vacancy.impl
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.vacancy.Vacancy
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyNotFoundException
 import ru.kaplaan.consumer.repository.VacancyRepository
-import ru.kaplaan.consumer.service.VacancyService
+import ru.kaplaan.consumer.service.vacancy.VacancyService
 
 @Service
 class VacancyServiceImpl(
@@ -29,10 +29,8 @@ class VacancyServiceImpl(
         vacancyRepository.findVacancyById(vacancyId)
             ?: throw VacancyNotFoundException()
 
-
     override fun getVacanciesByCompanyId(companyId: Long, pageNumber: Int): List<Vacancy> =
         vacancyRepository.findAllByCompanyId(companyId, PageRequest.of(pageNumber, pageSize!!))
-
 
     override fun getVacancies(pageNumber: Int): List<Vacancy> =
         vacancyRepository.findAllVacancies(PageRequest.of(pageNumber, pageSize!!))
@@ -40,6 +38,8 @@ class VacancyServiceImpl(
     override fun getVacanciesByText(text: String, pageNumber: Int): List<Vacancy> =
         vacancyRepository.findAllByVacanciesByText(text, PageRequest.of(pageNumber, pageSize!!))
 
+    override fun existsVacancyByVacancyIdAndCompanyId(vacancyId: Long, companyId: Long): Boolean =
+        vacancyRepository.existVacancyByVacancyIdAndCompanyId(vacancyId, companyId)
 
     override fun archiveVacancy(companyId: Long, vacancyId: Long) =
             vacancyRepository.archiveVacancyByCompanyIdAndVacancyId(companyId, vacancyId)

@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono
 import ru.kaplaan.api.service.consumerServer.vacancy.VacancyResponseService
 import ru.kaplaan.api.web.dto.consumerServer.vacancy.VacancyResponseDto
 import ru.kaplaan.api.web.validation.OnCreate
+import ru.kaplaan.api.web.validation.OnUpdate
 
 @RestController
 @RequestMapping("/api/v1/vacancy-response")
@@ -37,6 +38,22 @@ class VacancyResponseController(
             }
         )
 
+    @PutMapping
+    @PreAuthorize("hasRole('COMPANY')")
+    @Operation(summary = "Обновить отклик на вакансию(статус и комментарий)")
+    fun update(
+        @Validated(OnUpdate::class)
+        @RequestBody vacancyResponseDto: Mono<VacancyResponseDto>,
+        authentication: Authentication
+    ): Mono<VacancyResponseDto> =
+        vacancyResponseService.update(
+            vacancyResponseDto.map {
+                it.apply {
+                    userId = (authentication.details as String).toLong()
+                }
+            }
+        )
+
     @DeleteMapping("/{vacancyId}")
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Удалить отклик на вакансию пользователю")
@@ -47,6 +64,23 @@ class VacancyResponseController(
         authentication: Authentication
     ): Mono<Any> = vacancyResponseService.delete(vacancyId, (authentication.details as String).toLong())
 
+    @GetMapping("/{vacancyId}/{userId}")
+    @PreAuthorize("hasRole('COMPANY')")
+    @Operation(summary = "Получить отклик на вакансию по id пользователя и id вакансии")
+    fun getVacancyResponseByUserIdAndVacancyId(
+        @Parameter(description = "Id вакансии", required = true)
+        @Validated @Min(0, message = "Минимальное id вакансии - 0!")
+        @PathVariable vacancyId: Long,
+        @Parameter(description = "Id пользователя", required = true)
+        @Validated @Min(0, message = "Минимальное id пользователя - 0!")
+        @PathVariable userId: Long,
+        authentication: Authentication
+    ): Mono<VacancyResponseDto> =
+        vacancyResponseService.getVacancyResponseById(
+            (authentication.details as String).toLong(),
+            vacancyId,
+            userId
+        )
 
     @GetMapping("/{vacancyId}/{pageNumber}")
     @PreAuthorize("hasRole('COMPANY')")
@@ -60,5 +94,4 @@ class VacancyResponseController(
         authentication: Authentication
     ): Flux<Long> =
         vacancyResponseService.getAllUserIdByCompanyId((authentication.details as String).toLong(), vacancyId, pageNumber)
-
 }

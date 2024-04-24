@@ -12,8 +12,7 @@ interface VacancyRepository: CrudRepository<Vacancy, Long> {
     @Query("select * from vacancy where company_id = :companyId and is_archived = :isArchived")
     fun findAllByCompanyId(companyId: Long, pageable: Pageable, isArchived: Boolean = false): List<Vacancy>
 
-    @Query("select vacancy_id from vacancy where company_id = :companyId and is_archived = :isArchived")
-    fun findAllVacancyIdByCompanyId(companyId: Long, isArchived: Boolean): List<Long>
+
 
     @Query("select * from vacancy where is_archived = :isArchived")
     fun findAllVacancies(pageable: Pageable, isArchived: Boolean = false): List<Vacancy>
@@ -25,8 +24,8 @@ interface VacancyRepository: CrudRepository<Vacancy, Long> {
     @Query("delete from vacancy where company_id = :companyId and vacancy_id = :vacancyId")
     fun deleteByCompanyIdAndVacancyId(companyId: Long, vacancyId: Long)
 
-    @Query("select * from vacancy where vacancy_id = :vacancyId and is_archived = :isArchived")
-    fun findVacancyByVacancyId(vacancyId: Long, isArchived: Boolean = false): Vacancy?
+    @Query("select exists (select 1 from vacancy where vacancy_id = :vacancyId and company_id = :companyId)")
+    fun existVacancyByVacancyIdAndCompanyId(vacancyId: Long, companyId: Long): Boolean
 
     @Modifying
     @Query("update vacancy set is_archived = true where company_id = :companyId and vacancy_id = :vacancyId")

@@ -18,7 +18,6 @@ interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResp
     """)
     fun saveVacancyResponse(vacancyResponse: VacancyResponse)
 
-
     @Modifying
     @Query("""
         update vacancy_response set status = :#{#vacanyResponse.status.name}, comment = :#{#vacancyResponse.comment}
@@ -26,12 +25,9 @@ interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResp
     """)
     fun updateVacancyResponse(vacancyResponse: VacancyResponse)
 
-
-
     @Modifying
     @Query("delete from vacancy_response where vacancy_id = :#{#id.vacancyId} and user_id = :#{#id.userId}")
     override fun deleteById(id: VacancyResponse.PK)
-
 
     @Query("select user_id from vacancy_response where vacancy_id = :vacancyId")
     fun findAllUserIdByVacancyId(vacancyId: Long, pageable: Pageable): List<Long>

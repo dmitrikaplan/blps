@@ -1,4 +1,4 @@
-package ru.kaplaan.consumer.service
+package ru.kaplaan.consumer.service.vacancy
 
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.vacancy.Vacancy
@@ -19,6 +19,8 @@ interface VacancyService {
     fun getVacancies(pageNumber: Int): List<Vacancy>
 
     fun getVacanciesByText(text: String, pageNumber: Int): List<Vacancy>
+
+    fun existsVacancyByVacancyIdAndCompanyId(vacancyId: Long, companyId: Long): Boolean
 
     fun archiveVacancy(companyId: Long, vacancyId: Long)
 

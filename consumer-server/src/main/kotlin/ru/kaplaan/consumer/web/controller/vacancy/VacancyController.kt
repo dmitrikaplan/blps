@@ -3,7 +3,7 @@ package ru.kaplaan.consumer.web.controller.vacancy
 import jakarta.validation.constraints.Min
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import ru.kaplaan.consumer.service.VacancyService
+import ru.kaplaan.consumer.service.vacancy.VacancyService
 import ru.kaplaan.consumer.web.dto.vacancy.ArchiveVacancyDto
 import ru.kaplaan.consumer.web.dto.vacancy.VacancyDto
 import ru.kaplaan.consumer.web.mapper.vacancy.toDto

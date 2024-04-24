@@ -1,19 +1,17 @@
-package ru.kaplaan.consumer.service.impl
+package ru.kaplaan.consumer.service.data.impl
 
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.data.CompanyData
-import ru.kaplaan.consumer.domain.entity.data.ContactPerson
 import ru.kaplaan.consumer.domain.exception.alreadyExists.CompanyDataAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.CompanyDataNotFoundException
-import ru.kaplaan.consumer.domain.exception.notFound.ContactPersonNotFoundException
 import ru.kaplaan.consumer.repository.CompanyDataRepository
-import ru.kaplaan.consumer.repository.ContactPersonRepository
-import ru.kaplaan.consumer.service.CompanyDataService
+import ru.kaplaan.consumer.service.data.CompanyDataService
+import ru.kaplaan.consumer.service.data.ContactPersonService
 
 @Service
 class CompanyDataServiceImpl(
     private val companyDataRepository: CompanyDataRepository,
-    private val contactPersonRepository: ContactPersonRepository
+    private val contactPersonService: ContactPersonService
 ): CompanyDataService {
 
     override fun saveCompanyData(companyData: CompanyData): CompanyData {
@@ -26,20 +24,12 @@ class CompanyDataServiceImpl(
         companyDataRepository.save(
             companyData.apply {
                 id = companyDataRepository.findCompanyDataIdByCompanyId(companyId!!)
-                contactPerson.id = contactPersonRepository.findByCompanyDataId(id!!)?.id
+                contactPerson.id = contactPersonService.getByCompanyDataId(this.id!!).id
             }
         )
 
     override fun getCompanyDataByCompanyId(companyId: Long): CompanyData =
             companyDataRepository.findCompanyDataByCompanyId(companyId)?.apply {
-                this.contactPerson = contactPersonRepository.findByCompanyDataId(this.id!!)
-                    ?: throw ContactPersonNotFoundException()
+                this.contactPerson = contactPersonService.getByCompanyDataId(this.id!!)
             } ?: throw CompanyDataNotFoundException()
-
-    override fun getContactPersonByCompanyId(companyId: Long): ContactPerson {
-        return companyDataRepository.findCompanyDataIdByCompanyId(companyId)?.let { companyDataId ->
-                contactPersonRepository.findByCompanyDataId(companyDataId)
-                    ?: throw ContactPersonNotFoundException()
-        } ?: throw CompanyDataNotFoundException()
-    }
 }

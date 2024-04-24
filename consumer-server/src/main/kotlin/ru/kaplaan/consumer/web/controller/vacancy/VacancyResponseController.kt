@@ -2,18 +2,14 @@ package ru.kaplaan.consumer.web.controller.vacancy
 
 import jakarta.validation.constraints.Min
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import ru.kaplaan.consumer.service.VacancyResponseService
+import org.springframework.web.bind.annotation.*
+import ru.kaplaan.consumer.domain.entity.vacancy.VacancyResponse
+import ru.kaplaan.consumer.service.vacancy.VacancyResponseService
 import ru.kaplaan.consumer.web.dto.vacancy.VacancyResponseDto
 import ru.kaplaan.consumer.web.mapper.vacancy.toDto
 import ru.kaplaan.consumer.web.mapper.vacancy.toEntity
 import ru.kaplaan.consumer.web.validation.OnCreate
+import ru.kaplaan.consumer.web.validation.OnUpdate
 
 
 @RestController
@@ -30,6 +26,14 @@ class VacancyResponseController(
         return vacancyResponseService.save(vacancyResponseDto.toEntity()).toDto()
     }
 
+    @PutMapping
+    fun update(
+        @RequestBody @Validated(OnUpdate::class)
+        vacancyResponseDto: VacancyResponseDto
+    ) : VacancyResponseDto {
+        return vacancyResponseService.update(vacancyResponseDto.toEntity()).toDto()
+    }
+
     @DeleteMapping("/{vacancyId}/{userId}")
     fun delete(
         @Validated @Min(0, message = "Id вакансии не должен быть меньше 0!")
@@ -40,9 +44,16 @@ class VacancyResponseController(
         return vacancyResponseService.delete(vacancyId, userId)
     }
 
+    @GetMapping("/get-vacancy-response/{companyId}/{vacancyId}/{userId}")
+    fun getVacancyResponseByUserIdAndVacancyId(
+        @PathVariable companyId: Long,
+        @PathVariable vacancyId: Long,
+        @PathVariable userId: Long
+    ): VacancyResponseDto = vacancyResponseService.getVacancyResponseById(companyId, VacancyResponse.PK(userId, vacancyId)).toDto()
 
-    @GetMapping("/{companyId}/{vacancyId}/{pageNumber}")
-    fun getAllUsernameByCompanyId(
+
+    @GetMapping("/get-all-user-id/{companyId}/{vacancyId}/{pageNumber}")
+    fun getAllUserIdByCompanyId(
         @PathVariable companyId: Long,
         @PathVariable vacancyId: Long,
         @PathVariable pageNumber: Int

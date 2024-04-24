@@ -3,9 +3,8 @@ package ru.kaplaan.consumer.web.controller.data
 import jakarta.validation.constraints.Min
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import ru.kaplaan.consumer.service.CompanyDataService
+import ru.kaplaan.consumer.service.data.CompanyDataService
 import ru.kaplaan.consumer.web.dto.data.CompanyDataDto
-import ru.kaplaan.consumer.web.dto.data.ContactPersonDto
 import ru.kaplaan.consumer.web.mapper.data.toDto
 import ru.kaplaan.consumer.web.mapper.data.toEntity
 import ru.kaplaan.consumer.web.validation.OnCreate
@@ -35,13 +34,5 @@ class CompanyDataController(
         @PathVariable companyId: Long
     ): CompanyDataDto = companyDataService.getCompanyDataByCompanyId(companyId).toDto()
 
-
-    @GetMapping("/contact-person/{companyId}")
-    fun getContactPerson(
-        @Validated @Min(0, message = "Id компании не должно быть меньше 0!")
-        @PathVariable companyId: Long,
-    ): ContactPersonDto {
-        return companyDataService.getContactPersonByCompanyId(companyId).toDto()
-    }
 
 }
