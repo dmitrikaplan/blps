@@ -1,6 +1,5 @@
 package ru.kaplaan.mailserver.service.impl
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
@@ -10,10 +9,11 @@ import org.thymeleaf.spring6.SpringTemplateEngine
 import ru.kaplaan.mailserver.domain.email.KindsOfEmailMessages
 import ru.kaplaan.mailserver.domain.email.KindsOfSubjects
 import ru.kaplaan.mailserver.service.EmailService
+import ru.kaplaan.mailserver.web.dto.vacancyResponse.VacancyResponseEmailDto
 import java.nio.charset.StandardCharsets
 
 @Service
-class EmailServiceImpl @Autowired constructor(
+class EmailServiceImpl(
     private val mailSender: JavaMailSender,
     private val springTemplateEngine: SpringTemplateEngine
 ) : EmailService {
@@ -24,33 +24,39 @@ class EmailServiceImpl @Autowired constructor(
     @Value("\${spring.mail.username}")
     private lateinit var mail: String
 
-    override fun activateUserByEmail(emailTo: String, login: String, activationCode: String) {
+    @Value("\${endpoint.activation}")
+    private lateinit var activationEndpoint: String
+
+    override fun activateUserByEmail(emailTo: String, username: String, activationCode: String) {
         val templateLocation = KindsOfEmailMessages.REGISTRATION_EMAIL.pathOfTemplate
-        val subject = KindsOfSubjects.SUBJECT_FOR_REGISTRATION.subject
-        val endpoint = "activation"
+        val subject = KindsOfSubjects.REGISTRATION.subject
         val context = Context().apply{
-            setVariable("username", login)
-            setVariable("activationLink", generateActivationLink(activationCode, host, endpoint))
+            setVariable("username", username)
+            setVariable("activationLink", "$host/$activationEndpoint/$activationCode")
             setVariable("subject", subject)
         }
 
-        sendEmail(emailTo, login, context, subject, templateLocation)
+        sendEmail(emailTo,subject, context, templateLocation)
 
     }
 
-    override fun recoveryPasswordByEmail(emailTo: String, login: String, activationCode: String) {
-        val templateLocation = KindsOfEmailMessages.RECOVERY_EMAIL.pathOfTemplate
-        val subject = KindsOfSubjects.SUBJECT_FOR_PASSWORD_RECOVERY.subject
-        val endpoint = "recovery"
+    override fun notifyAboutUpdateVacancyResponseStatus(vacancyResponseEmailDto: VacancyResponseEmailDto) {
+        val templateLocation = KindsOfEmailMessages.NOTIFY_ABOUT_UPDATE_VACANCY_RESPONSE_STATUS.pathOfTemplate
+        val subject = KindsOfSubjects.NOTIFY_ABOUT_UPDATE_VACANCY_RESPONSE_STATUS.subject
         val context = Context().apply {
-            setVariable("username", login)
-            setVariable("activationLink", generateActivationLink(activationCode, host, endpoint))
-            setVariable("subject", subject)
+            vacancyResponseEmailDto.let {
+                setVariable("firstname",  it.firstname)
+                setVariable("surname",  it.surname)
+                setVariable("vacancyTitle", it.vacancyTitle)
+                setVariable("status", it.status)
+                setVariable("comment", it.comment)
+            }
         }
-        sendEmail(emailTo, login, context, subject, templateLocation)
+
+        sendEmail(vacancyResponseEmailDto.email, subject, context, templateLocation)
     }
 
-    private fun sendEmail(emailTo: String, login: String, context: Context, subject: String, templateLocation: String) {
+    private fun sendEmail(emailTo: String,  subject: String, context: Context, templateLocation: String) {
         val mailMessage = mailSender.createMimeMessage()
         val emailContent = springTemplateEngine.process(templateLocation, context)
 
@@ -67,8 +73,5 @@ class EmailServiceImpl @Autowired constructor(
 
         mailSender.send(mailMessage)
     }
-
-    private fun generateActivationLink(activationCode: String, host: String?, endpoint: String): String =
-        "$host/$endpoint/$activationCode"
 
 }

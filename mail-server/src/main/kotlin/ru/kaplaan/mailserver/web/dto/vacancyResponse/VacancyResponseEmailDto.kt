@@ -1,6 +1,8 @@
-package ru.kaplaan.consumer.web.dto.email
+package ru.kaplaan.mailserver.web.dto.vacancyResponse
 
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class VacancyResponseEmailDto(
     val email: String,
     val firstname: String,

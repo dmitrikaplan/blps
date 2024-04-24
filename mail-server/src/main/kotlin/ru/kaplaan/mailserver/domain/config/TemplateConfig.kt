@@ -9,14 +9,6 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
 @Configuration
 class TemplateConfig : WebMvcConfigurer {
     @Bean
-    fun emailTemplateResolver(): ClassLoaderTemplateResolver =
-        ClassLoaderTemplateResolver().apply {
-            prefix = "/templates/email/"
-            suffix = ".html"
-            characterEncoding = "UTF-8"
-        }
-
-    @Bean
     fun defaultTemplateResolver(): ClassLoaderTemplateResolver =
         ClassLoaderTemplateResolver().apply {
             prefix = "/templates/"
@@ -24,11 +16,9 @@ class TemplateConfig : WebMvcConfigurer {
             characterEncoding = "UTF-8"
         }
 
-
     @Bean
     fun templateEngine(): SpringTemplateEngine =
         SpringTemplateEngine().apply {
-            addTemplateResolver(emailTemplateResolver())
             addTemplateResolver(defaultTemplateResolver())
         }
 }

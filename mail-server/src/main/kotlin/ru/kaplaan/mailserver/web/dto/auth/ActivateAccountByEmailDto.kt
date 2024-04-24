@@ -1,4 +1,4 @@
-package ru.kaplaan.mailserver.web.dto
+package ru.kaplaan.mailserver.web.dto.auth
 
 import kotlinx.serialization.Serializable
 

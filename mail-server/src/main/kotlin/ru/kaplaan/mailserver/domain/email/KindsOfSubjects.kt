@@ -1,6 +1,7 @@
 package ru.kaplaan.mailserver.domain.email
 
 enum class KindsOfSubjects(val subject: String) {
-    SUBJECT_FOR_REGISTRATION("Подтверждение регистрации"),
-    SUBJECT_FOR_PASSWORD_RECOVERY("Восстановление пароля")
+    REGISTRATION("Подтверждение регистрации"),
+    PASSWORD_RECOVERY("Восстановление пароля"),
+    NOTIFY_ABOUT_UPDATE_VACANCY_RESPONSE_STATUS("Статус вашего отклика на вакансию изменен!")
 }

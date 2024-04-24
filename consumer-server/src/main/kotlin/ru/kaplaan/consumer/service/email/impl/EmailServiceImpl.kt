@@ -29,7 +29,7 @@ class EmailServiceImpl(
             surname = userData.surname,
             vacancyTitle = vacancy.title,
             comment = vacancyResponse.comment,
-            status = vacancyResponse.status
+            status = vacancyResponse.status.name
         ).also { vacancyResponseEmailDto ->
             ObjectMapper().writeValueAsString(vacancyResponseEmailDto).let { json ->
                 amqpTemplate.convertAndSend(exchangeName, routingKey, json)
