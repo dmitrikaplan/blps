@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.kaplaan.authserver.service.AuthService
-import ru.kaplaan.authserver.service.UserInfoService
+import ru.kaplaan.authserver.service.UserService
 import ru.kaplaan.authserver.web.dto.authentication.AuthenticationDto
 import ru.kaplaan.authserver.web.dto.refreshToken.RefreshTokenDto
 import ru.kaplaan.authserver.web.dto.response.JwtResponse
@@ -26,7 +26,7 @@ import ru.kaplaan.authserver.web.validation.OnRecovery
 @RequestMapping("/auth")
 class AuthController(
     private val authService: AuthService,
-    private val userInfoService: UserInfoService
+    private val userService: UserService
 ) {
 
     private val log = LoggerFactory.getLogger(AuthController::class.java)
@@ -84,6 +84,6 @@ class AuthController(
     fun getUsernameByUserId(
         @Validated @Min(0, message = "Минимальное Id пользователя - 0!")
         @PathVariable userId: Long
-    ): String = userInfoService.getUsernameByUserId(userId)
+    ): String = userService.getUsernameByUserId(userId)
 
 }

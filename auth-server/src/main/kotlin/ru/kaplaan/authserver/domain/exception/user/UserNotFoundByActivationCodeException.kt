@@ -1,7 +1,7 @@
 package ru.kaplaan.authserver.domain.exception.user
 
 
-class NotFoundUserByActivationCodeException:
+class UserNotFoundByActivationCodeException:
     UserException("Пользователь с таким кодом активации не найден!") {
 
     override val message: String

@@ -16,7 +16,7 @@ interface AuthService {
 
     fun authenticate(authentication: Authentication): Authentication
 
-    fun activateAccount(code: String)
+    fun activateAccount(activationCode: String)
 
     fun passwordRecovery(userIdentification: UserIdentification)
 

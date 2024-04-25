@@ -6,10 +6,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.AuthenticationException
-import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import ru.kaplaan.authserver.domain.exception.refresh_token.RefreshTokenException
+import ru.kaplaan.authserver.domain.exception.refreshToken.RefreshTokenException
 import ru.kaplaan.authserver.domain.exception.user.UserException
 
 
