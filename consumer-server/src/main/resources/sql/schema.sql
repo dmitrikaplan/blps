@@ -60,8 +60,6 @@ create table if not exists payment_info(
 );
 
 
-
-
 --- копируем поля для того, чтобы в случае обновления платежной информации не потерялись старые платежки
 create table if not exists payment_order(
     payment_order_id bigserial primary key

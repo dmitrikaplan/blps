@@ -8,9 +8,9 @@ import ru.kaplaan.consumer.domain.entity.payment.PaymentInfo
 @Repository
 interface PaymentInfoRepository: CrudRepository<PaymentInfo, Long>{
 
-    @Query("select exists (select 1 from payer_info where company_id = :companyId)")
+    @Query("select exists (select 1 from payment_info where company_id = :companyId)")
     fun existsByCompanyId(companyId: Long): Boolean
 
-    @Query("select * from payer_info where company_id = :companyId")
+    @Query("select * from payment_info where company_id = :companyId")
     fun findByCompanyId(companyId: Long): PaymentInfo
 }
