@@ -68,7 +68,7 @@ class VacancyResponseController(
         @PathVariable vacancyId: Long,
         @Validated @Min(0, message = "Минимальное Id пользователя 0!")
         @PathVariable userId: Long
-    ): VacancyResponseDto = vacancyResponseService.getVacancyResponseByIdAndCompanyId(companyId, VacancyResponse.PK(userId, vacancyId)).toDto()
+    ): VacancyResponseDto = vacancyResponseService.getVacancyResponseByIdAndCompanyId(companyId, VacancyResponse.PK(vacancyId, userId)).toDto()
 
 
     @GetMapping("/get-all-user-id/{companyId}/{vacancyId}/{pageNumber}")
