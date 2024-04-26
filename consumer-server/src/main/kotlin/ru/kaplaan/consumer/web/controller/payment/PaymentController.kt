@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.kaplaan.consumer.service.payment.PaymentInfoService
 import ru.kaplaan.consumer.service.paymentOrder.PaymentOrderService
@@ -17,7 +18,8 @@ import ru.kaplaan.consumer.web.mapper.payment.toEntity
 import ru.kaplaan.consumer.web.validation.OnCreate
 import ru.kaplaan.consumer.web.validation.OnUpdate
 
-@RestController("/consumer/payment")
+@RestController
+@RequestMapping("/consumer/payment")
 class PaymentController(
     private val paymentInfoService: PaymentInfoService,
     private val paymentOrderService: PaymentOrderService
