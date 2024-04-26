@@ -21,7 +21,7 @@ interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResp
     @Modifying
     @Query("""
         update vacancy_response set status = :#{#vacanyResponse.status.name}, comment = :#{#vacancyResponse.comment}
-            where vacancy_id = :#{#vacancyResponse.pk.vacancyId} and user_id = :#{#vacancyResponse.pk.user_id}
+            where vacancy_id = :#{#vacancyResponse.pk.vacancyId} and user_id = :#{#vacancyResponse.pk.userId}
     """)
     fun updateVacancyResponse(vacancyResponse: VacancyResponse)
 
@@ -39,6 +39,6 @@ interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResp
     @Query("select * from vacancy_response where user_id = :userId")
     fun findAllVacancyResponsesByUserId(userId: Long): List<VacancyResponse>
 
-    @Query("select * from vacancy_response where vacancy_id = :#{#id.vacancyId} and user_id = :#{#id.user_id}")
+    @Query("select * from vacancy_response where vacancy_id = :#{#id.vacancyId} and user_id = :#{#id.userId}")
     fun findVacancyResponseById(id: VacancyResponse.PK): VacancyResponse?
 }
