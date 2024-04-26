@@ -56,7 +56,8 @@ create table if not exists payment_info(
     company_account_number text not null check(length(company_account_number) = 20),
     bank_bik text not null check(length(bank_bik) = 9),
     bank_account_number text not null check(length(bank_account_number) = 20),
-    bank_name text not null
+    bank_name text not null,
+    company_id bigint unique not null
 );
 
 

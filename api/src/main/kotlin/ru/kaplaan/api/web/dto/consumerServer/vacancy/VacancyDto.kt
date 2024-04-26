@@ -36,11 +36,12 @@ data class VacancyDto(
     @field:Null(message = "Id компании не должно быть заполнено!", groups = [OnCreate::class, OnUpdate::class])
     var companyId: Long? = null
 
-    @Schema(description = "Id вакансии", example = "1", hidden = true)
+    @Schema(description = "Id вакансии. Заполняется только при обновлении", example = "1", hidden = true)
     @field:Null(message = "Id вакансии не должен быть заполнен!", groups = [OnCreate::class])
     @field:NotNull(message = "Id вакансии должен быть заполнен!", groups = [OnUpdate::class])
     @field:Min(0, message = "Минимальное значение id - 0", groups = [OnUpdate::class])
     var id: Long? = null
 
+    @Schema(description = "Архивировать ли вакансию. Необязательное поле")
     val isArchived: Boolean = false
 }

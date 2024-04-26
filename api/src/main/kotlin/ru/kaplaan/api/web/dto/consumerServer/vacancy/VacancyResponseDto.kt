@@ -18,10 +18,12 @@ data class VacancyResponseDto(
     @field:Null(message = "Id не должен быть заполнен!", groups = [OnCreate::class, OnUpdate::class])
     var userId: Long? = null
 
+    @Schema(description = "Комментарий. Заполняется только при обновлении отклика компанией")
     @field:Null(message = "Комментарий не должен быть заполнен!", groups = [OnCreate::class])
     @field:NotNull(message = "Комментарий должен быть заполнен!", groups = [OnUpdate::class])
     var comment: String? = null
 
+    @Schema(description = "Статус. Заполняется только при обновлении отклика компанией")
     @field:Null(message = "Статус вакансии не должен быть заполнен!", groups = [OnCreate::class])
     @field:NotNull(message = "Статус вакансии должен быть заполнен!", groups = [OnUpdate::class])
     var status: VacancyResponseStatus? = null

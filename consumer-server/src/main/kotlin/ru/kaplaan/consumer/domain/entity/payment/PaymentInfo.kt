@@ -16,7 +16,9 @@ class PaymentInfo {
 
     lateinit var inn: String
     lateinit var kpp: String
-    lateinit var payerAccountNumber: String
+    lateinit var companyAccountNumber: String
+    lateinit var companyName: String
     lateinit var bankBik: String
     lateinit var bankAccountNumber: String
+    lateinit var bankName: String
 }
