@@ -20,7 +20,7 @@ interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResp
 
     @Modifying
     @Query("""
-        update vacancy_response set status = :#{#vacanyResponse.status.name}, comment = :#{#vacancyResponse.comment}
+        update vacancy_response set status = :#{#vacancyResponse.status.name}, comment = :#{#vacancyResponse.comment}
             where vacancy_id = :#{#vacancyResponse.pk.vacancyId} and user_id = :#{#vacancyResponse.pk.userId}
     """)
     fun updateVacancyResponse(vacancyResponse: VacancyResponse)
