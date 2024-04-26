@@ -26,12 +26,14 @@ class VacancyResponseController(
         return vacancyResponseService.save(vacancyResponseDto.toEntity()).toDto()
     }
 
-    @PutMapping
+    @PutMapping("/{companyId}")
     fun update(
         @RequestBody @Validated(OnUpdate::class)
-        vacancyResponseDto: VacancyResponseDto
+        vacancyResponseDto: VacancyResponseDto,
+        @Validated @Min(0, message = "Минимальное Id компании - 0!")
+        @PathVariable companyId: Long
     ) : VacancyResponseDto {
-        return vacancyResponseService.update(vacancyResponseDto.toEntity()).toDto()
+        return vacancyResponseService.update(vacancyResponseDto.toEntity(), companyId).toDto()
     }
 
     @DeleteMapping("/{vacancyId}/{userId}")

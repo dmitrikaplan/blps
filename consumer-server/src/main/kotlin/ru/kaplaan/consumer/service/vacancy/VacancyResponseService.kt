@@ -9,7 +9,7 @@ interface VacancyResponseService {
 
     fun save(vacancyResponse: VacancyResponse): VacancyResponse
 
-    fun update(vacancyResponse: VacancyResponse): VacancyResponse
+    fun update(vacancyResponse: VacancyResponse, companyId: Long): VacancyResponse
 
     fun delete(vacancyId: Long, userId: Long)
 

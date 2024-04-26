@@ -8,7 +8,8 @@ fun ContactPerson.toDto(): ContactPersonDto =
     ContactPersonDto(
         name = this.name,
         surname = this.surname,
-        position = this.position
+        position = this.position,
+        email = this.email
     )
 
 
@@ -17,4 +18,5 @@ fun ContactPersonDto.toEntity(): ContactPerson =
         this.name = this@toEntity.name
         this.surname = this@toEntity.surname
         this.position = this@toEntity.position
+        this.email = this@toEntity.email
     }

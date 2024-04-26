@@ -49,10 +49,10 @@ class VacancyResponseServiceImpl(
             .retrieve()
             .bodyToMono(VacancyResponseDto::class.java)
 
-    override fun update(vacancyResponseDto: Mono<VacancyResponseDto>): Mono<VacancyResponseDto> =
+    override fun update(vacancyResponseDto: Mono<VacancyResponseDto>, companyId: Long): Mono<VacancyResponseDto> =
         webClient
             .put()
-            .uri("$baseUrl$url$updateEndpoint")
+            .uri("$baseUrl$url$updateEndpoint/$companyId")
             .body(vacancyResponseDto)
             .retrieve()
             .bodyToMono(VacancyResponseDto::class.java)
@@ -91,5 +91,4 @@ class VacancyResponseServiceImpl(
             .uri("$baseUrl$url$getAllVacancyResponsesByUserIdEndpoint/$userId")
             .retrieve()
             .bodyToFlux(VacancyResponseDto::class.java)
-
 }

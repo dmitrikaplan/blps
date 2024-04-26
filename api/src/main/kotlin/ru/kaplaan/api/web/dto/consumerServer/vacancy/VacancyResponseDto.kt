@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Null
-import ru.kaplaan.api.web.controller.consumerServer.vacancy.VacancyResponseStatus
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnUpdate
 
@@ -14,8 +13,9 @@ data class VacancyResponseDto(
     @field:Min(value = 0, message = "Id вакансии должен быть больше 0", groups = [OnCreate::class, OnUpdate::class])
     val vacancyId: Long
 ){
-    @Schema(description = "Id пользователя", example = "IvanIvanov", hidden = true)
-    @field:Null(message = "Id не должен быть заполнен!", groups = [OnCreate::class, OnUpdate::class])
+    @Schema(description = "Id пользователя. Заполняется только при обновлении отклика компанией", example = "1")
+    @field:Null(message = "Id не должен быть заполнен!", groups = [OnCreate::class])
+    @field:NotNull(message = "Id должен быть заполнен!", groups = [OnUpdate::class])
     var userId: Long? = null
 
     @Schema(description = "Комментарий. Заполняется только при обновлении отклика компанией")

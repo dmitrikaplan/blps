@@ -8,12 +8,14 @@ import ru.kaplaan.consumer.domain.exception.PermissionDeniedException
 import ru.kaplaan.consumer.domain.exception.alreadyExists.VacancyResponseAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyResponseNotFoundException
 import ru.kaplaan.consumer.repository.vacancy.VacancyResponseRepository
-import ru.kaplaan.consumer.service.accountant.AccountantService
+import ru.kaplaan.consumer.service.data.CompanyDataService
 import ru.kaplaan.consumer.service.data.UserDataService
 import ru.kaplaan.consumer.service.email.EmailService
+import ru.kaplaan.consumer.service.payment.PaymentOrderService
 import ru.kaplaan.consumer.service.vacancy.VacancyResponseService
 import ru.kaplaan.consumer.service.vacancy.VacancyService
 import ru.kaplaan.consumer.web.dto.vacancy.VacancyResponseStatus
+import ru.kaplaan.consumer.web.mapper.payment.toDto
 
 @Service
 class VacancyResponseServiceImpl(
@@ -21,20 +23,20 @@ class VacancyResponseServiceImpl(
     private val vacancyService: VacancyService,
     private val emailService: EmailService,
     private val userDataService: UserDataService,
-    private val accountantService: AccountantService
+    private val companyDataService: CompanyDataService,
+    private val paymentOrderService: PaymentOrderService,
 ) : VacancyResponseService {
 
     @Value("\${vacancy-response.page-size}")
     var pageSize: Int? = null
 
     override fun save(vacancyResponse: VacancyResponse): VacancyResponse {
-
-        val vacancy = vacancyService.getVacancyById(vacancyResponse.pk.vacancyId)
-        val userData = userDataService.getUserDataByUserId(vacancyResponse.pk.userId)
-
         vacancyResponseRepository.findVacancyResponseById(vacancyResponse.pk)?.let {
             throw VacancyResponseAlreadyExistsException()
         }
+
+        val vacancy = vacancyService.getVacancyById(vacancyResponse.pk.vacancyId)
+        val userData = userDataService.getUserDataByUserId(vacancyResponse.pk.userId)
 
         vacancyResponseRepository.saveVacancyResponse(vacancyResponse)
         emailService.sendVacancyResponseMail(vacancyResponse, vacancy, userData)
@@ -43,19 +45,26 @@ class VacancyResponseServiceImpl(
 
     }
 
-    override fun update(vacancyResponse: VacancyResponse): VacancyResponse {
+    override fun update(vacancyResponse: VacancyResponse, companyId: Long): VacancyResponse {
+
+        if(!vacancyService.existsVacancyByVacancyIdAndCompanyId(vacancyResponse.pk.vacancyId, companyId))
+            throw PermissionDeniedException()
 
         if(!vacancyResponseRepository.existsById(vacancyResponse.pk))
             throw VacancyResponseNotFoundException()
 
+        vacancyResponseRepository.updateVacancyResponse(vacancyResponse)
+
         val vacancy = vacancyService.getVacancyById(vacancyResponse.pk.vacancyId)
         val userData = userDataService.getUserDataByUserId(vacancyResponse.pk.userId)
 
-        vacancyResponseRepository.updateVacancyResponse(vacancyResponse)
         emailService.sendVacancyResponseMail(vacancyResponse, vacancy, userData)
 
         if(vacancyResponse.status == VacancyResponseStatus.ACCEPTED){
-            accountantService.sendPaymentOrder(vacancy.companyId!!)
+            val email: String = companyDataService.getCompanyDataByCompanyId(vacancy.companyId!!).contactPerson.email
+            paymentOrderService.generatePaymentOrder(vacancy.companyId!!).also {
+                emailService.sendPaymentOrder(email, it.toDto())
+            }
         }
         return vacancyResponse
     }

@@ -27,6 +27,7 @@ class PaymentInfoServiceImpl(
 
     @Value("\${consumer-server.payment.get-payment-info-by-company-id}")
     private lateinit var getPaymentInfoByCompanyIdEndpoint: String
+
     override fun savePaymentInfo(paymentInfoDto: Mono<PaymentInfoDto>): Mono<PaymentInfoDto> =
         webClient
             .post()

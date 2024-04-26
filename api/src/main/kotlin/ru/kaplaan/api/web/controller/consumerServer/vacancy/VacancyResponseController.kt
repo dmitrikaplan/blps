@@ -46,13 +46,7 @@ class VacancyResponseController(
         @RequestBody vacancyResponseDto: Mono<VacancyResponseDto>,
         authentication: Authentication
     ): Mono<VacancyResponseDto> =
-        vacancyResponseService.update(
-            vacancyResponseDto.map {
-                it.apply {
-                    userId = (authentication.details as String).toLong()
-                }
-            }
-        )
+        vacancyResponseService.update(vacancyResponseDto, (authentication.details as String).toLong())
 
     @DeleteMapping("/{vacancyId}")
     @PreAuthorize("hasRole('USER')")

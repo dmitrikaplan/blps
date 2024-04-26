@@ -9,6 +9,7 @@ import ru.kaplaan.consumer.domain.entity.vacancy.Vacancy
 import ru.kaplaan.consumer.domain.entity.vacancy.VacancyResponse
 import ru.kaplaan.consumer.service.email.EmailService
 import ru.kaplaan.consumer.web.dto.email.VacancyResponseEmailDto
+import ru.kaplaan.consumer.web.dto.payment.PaymentOrderDto
 
 @Service
 class EmailServiceImpl(
@@ -35,5 +36,9 @@ class EmailServiceImpl(
                 amqpTemplate.convertAndSend(exchangeName, routingKey, json)
             }
         }
+    }
+
+    override fun sendPaymentOrder(email: String, paymentOrderDto: PaymentOrderDto) {
+
     }
 }

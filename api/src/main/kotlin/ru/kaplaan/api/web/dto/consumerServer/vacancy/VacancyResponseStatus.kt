@@ -1,4 +1,4 @@
-package ru.kaplaan.api.web.controller.consumerServer.vacancy
+package ru.kaplaan.api.web.dto.consumerServer.vacancy
 
 enum class VacancyResponseStatus{
     REFUSED,

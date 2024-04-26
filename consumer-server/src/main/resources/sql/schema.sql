@@ -78,5 +78,7 @@ create table if not exists payment_order(
     recipient_company_account_number text not null check(length(recipient_company_account_number) = 20),
     recipient_bank_bik text not null check(length(recipient_bank_bik) = 9),
     recipient_bank_account_number text not null check(length(recipient_bank_account_number) = 20),
-    recipient_bank_name text not null
+    recipient_bank_name text not null,
+    creation_date date not null,
+    is_completed bool not null
 );

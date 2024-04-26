@@ -56,7 +56,7 @@ class CompanyDataController(
         )
 
     @GetMapping("/{companyId}")
-    @Operation(summary = "Получить информацию о компании по названию компании")
+    @Operation(summary = "Получить информацию о компании по Id компании")
     fun getCompanyDataByCompanyId(
         @Validated @Min(0, message = "Id компании не должен быть больше или равен 0!")
         @Parameter(description = "Название компании", required = true)

@@ -9,7 +9,7 @@ import ru.kaplaan.api.web.dto.consumerServer.vacancy.VacancyResponseDto
 interface VacancyResponseService {
     fun save(vacancyResponseDto: Mono<VacancyResponseDto>): Mono<VacancyResponseDto>
 
-    fun update(vacancyResponseDto: Mono<VacancyResponseDto>): Mono<VacancyResponseDto>
+    fun update(vacancyResponseDto: Mono<VacancyResponseDto>, companyId: Long): Mono<VacancyResponseDto>
 
     fun delete(vacancyId: Long, userId: Long): Mono<Any>
 

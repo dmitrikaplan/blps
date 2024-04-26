@@ -14,6 +14,9 @@ class ContactPerson{
     lateinit var surname: String
     lateinit var position: String
 
+    //TODO: довить email в api-gateway
+    lateinit var email: String
+
     @Column("company_data_id")
     var companyDataId: Long? = null
 }

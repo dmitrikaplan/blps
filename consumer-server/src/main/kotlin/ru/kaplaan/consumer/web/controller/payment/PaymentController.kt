@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.kaplaan.consumer.service.payment.PaymentInfoService
-import ru.kaplaan.consumer.service.paymentOrder.PaymentOrderService
+import ru.kaplaan.consumer.service.payment.PaymentOrderService
 import ru.kaplaan.consumer.web.dto.payment.PaymentInfoDto
 import ru.kaplaan.consumer.web.dto.payment.PaymentOrderDto
 import ru.kaplaan.consumer.web.mapper.payment.toDto
@@ -46,11 +46,11 @@ class PaymentController(
     ): PaymentInfoDto = paymentInfoService.getByCompanyId(companyId).toDto()
 
 
-//    @GetMapping("/order/{companyId}/{pageNumber}")
-//    fun getPaymentOrderByCompanyId(
-//        @PathVariable companyId: Long,
-//        @PathVariable pageNumber: Int
-//    ): List<PaymentOrderDto> = paymentOrderService.getPaymentOrdersByCompanyId(companyId).toDto()
+    @GetMapping("/order/{companyId}/{pageNumber}")
+    fun getPaymentOrderByCompanyId(
+        @PathVariable companyId: Long,
+        @PathVariable pageNumber: Int
+    ): List<PaymentOrderDto> = paymentOrderService.getPaymentOrdersByCompanyId(companyId, pageNumber).toDto()
 
 
 }
