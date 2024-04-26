@@ -1,6 +1,6 @@
 create table if not exists company_data(
     company_data_id bigserial primary key,
-    company_id bigint not null,
+    company_id bigint unique not null,
     description text not null check ( length(description) > 0 ),
     site text not null
 );
@@ -10,13 +10,13 @@ create table if not exists contact_person(
     name text not null check ( length(name) > 0 ),
     surname text not null check ( length(surname) > 0 ),
     position text not null check ( length(position) > 0 ),
-    company_data_id bigint references company_data(company_data_id)
+    company_data_id bigint unique references company_data(company_data_id) on update cascade on delete cascade
 );
 
 
 create table if not exists user_data(
     user_data_id bigserial primary key,
-    user_id bigint not null,
+    user_id bigint unique not null,
     firstname text not null check ( length(firstname) > 0 ),
     surname text not null check ( length(surname) > 0 ),
     date_of_birth date not null,
@@ -41,7 +41,7 @@ create table if not exists vacancy(
 );
 
 create table if not exists vacancy_response(
-   vacancy_id bigint references vacancy(vacancy_id),
+   vacancy_id bigint references vacancy(vacancy_id) on update cascade on delete cascade,
    user_id bigint not null,
    status text not null check(length(status) > 0),
    comment text not null check(length(comment) > 0),
