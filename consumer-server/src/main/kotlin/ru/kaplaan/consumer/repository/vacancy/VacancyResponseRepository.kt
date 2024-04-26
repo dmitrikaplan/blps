@@ -14,7 +14,7 @@ interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResp
     @Modifying
     @Query("""
         insert into vacancy_response(vacancy_id, user_id, status, comment) 
-            values(:#{#vacancyResponse.pk.vacancyId}, :#{#vacancyResponse.pk.userId}), :#{#vacancyResponse.status.name}, :#{#vacancyResponse.comment})
+            values(:#{#vacancyResponse.pk.vacancyId}, :#{#vacancyResponse.pk.userId}, :#{#vacancyResponse.status.name}, :#{#vacancyResponse.comment})
     """)
     fun saveVacancyResponse(vacancyResponse: VacancyResponse)
 
