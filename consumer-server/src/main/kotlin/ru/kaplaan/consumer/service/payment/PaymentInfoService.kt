@@ -1,4 +1,4 @@
-package ru.kaplaan.consumer.service.payer
+package ru.kaplaan.consumer.service.payment
 
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.payment.PaymentInfo

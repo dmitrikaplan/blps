@@ -1,11 +1,11 @@
-package ru.kaplaan.consumer.service.payer.impl
+package ru.kaplaan.consumer.service.payment.impl
 
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.payment.PaymentInfo
 import ru.kaplaan.consumer.domain.exception.alreadyExists.PaymentInfoAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.PaymentInfoNotFoundException
 import ru.kaplaan.consumer.repository.payment.PaymentInfoRepository
-import ru.kaplaan.consumer.service.payer.PaymentInfoService
+import ru.kaplaan.consumer.service.payment.PaymentInfoService
 
 @Service
 class PaymentInfoServiceImpl(

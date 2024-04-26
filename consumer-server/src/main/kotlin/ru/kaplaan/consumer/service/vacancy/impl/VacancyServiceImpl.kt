@@ -7,7 +7,7 @@ import ru.kaplaan.consumer.domain.entity.vacancy.Vacancy
 import ru.kaplaan.consumer.domain.exception.PermissionDeniedException
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyNotFoundException
 import ru.kaplaan.consumer.repository.vacancy.VacancyRepository
-import ru.kaplaan.consumer.service.payer.PaymentInfoService
+import ru.kaplaan.consumer.service.payment.PaymentInfoService
 import ru.kaplaan.consumer.service.vacancy.VacancyService
 
 @Service
