@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.data.CompanyData
 import ru.kaplaan.consumer.domain.exception.alreadyExists.CompanyDataAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.CompanyDataNotFoundException
-import ru.kaplaan.consumer.repository.CompanyDataRepository
+import ru.kaplaan.consumer.repository.data.CompanyDataRepository
 import ru.kaplaan.consumer.service.data.CompanyDataService
 import ru.kaplaan.consumer.service.data.ContactPersonService
 

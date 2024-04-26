@@ -1,4 +1,4 @@
-package ru.kaplaan.consumer.repository
+package ru.kaplaan.consumer.repository.vacancy
 
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jdbc.repository.query.Modifying
@@ -9,16 +9,14 @@ import ru.kaplaan.consumer.domain.entity.vacancy.Vacancy
 
 @Repository
 interface VacancyRepository: CrudRepository<Vacancy, Long> {
-    @Query("select * from vacancy where company_id = :companyId and is_archived = :isArchived")
-    fun findAllByCompanyId(companyId: Long, pageable: Pageable, isArchived: Boolean = false): List<Vacancy>
+    @Query("select * from vacancy where company_id = :companyId and is_archived = false")
+    fun findAllByCompanyId(companyId: Long, pageable: Pageable): List<Vacancy>
 
+    @Query("select * from vacancy where is_archived = false")
+    fun findAllVacancies(pageable: Pageable): List<Vacancy>
 
-
-    @Query("select * from vacancy where is_archived = :isArchived")
-    fun findAllVacancies(pageable: Pageable, isArchived: Boolean = false): List<Vacancy>
-
-    @Query("select * from vacancy where title ~* '^. *:text .*\$' or description ~* '^. *:text .*\$' where is_archived = :isArchived")
-    fun findAllByVacanciesByText(text: String, pageable: Pageable, isArchived: Boolean = false): List<Vacancy>
+    @Query("select * from vacancy where title ~* '^. *:text .*\$' or description ~* '^. *:text .*\$' where is_archived = false")
+    fun findAllByVacanciesByText(text: String, pageable: Pageable): List<Vacancy>
 
     @Modifying
     @Query("delete from vacancy where company_id = :companyId and vacancy_id = :vacancyId")

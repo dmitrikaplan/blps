@@ -4,23 +4,35 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.vacancy.Vacancy
+import ru.kaplaan.consumer.domain.exception.PermissionDeniedException
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyNotFoundException
-import ru.kaplaan.consumer.repository.VacancyRepository
+import ru.kaplaan.consumer.repository.vacancy.VacancyRepository
+import ru.kaplaan.consumer.service.payer.PaymentInfoService
 import ru.kaplaan.consumer.service.vacancy.VacancyService
 
 @Service
 class VacancyServiceImpl(
     private val vacancyRepository: VacancyRepository,
+    private val paymentInfoService: PaymentInfoService
 ): VacancyService {
 
     @Value("\${vacancy.page-size}")
     val pageSize: Int? = null
 
-    override fun save(vacancy: Vacancy): Vacancy =
-        vacancyRepository.save(vacancy)
+    override fun save(vacancy: Vacancy): Vacancy{
+        if(!paymentInfoService.existsByCompanyId(vacancy.companyId!!))
+            throw PermissionDeniedException("Чтобы добавить вакансию, добавьте платежную информацию о компании!")
 
-    override fun update(vacancy: Vacancy): Vacancy =
-        vacancyRepository.save(vacancy)
+        return vacancyRepository.save(vacancy)
+    }
+
+    override fun update(vacancy: Vacancy): Vacancy{
+        if(!vacancyRepository.existsById(vacancy.id!!))
+            throw VacancyNotFoundException()
+
+        return vacancyRepository.save(vacancy)
+    }
+
 
     override fun delete(companyId: Long, vacancyId: Long) =
             vacancyRepository.deleteByCompanyIdAndVacancyId(companyId, vacancyId)

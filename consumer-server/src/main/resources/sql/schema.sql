@@ -47,3 +47,22 @@ create table if not exists vacancy_response(
    comment text not null check(length(comment) > 0),
    primary key(vacancy_id, user_id)
 );
+
+create table if not exists payment_info(
+    payment_info_id bigserial primary key,
+    inn text not null check(length(inn) = 10),
+    kpp text not null check(length(kpp) = 9),
+    company_name text unique not null,
+    company_account_number text not null check(length(company_account_number) = 20),
+    bank_bik text not null check(length(bank_bik) = 9),
+    bank_account_number text not null check(length(bank_account_number) = 20),
+    bank_name text not null
+);
+
+
+
+
+--- копируем поля для того, чтобы в случае обновления платежной информации не потерялись старые платежки
+create table if not exists payment_order(
+    payment_order_id bigserial primary key
+);

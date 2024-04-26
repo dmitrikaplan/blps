@@ -7,18 +7,21 @@ import ru.kaplaan.consumer.domain.entity.vacancy.VacancyResponse
 import ru.kaplaan.consumer.domain.exception.PermissionDeniedException
 import ru.kaplaan.consumer.domain.exception.alreadyExists.VacancyResponseAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyResponseNotFoundException
-import ru.kaplaan.consumer.repository.VacancyResponseRepository
+import ru.kaplaan.consumer.repository.vacancy.VacancyResponseRepository
+import ru.kaplaan.consumer.service.accountant.AccountantService
 import ru.kaplaan.consumer.service.data.UserDataService
 import ru.kaplaan.consumer.service.email.EmailService
 import ru.kaplaan.consumer.service.vacancy.VacancyResponseService
 import ru.kaplaan.consumer.service.vacancy.VacancyService
+import ru.kaplaan.consumer.web.dto.vacancy.VacancyResponseStatus
 
 @Service
 class VacancyResponseServiceImpl(
     private val vacancyResponseRepository: VacancyResponseRepository,
     private val vacancyService: VacancyService,
     private val emailService: EmailService,
-    private val userDataService: UserDataService
+    private val userDataService: UserDataService,
+    private val accountantService: AccountantService
 ) : VacancyResponseService {
 
     @Value("\${vacancy-response.page-size}")
@@ -41,15 +44,19 @@ class VacancyResponseServiceImpl(
     }
 
     override fun update(vacancyResponse: VacancyResponse): VacancyResponse {
+
+        if(!vacancyResponseRepository.existsById(vacancyResponse.pk))
+            throw VacancyResponseNotFoundException()
+
         val vacancy = vacancyService.getVacancyById(vacancyResponse.pk.vacancyId)
         val userData = userDataService.getUserDataByUserId(vacancyResponse.pk.userId)
-
-        vacancyResponseRepository.findVacancyResponseById(vacancyResponse.pk)
-            ?: throw VacancyResponseNotFoundException()
 
         vacancyResponseRepository.updateVacancyResponse(vacancyResponse)
         emailService.sendVacancyResponseMail(vacancyResponse, vacancy, userData)
 
+        if(vacancyResponse.status == VacancyResponseStatus.ACCEPTED){
+            accountantService.sendPaymentOrder(vacancy.companyId!!)
+        }
         return vacancyResponse
     }
 

@@ -1,4 +1,4 @@
-package ru.kaplaan.consumer.repository
+package ru.kaplaan.consumer.repository.vacancy
 
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jdbc.repository.query.Modifying
@@ -31,6 +31,10 @@ interface VacancyResponseRepository: CrudRepository<VacancyResponse, VacancyResp
 
     @Query("select user_id from vacancy_response where vacancy_id = :vacancyId")
     fun findAllUserIdByVacancyId(vacancyId: Long, pageable: Pageable): List<Long>
+
+
+    @Query("select exists(select 1 from vacancy_response where vacancy_id = :#{#id.vacancyId} and user_id = :#{#id.userId})")
+    override fun existsById(id: VacancyResponse.PK): Boolean
 
     @Query("select * from vacancy_response where user_id = :userId")
     fun findAllVacancyResponsesByUserId(userId: Long): List<VacancyResponse>
