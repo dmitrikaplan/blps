@@ -5,11 +5,12 @@ import org.springframework.amqp.core.AmqpTemplate
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.data.UserData
+import ru.kaplaan.consumer.domain.entity.payment.PaymentOrder
 import ru.kaplaan.consumer.domain.entity.vacancy.Vacancy
 import ru.kaplaan.consumer.domain.entity.vacancy.VacancyResponse
 import ru.kaplaan.consumer.service.email.EmailService
 import ru.kaplaan.consumer.web.dto.email.VacancyResponseEmailDto
-import ru.kaplaan.consumer.web.dto.payment.PaymentOrderDto
+import ru.kaplaan.consumer.web.mapper.payment.toEmailDto
 
 @Service
 class EmailServiceImpl(
@@ -17,10 +18,13 @@ class EmailServiceImpl(
 ) : EmailService {
 
     @Value("\${rabbit.mail-server.exchange-name}")
-    private lateinit var exchangeName: String
+    private lateinit var emailServerExchangeName: String
 
-    @Value("\${rabbit.mail-server.send-vacancy-response-mail.routing-key}")
-    private lateinit var routingKey: String
+    @Value("\${rabbit.mail-server.send-vacancy-response.routing-key}")
+    private lateinit var sendVacancyResponseEmailRoutingKey: String
+
+    @Value("\${rabbit.mail-server.send-payment-order.routing-key}")
+    private lateinit var sendPaymentOrderRoutingKey: String
 
     override fun sendVacancyResponseMail(vacancyResponse: VacancyResponse, vacancy: Vacancy, userData: UserData) {
 
@@ -33,12 +37,16 @@ class EmailServiceImpl(
             status = vacancyResponse.status.toString()
         ).also { vacancyResponseEmailDto ->
             ObjectMapper().writeValueAsString(vacancyResponseEmailDto).let { json ->
-                amqpTemplate.convertAndSend(exchangeName, routingKey, json)
+                amqpTemplate.convertAndSend(emailServerExchangeName, sendVacancyResponseEmailRoutingKey, json)
             }
         }
     }
 
-    override fun sendPaymentOrder(email: String, paymentOrderDto: PaymentOrderDto) {
-
+    override fun sendPaymentOrder(email: String, paymentOrder: PaymentOrder) {
+        paymentOrder.toEmailDto(email).also {  paymentOrderEmailDto ->
+            ObjectMapper().writeValueAsString(paymentOrderEmailDto).let { json ->
+                amqpTemplate.convertAndSend(emailServerExchangeName, sendPaymentOrderRoutingKey, json)
+            }
+        }
     }
 }

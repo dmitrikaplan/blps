@@ -15,7 +15,6 @@ import ru.kaplaan.consumer.service.payment.PaymentOrderService
 import ru.kaplaan.consumer.service.vacancy.VacancyResponseService
 import ru.kaplaan.consumer.service.vacancy.VacancyService
 import ru.kaplaan.consumer.web.dto.vacancy.VacancyResponseStatus
-import ru.kaplaan.consumer.web.mapper.payment.toDto
 
 @Service
 class VacancyResponseServiceImpl(
@@ -63,7 +62,7 @@ class VacancyResponseServiceImpl(
         if(vacancyResponse.status == VacancyResponseStatus.ACCEPTED){
             val email: String = companyDataService.getCompanyDataByCompanyId(vacancy.companyId!!).contactPerson.email
             paymentOrderService.generatePaymentOrder(vacancy.companyId!!).also {
-                emailService.sendPaymentOrder(email, it.toDto())
+                emailService.sendPaymentOrder(email, it)
             }
         }
         return vacancyResponse

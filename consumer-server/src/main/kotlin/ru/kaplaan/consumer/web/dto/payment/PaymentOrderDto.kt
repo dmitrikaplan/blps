@@ -53,7 +53,14 @@ data class PaymentOrderDto(
 
     @field:Past(message = "Дата должна быть в прошлом!", groups = [OnCreate::class, OnUpdate::class])
     val creationDate: LocalDate,
-    val isCompleted: Boolean
+
+    val isCompleted: Boolean,
+
+    @field:Min(0, message = "Сумма не может быть меньше 0!", groups = [OnCreate::class, OnUpdate::class])
+    val sum: Long,
+
+    @field:NotBlank(message = "Название платежа не может быть пустым!", groups = [OnCreate::class, OnUpdate::class])
+    val purposeOfPayment: String
 ){
 
     @field:Null(message = "Id платежного поручения не должно быть заполнено!", groups = [OnCreate::class])

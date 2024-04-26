@@ -3,6 +3,7 @@ package ru.kaplaan.consumer.web.mapper.payment
 import ru.kaplaan.consumer.domain.entity.payment.CompanyPaymentInfo
 import ru.kaplaan.consumer.domain.entity.payment.PaymentInfo
 import ru.kaplaan.consumer.domain.entity.payment.PaymentOrder
+import ru.kaplaan.consumer.web.dto.email.PaymentOrderEmailDto
 import ru.kaplaan.consumer.web.dto.payment.PaymentOrderDto
 import java.time.LocalDate
 
@@ -27,6 +28,8 @@ fun PaymentOrderDto.toEntity(): PaymentOrder =
         recipientBankName = this@toEntity.recipientBankName
         creationDate = this@toEntity.creationDate
         isCompleted = this@toEntity.isCompleted
+
+        purposeOfPayment = this@toEntity.purposeOfPayment
     }
 
 
@@ -49,7 +52,9 @@ fun PaymentOrder.toDto(): PaymentOrderDto =
         recipientBankAccountNumber = recipientBankAccountNumber,
         recipientBankName = recipientBankName,
         creationDate = creationDate,
-        isCompleted = isCompleted!!
+        isCompleted = isCompleted!!,
+        sum = sum!!,
+        purposeOfPayment = purposeOfPayment
     ).apply {
         this.id = this@toDto.id
     }
@@ -67,6 +72,7 @@ fun Pair<PaymentInfo, CompanyPaymentInfo>.createPaymentOrder(): PaymentOrder {
         payerBankAccountNumber = payer.bankAccountNumber
         payerBankName = payer.bankName
         payerCompanyId = payer.companyId
+        sum = recipient.sum!!
 
         recipientInn = recipient.inn
         recipientKpp = recipient.kpp
@@ -77,8 +83,33 @@ fun Pair<PaymentInfo, CompanyPaymentInfo>.createPaymentOrder(): PaymentOrder {
         recipientBankName = recipient.bankName
         creationDate = LocalDate.now()
         isCompleted = false
+
+        purposeOfPayment = recipient.purposeOfPayment
     }
 }
+
+fun PaymentOrder.toEmailDto(email: String) =
+    PaymentOrderEmailDto(
+        payerInn = payerInn,
+        payerKpp = payerKpp,
+        payerCompanyName = payerCompanyName,
+        payerCompanyAccountNumber = payerCompanyAccountNumber,
+        payerBankBik = payerBankBik,
+        payerBankAccountNumber = payerBankAccountNumber,
+        payerBankName = payerBankName,
+
+        recipientInn = recipientInn,
+        recipientKpp = recipientKpp,
+        recipientCompanyName = recipientCompanyName,
+        recipientCompanyAccountNumber = recipientCompanyAccountNumber,
+        recipientBankBik = recipientBankBik,
+        recipientBankAccountNumber = recipientBankAccountNumber,
+        recipientBankName = recipientBankName,
+        creationDate = creationDate,
+        email = email,
+        sum = sum!!,
+        purposeOfPayment = purposeOfPayment
+    )
 
 
 

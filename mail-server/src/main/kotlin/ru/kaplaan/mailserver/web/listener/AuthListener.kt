@@ -16,7 +16,7 @@ class AuthListener(
     @RabbitListener(queues = ["activate-account-queue"])
     fun activateUserAccount(json: String){
         Json.decodeFromString<ActivateAccountByEmailDto>(json).also {
-            emailService.activateUserByEmail(it.emailTo, it.login, it.activationCode)
+            emailService.activateUserByEmail(it)
         }
     }
 }

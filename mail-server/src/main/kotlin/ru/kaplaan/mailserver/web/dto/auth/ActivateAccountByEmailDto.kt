@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ActivateAccountByEmailDto(
     val emailTo: String,
-    val login: String,
+    val username: String,
     val activationCode: String
 )

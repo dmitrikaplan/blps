@@ -17,4 +17,7 @@ class CompanyPaymentInfo {
     lateinit var bankBik: String
     lateinit var bankAccountNumber: String
     lateinit var bankName: String
+    lateinit var purposeOfPayment: String
+
+    var sum: Long? = null
 }
