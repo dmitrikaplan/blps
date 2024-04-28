@@ -1,6 +1,7 @@
 package ru.kaplaan.authserver
 
 import jakarta.annotation.PostConstruct
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -20,6 +21,8 @@ class AuthServerApplication(private val authService: AuthService){
 	@Value("\${accountant.email}")
 	private lateinit var email: String
 
+	private val log = LoggerFactory.getLogger(javaClass)
+
 	@PostConstruct
 	fun initInMemoryUsers(){
 		User().apply {
@@ -30,6 +33,10 @@ class AuthServerApplication(private val authService: AuthService){
 		}.let { user ->
 			runCatching {
 				authService.register(user)
+			}.also {
+				if(it.isFailure){
+					log.error(it.exceptionOrNull()?.message)
+				}
 			}
 		}
 	}
