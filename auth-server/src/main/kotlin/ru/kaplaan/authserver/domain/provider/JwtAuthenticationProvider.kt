@@ -1,10 +1,6 @@
 package ru.kaplaan.authserver.domain.provider
 
-import org.springframework.security.authentication.AuthenticationServiceException
-import org.springframework.security.authentication.BadCredentialsException
-import org.springframework.security.authentication.CredentialsExpiredException
-import org.springframework.security.authentication.LockedException
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.authentication.*
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetails
