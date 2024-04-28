@@ -9,5 +9,5 @@ import ru.kaplaan.consumer.domain.entity.payment.CompanyPaymentInfo
 interface CompanyPaymentInfoRepository: CrudRepository<CompanyPaymentInfo, Long> {
 
     @Query("select * from company_payment_info limit 1")
-    fun findFirst(): CompanyPaymentInfo
+    fun findFirst(): CompanyPaymentInfo?
 }

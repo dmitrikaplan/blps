@@ -17,6 +17,7 @@ class CompanyPaymentInfo {
     lateinit var bankBik: String
     lateinit var bankAccountNumber: String
     lateinit var bankName: String
+    @Column("purpose_of_payment")
     lateinit var purposeOfPayment: String
 
     var sum: Long? = null

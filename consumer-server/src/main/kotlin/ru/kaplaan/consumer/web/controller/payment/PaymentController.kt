@@ -48,7 +48,9 @@ class PaymentController(
 
     @GetMapping("/order/{companyId}/{pageNumber}")
     fun getPaymentOrderByCompanyId(
+        @Validated @Min(0, message = "Минимальное Id компании - 0!")
         @PathVariable companyId: Long,
+        @Validated @Min(0, message = "Минимальный номер страницы - 0!")
         @PathVariable pageNumber: Int
     ): List<PaymentOrderDto> = paymentOrderService.getPaymentOrdersByCompanyId(companyId, pageNumber).toDto()
 

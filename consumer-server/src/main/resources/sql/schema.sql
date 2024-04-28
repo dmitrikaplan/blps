@@ -82,3 +82,17 @@ create table if not exists payment_order(
     creation_date date not null,
     is_completed bool not null
 );
+
+
+create table if not exists company_payment_info(
+    company_payment_info_id bigserial primary key,
+    inn text not null check(length(inn) = 10),
+    kpp text not null check(length(kpp) = 9),
+    company_name text unique not null,
+    company_account_number text not null check(length(company_account_number) = 20),
+    bank_bik text not null check(length(bank_bik) = 9),
+    bank_account_number text not null check(length(bank_account_number) = 20),
+    bank_name text not null check(length(bank_name) > 0),
+    purpose_of_payment text not null check(length(purpose_of_payment) > 0),
+    sum bigint not null check(sum > 0)
+);

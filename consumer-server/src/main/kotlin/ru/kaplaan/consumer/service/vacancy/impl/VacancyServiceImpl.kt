@@ -16,7 +16,7 @@ class VacancyServiceImpl(
     private val paymentInfoService: PaymentInfoService
 ): VacancyService {
 
-    @Value("\${vacancy.page-size}")
+    @Value("\${page-size.vacancy}")
     val pageSize: Int? = null
 
     override fun save(vacancy: Vacancy): Vacancy{

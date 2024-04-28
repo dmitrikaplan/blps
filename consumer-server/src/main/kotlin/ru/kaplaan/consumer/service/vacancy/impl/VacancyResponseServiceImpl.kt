@@ -26,7 +26,7 @@ class VacancyResponseServiceImpl(
     private val paymentOrderService: PaymentOrderService,
 ) : VacancyResponseService {
 
-    @Value("\${vacancy-response.page-size}")
+    @Value("\${page-size.vacancy-response}")
     var pageSize: Int? = null
 
     override fun save(vacancyResponse: VacancyResponse): VacancyResponse {

@@ -4,14 +4,16 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.body
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import ru.kaplaan.api.service.consumerServer.payment.PaymentInfoService
+import ru.kaplaan.api.service.consumerServer.payment.PaymentService
 import ru.kaplaan.api.web.dto.consumerServer.payment.PaymentInfoDto
+import ru.kaplaan.api.web.dto.consumerServer.payment.PaymentOrderDto
 
 @Service
-class PaymentInfoServiceImpl(
+class PaymentServiceImpl(
     private val webClient: WebClient
-): PaymentInfoService {
+): PaymentService {
 
     @Value("\${consumer-server.base-url}")
     private lateinit var baseUrl: String
@@ -27,6 +29,9 @@ class PaymentInfoServiceImpl(
 
     @Value("\${consumer-server.payment.get-payment-info-by-company-id}")
     private lateinit var getPaymentInfoByCompanyIdEndpoint: String
+
+    @Value("\${consumer-server.payment.get-payment-orders-by-company-id}")
+    private lateinit var getPaymentOrdersByCompanyId: String
 
     override fun savePaymentInfo(paymentInfoDto: Mono<PaymentInfoDto>): Mono<PaymentInfoDto> =
         webClient
@@ -50,4 +55,11 @@ class PaymentInfoServiceImpl(
             .uri("$baseUrl$url$getPaymentInfoByCompanyIdEndpoint/$companyId")
             .retrieve()
             .bodyToMono(PaymentInfoDto::class.java)
+
+    override fun getPaymentOrdersByCompanyId(companyId: Long, pageNumber: Int): Flux<PaymentOrderDto> =
+        webClient
+            .get()
+            .uri("$baseUrl$url$getPaymentOrdersByCompanyId/$companyId/$pageNumber")
+            .retrieve()
+            .bodyToFlux(PaymentOrderDto::class.java)
 }

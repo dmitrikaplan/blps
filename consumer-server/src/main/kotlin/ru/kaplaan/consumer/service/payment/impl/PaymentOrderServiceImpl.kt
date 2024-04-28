@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.payment.PaymentOrder
-import ru.kaplaan.consumer.repository.payment.CompanyPaymentInfoRepository
 import ru.kaplaan.consumer.repository.payment.PaymentOrderRepository
+import ru.kaplaan.consumer.service.payment.CompanyPaymentInfoService
 import ru.kaplaan.consumer.service.payment.PaymentInfoService
 import ru.kaplaan.consumer.service.payment.PaymentOrderService
 import ru.kaplaan.consumer.web.mapper.payment.createPaymentOrder
@@ -14,15 +14,15 @@ import ru.kaplaan.consumer.web.mapper.payment.createPaymentOrder
 class PaymentOrderServiceImpl(
     private val paymentOrderRepository: PaymentOrderRepository,
     private val paymentInfoService: PaymentInfoService,
-    private val companyPaymentInfoRepository: CompanyPaymentInfoRepository
+    private val companyPaymentInfoService: CompanyPaymentInfoService
 ): PaymentOrderService {
 
-    @Value("\${payment-order.page-size}")
+    @Value("\${page-size.payment-order}")
     private var pageSize: Int? = null
 
     override fun generatePaymentOrder(companyId: Long): PaymentOrder {
         val payerPaymentInfo =  paymentInfoService.getByCompanyId(companyId)
-        val recipientPaymentInfo = companyPaymentInfoRepository.findFirst()
+        val recipientPaymentInfo = companyPaymentInfoService.get()
 
         return (payerPaymentInfo to recipientPaymentInfo).createPaymentOrder().also {
             paymentOrderRepository.save(it)
