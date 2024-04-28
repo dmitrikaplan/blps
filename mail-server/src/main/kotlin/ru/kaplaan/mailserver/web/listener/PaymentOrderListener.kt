@@ -7,16 +7,16 @@ import org.springframework.stereotype.Component
 import ru.kaplaan.mailserver.service.EmailService
 import ru.kaplaan.mailserver.web.dto.paymentOrder.PaymentOrderEmailDto
 
-//@Component
-//@EnableRabbit
-//class PaymentOrderListener(
-//    private val emailService: EmailService
-//) {
-//
-//    @RabbitListener(queues = ["send-payment-order-mail-queue"])
-//    fun sendPaymentOrderMail(json: String){
-//        Json.decodeFromString<PaymentOrderEmailDto>(json).let { paymentOrderEmailDto ->
-//            emailService.sendPaymentOrder(paymentOrderEmailDto)
-//        }
-//    }
-//}
+@Component
+@EnableRabbit
+class PaymentOrderListener(
+    private val emailService: EmailService
+) {
+
+    @RabbitListener(queues = ["send-payment-order-mail-queue"])
+    fun sendPaymentOrderMail(json: String){
+        Json.decodeFromString<PaymentOrderEmailDto>(json).let { paymentOrderEmailDto ->
+            emailService.sendPaymentOrder(paymentOrderEmailDto)
+        }
+    }
+}

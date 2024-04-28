@@ -5,7 +5,6 @@ import org.springframework.amqp.rabbit.annotation.EnableRabbit
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Component
 import ru.kaplaan.mailserver.service.EmailService
-import ru.kaplaan.mailserver.web.dto.paymentOrder.PaymentOrderEmailDto
 import ru.kaplaan.mailserver.web.dto.vacancyResponse.VacancyResponseEmailDto
 
 @Component

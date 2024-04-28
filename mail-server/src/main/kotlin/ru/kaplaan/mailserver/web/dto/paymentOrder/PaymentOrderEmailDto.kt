@@ -1,7 +1,6 @@
 package ru.kaplaan.mailserver.web.dto.paymentOrder
 
 import kotlinx.serialization.Serializable
-import java.time.LocalDate
 
 @Serializable
 data class PaymentOrderEmailDto(
