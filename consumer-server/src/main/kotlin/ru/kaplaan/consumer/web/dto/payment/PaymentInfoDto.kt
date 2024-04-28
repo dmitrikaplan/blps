@@ -1,10 +1,6 @@
 package ru.kaplaan.consumer.web.dto.payment
 
-import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Null
-import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.*
 import ru.kaplaan.consumer.web.validation.OnCreate
 import ru.kaplaan.consumer.web.validation.OnUpdate
 
