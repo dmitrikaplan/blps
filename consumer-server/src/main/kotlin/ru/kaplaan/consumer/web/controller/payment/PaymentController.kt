@@ -49,4 +49,13 @@ class PaymentController(
     ): List<PaymentOrderDto> = paymentOrderService.getPaymentOrdersByCompanyId(companyId, pageNumber).toDto()
 
 
+    @PutMapping("/order/{paymentOrderId}")
+    fun markPaymentCompleted(
+        @Validated @Min(0, message = "Минимальное id платежа - 0!")
+        @PathVariable paymentOrderId: Long
+    ){
+        paymentOrderService.setPaymentOrderCompleted(paymentOrderId)
+    }
+
+
 }

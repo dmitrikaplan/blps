@@ -83,4 +83,12 @@ class PaymentController(
     ): Flux<PaymentOrderDto> = paymentService.getPaymentOrdersByCompanyId(companyId, pageNumber)
 
 
+    @PutMapping("/order/{paymentOrderId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Отметить, что платеж прошел для бухгалтера")
+    fun markPaymentCompleted(
+        @Validated @Min(0, message = "Минимальное id платежа - 0!")
+        @PathVariable paymentOrderId: Long
+    ): Mono<Any> = paymentService.setPaymentOrderCompleted(paymentOrderId)
+
 }

@@ -32,4 +32,8 @@ class PaymentOrderServiceImpl(
     override fun getPaymentOrdersByCompanyId(companyId: Long, pageNumber: Int): List<PaymentOrder> {
         return paymentOrderRepository.findPaymentOrdersByCompanyId(companyId, PageRequest.of(pageNumber, pageSize!!))
     }
+
+    override fun setPaymentOrderCompleted(paymentOrderId: Long) {
+        return paymentOrderRepository.setPaymentOrderIsCompleted(paymentOrderId)
+    }
 }

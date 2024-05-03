@@ -33,6 +33,9 @@ class PaymentServiceImpl(
     @Value("\${consumer-server.payment.get-payment-orders-by-company-id}")
     private lateinit var getPaymentOrdersByCompanyId: String
 
+    @Value("\${consumer-server.payment.set-payment-order-completed}")
+    private lateinit var setPaymentOrderCompletedEndpoint: String
+
     override fun savePaymentInfo(paymentInfoDto: Mono<PaymentInfoDto>): Mono<PaymentInfoDto> =
         webClient
             .post()
@@ -62,4 +65,11 @@ class PaymentServiceImpl(
             .uri("$baseUrl$url$getPaymentOrdersByCompanyId/$companyId/$pageNumber")
             .retrieve()
             .bodyToFlux(PaymentOrderDto::class.java)
+
+    override fun setPaymentOrderCompleted(paymentOrderId: Long): Mono<Any> =
+        webClient
+            .put()
+            .uri("$baseUrl$url$setPaymentOrderCompletedEndpoint/$paymentOrderId")
+            .retrieve()
+            .bodyToMono(Any::class.java)
 }

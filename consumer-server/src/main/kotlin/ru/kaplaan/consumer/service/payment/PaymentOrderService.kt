@@ -11,4 +11,6 @@ interface PaymentOrderService {
 
     fun getPaymentOrdersByCompanyId(companyId: Long, pageNumber: Int): List<PaymentOrder>
 
+    fun setPaymentOrderCompleted(paymentOrderId: Long)
+
 }

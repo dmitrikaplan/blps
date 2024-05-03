@@ -14,5 +14,8 @@ interface PaymentService {
     fun updatePaymentInfo(paymentInfoDto: Mono<PaymentInfoDto>): Mono<PaymentInfoDto>
 
     fun getPaymentInfoByCompanyId(companyId: Long): Mono<PaymentInfoDto>
+
     fun getPaymentOrdersByCompanyId(companyId: Long, pageNumber: Int): Flux<PaymentOrderDto>
+
+    fun setPaymentOrderCompleted(paymentOrderId: Long): Mono<Any>
 }
