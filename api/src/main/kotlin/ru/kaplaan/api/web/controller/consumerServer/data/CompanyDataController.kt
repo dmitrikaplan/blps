@@ -62,16 +62,4 @@ class CompanyDataController(
         @Parameter(description = "Название компании", required = true)
         @PathVariable companyId: Long
     ): Mono<CompanyDataDto> = companyDataService.getCompanyDataByCompanyId(companyId)
-
-
-    @GetMapping("/contact-person/{companyId}")
-    @Operation(summary = "Получить контактное лицо по id компании")
-    fun getContactPersonByCompanyId(
-        @Validated @Min(0, message = "Id компании не должно быть меньше 0!")
-        @Parameter(description = "Id компании", required = true)
-        @PathVariable companyId: Long,
-    ): Mono<ContactPersonDto> {
-        return companyDataService.getContactPersonByCompanyId(companyId)
-    }
-
 }
