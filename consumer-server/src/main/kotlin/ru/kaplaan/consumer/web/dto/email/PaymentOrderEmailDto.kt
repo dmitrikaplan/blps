@@ -1,6 +1,5 @@
 package ru.kaplaan.consumer.web.dto.email
 
-import java.time.LocalDate
 
 data class PaymentOrderEmailDto(
     val payerInn: String,
@@ -17,7 +16,7 @@ data class PaymentOrderEmailDto(
     val recipientBankBik: String,
     val recipientBankAccountNumber: String,
     val recipientBankName: String,
-    val creationDate: LocalDate,
+    val creationDate: String,
     val sum : Long,
     val email: String,
     val purposeOfPayment: String
