@@ -46,11 +46,13 @@ class VacancyResponseServiceImpl(
 
     override fun update(vacancyResponse: VacancyResponse, companyId: Long): VacancyResponse {
 
-        if(!vacancyService.existsVacancyByVacancyIdAndCompanyId(vacancyResponse.pk.vacancyId, companyId))
+        if (!vacancyService.existsVacancyByVacancyIdAndCompanyId(vacancyResponse.pk.vacancyId, companyId))
             throw PermissionDeniedException()
 
-        if(!vacancyResponseRepository.existsById(vacancyResponse.pk))
+        if (!vacancyResponseRepository.existsById(vacancyResponse.pk))
             throw VacancyResponseNotFoundException()
+
+        val previousVacancyResponseStatus = getVacancyResponseById(vacancyResponse.pk).status
 
         vacancyResponseRepository.updateVacancyResponse(vacancyResponse)
 
@@ -59,7 +61,10 @@ class VacancyResponseServiceImpl(
 
         emailService.sendVacancyResponseMail(vacancyResponse, vacancy, userData)
 
-        if(vacancyResponse.status == VacancyResponseStatus.ACCEPTED){
+        if (
+            vacancyResponse.status == VacancyResponseStatus.ACCEPTED &&
+            previousVacancyResponseStatus != VacancyResponseStatus.ACCEPTED
+        ) {
             val email: String = companyDataService.getCompanyDataByCompanyId(vacancy.companyId!!).contactPerson.email
             paymentOrderService.generatePaymentOrder(vacancy.companyId!!).also {
                 emailService.sendPaymentOrder(email, it)
@@ -99,8 +104,8 @@ class VacancyResponseServiceImpl(
     }
 
 
-    private fun checkVacancyOwner(vacancyId: Long, companyId: Long){
-        if(!vacancyService.existsVacancyByVacancyIdAndCompanyId(vacancyId, companyId))
+    private fun checkVacancyOwner(vacancyId: Long, companyId: Long) {
+        if (!vacancyService.existsVacancyByVacancyIdAndCompanyId(vacancyId, companyId))
             throw PermissionDeniedException()
     }
 
