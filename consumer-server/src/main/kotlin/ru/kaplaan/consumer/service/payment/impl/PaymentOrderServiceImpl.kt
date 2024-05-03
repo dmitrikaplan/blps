@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.payment.PaymentOrder
 import ru.kaplaan.consumer.repository.payment.PaymentOrderRepository
+import ru.kaplaan.consumer.service.email.EmailService
 import ru.kaplaan.consumer.service.payment.CompanyPaymentInfoService
 import ru.kaplaan.consumer.service.payment.PaymentInfoService
 import ru.kaplaan.consumer.service.payment.PaymentOrderService
@@ -14,7 +15,8 @@ import ru.kaplaan.consumer.web.mapper.payment.createPaymentOrder
 class PaymentOrderServiceImpl(
     private val paymentOrderRepository: PaymentOrderRepository,
     private val paymentInfoService: PaymentInfoService,
-    private val companyPaymentInfoService: CompanyPaymentInfoService
+    private val companyPaymentInfoService: CompanyPaymentInfoService,
+    private val emailService: EmailService
 ): PaymentOrderService {
 
     @Value("\${page-size.payment-order}")
@@ -34,6 +36,7 @@ class PaymentOrderServiceImpl(
     }
 
     override fun setPaymentOrderCompleted(paymentOrderId: Long) {
-        return paymentOrderRepository.setPaymentOrderIsCompleted(paymentOrderId)
+        paymentOrderRepository.setPaymentOrderIsCompleted(paymentOrderId)
+        //emailService.sendPayment
     }
 }
