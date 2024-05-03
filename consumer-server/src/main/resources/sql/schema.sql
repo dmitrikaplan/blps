@@ -8,6 +8,7 @@ create table if not exists company_data(
 create table if not exists contact_person(
     contact_person_id bigserial primary key,
     name text not null check ( length(name) > 0 ),
+    email text not null check(length(email) > 0),
     surname text not null check ( length(surname) > 0 ),
     position text not null check ( length(position) > 0 ),
     company_data_id bigint unique references company_data(company_data_id) on update cascade on delete cascade
