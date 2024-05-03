@@ -2,9 +2,12 @@ package ru.kaplaan.consumer.service.payment.impl
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ru.kaplaan.consumer.domain.entity.payment.PaymentOrder
+import ru.kaplaan.consumer.domain.exception.notFound.PaymentOrderNotFoundException
 import ru.kaplaan.consumer.repository.payment.PaymentOrderRepository
+import ru.kaplaan.consumer.service.data.CompanyDataService
 import ru.kaplaan.consumer.service.email.EmailService
 import ru.kaplaan.consumer.service.payment.CompanyPaymentInfoService
 import ru.kaplaan.consumer.service.payment.PaymentInfoService
@@ -16,7 +19,8 @@ class PaymentOrderServiceImpl(
     private val paymentOrderRepository: PaymentOrderRepository,
     private val paymentInfoService: PaymentInfoService,
     private val companyPaymentInfoService: CompanyPaymentInfoService,
-    private val emailService: EmailService
+    private val emailService: EmailService,
+    private val companyDataService: CompanyDataService
 ): PaymentOrderService {
 
     @Value("\${page-size.payment-order}")
@@ -35,8 +39,20 @@ class PaymentOrderServiceImpl(
         return paymentOrderRepository.findPaymentOrdersByCompanyId(companyId, PageRequest.of(pageNumber, pageSize!!))
     }
 
+    override fun getPaymentOrderById(id: Long): PaymentOrder {
+        return paymentOrderRepository.findByIdOrNull(id)
+            ?: throw PaymentOrderNotFoundException()
+    }
+
     override fun setPaymentOrderCompleted(paymentOrderId: Long) {
         paymentOrderRepository.setPaymentOrderIsCompleted(paymentOrderId)
-        //emailService.sendPayment
+
+        getPaymentOrderById(paymentOrderId).let { paymentOrder ->
+            companyDataService.getCompanyEmailByCompanyId(paymentOrder.payerCompanyId!!).also { email ->
+                emailService.sendInfoAboutSuccessPayment(email, paymentOrder.payerCompanyName, paymentOrderId)
+            }
+
+        }
+
     }
 }

@@ -34,6 +34,13 @@ class RabbitMqConfiguration {
     @Value("\${rabbit.mail-server.send-payment-order.routing-key}")
     private lateinit var sendPaymentOrderRoutingKey: String
 
+    @Value("\${rabbit.mail-server.send-info-about-success-payment.queue-name}")
+    private lateinit var sendInfoAboutSuccessPaymentQueueName: String
+
+    @Value("\${rabbit.mail-server.send-info-about-success-payment.routing-key}")
+    private lateinit var sendInfoAboutSuccessPaymentRoutingKey: String
+
+
     @Bean
     fun connectionFactory(): ConnectionFactory =
         CachingConnectionFactory(hostname, port!!)
@@ -58,6 +65,10 @@ class RabbitMqConfiguration {
     fun sendPaymentOrderQueue(): Queue =
         Queue(sendPaymentOrderQueueName)
 
+    @Bean
+    fun sendInfoAboutSuccessPaymentQueue(): Queue =
+        Queue(sendInfoAboutSuccessPaymentQueueName)
+
 
     @Bean
     fun sendVacancyResponseMailBinding(@Qualifier("sendVacancyResponseMailQueue") queue: Queue, directExchange: DirectExchange): Binding =
@@ -73,5 +84,13 @@ class RabbitMqConfiguration {
             .bind(queue)
             .to(directExchange)
             .with(sendPaymentOrderRoutingKey)
+
+
+    @Bean
+    fun sendInfoAboutSuccessPaymentBinding(@Qualifier("sendInfoAboutSuccessPaymentQueue") queue: Queue, directExchange: DirectExchange): Binding =
+        BindingBuilder
+            .bind(queue)
+            .to(directExchange)
+            .with(sendInfoAboutSuccessPaymentRoutingKey)
 
 }

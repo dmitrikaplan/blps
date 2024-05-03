@@ -12,4 +12,6 @@ interface EmailService {
     fun sendVacancyResponseMail(vacancyResponse: VacancyResponse, vacancy: Vacancy, userData: UserData)
 
     fun sendPaymentOrder(email: String, paymentOrder: PaymentOrder)
+
+    fun sendInfoAboutSuccessPayment(email: String, companyName: String, paymentOrderId: Long)
 }

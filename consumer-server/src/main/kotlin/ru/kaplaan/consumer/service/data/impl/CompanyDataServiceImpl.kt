@@ -32,4 +32,8 @@ class CompanyDataServiceImpl(
             companyDataRepository.findCompanyDataByCompanyId(companyId)?.apply {
                 this.contactPerson = contactPersonService.getByCompanyDataId(this.id!!)
             } ?: throw CompanyDataNotFoundException()
+
+    override fun getCompanyEmailByCompanyId(companyId: Long): String {
+        return getCompanyDataByCompanyId(companyId).contactPerson.email
+    }
 }

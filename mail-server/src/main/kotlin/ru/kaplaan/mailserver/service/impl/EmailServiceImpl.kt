@@ -10,6 +10,7 @@ import ru.kaplaan.mailserver.domain.email.EmailMessage
 import ru.kaplaan.mailserver.service.EmailService
 import ru.kaplaan.mailserver.web.dto.auth.ActivateAccountByEmailDto
 import ru.kaplaan.mailserver.web.dto.paymentOrder.PaymentOrderEmailDto
+import ru.kaplaan.mailserver.web.dto.paymentOrder.SuccessPaymentEmailDto
 import ru.kaplaan.mailserver.web.dto.vacancyResponse.VacancyResponseEmailDto
 import java.nio.charset.StandardCharsets
 
@@ -65,6 +66,17 @@ class EmailServiceImpl(
         }
 
         sendEmail(paymentOrderEmailDto.email, subject, context, templateLocation)
+    }
+
+    override fun sendInfoAboutSuccessPayment(successPaymentEmailDto: SuccessPaymentEmailDto) {
+        val templateLocation = EmailMessage.SUCCESS_PAYMENT.pathOfTemplate
+        val subject = EmailMessage.SUCCESS_PAYMENT.subject
+        val context = Context().apply {
+            setVariable("paymentOrderId", successPaymentEmailDto.paymentOrderId)
+            setVariable("companyName", successPaymentEmailDto.companyName)
+        }
+
+        sendEmail(successPaymentEmailDto.email, subject, context, templateLocation)
     }
 
     private fun sendEmail(emailTo: String,  subject: String, context: Context, templateLocation: String) {

@@ -9,6 +9,7 @@ import ru.kaplaan.consumer.domain.entity.payment.PaymentOrder
 import ru.kaplaan.consumer.domain.entity.vacancy.Vacancy
 import ru.kaplaan.consumer.domain.entity.vacancy.VacancyResponse
 import ru.kaplaan.consumer.service.email.EmailService
+import ru.kaplaan.consumer.web.dto.email.SuccessPaymentEmailDto
 import ru.kaplaan.consumer.web.dto.email.VacancyResponseEmailDto
 import ru.kaplaan.consumer.web.mapper.payment.toEmailDto
 
@@ -25,6 +26,9 @@ class EmailServiceImpl(
 
     @Value("\${rabbit.mail-server.send-payment-order.routing-key}")
     private lateinit var sendPaymentOrderRoutingKey: String
+
+    @Value("\${rabbit.mail-server.send-info-about-success-payment.routing-key}")
+    private lateinit var sendInfoAboutSuccessPaymentRoutingKey: String
 
     override fun sendVacancyResponseMail(vacancyResponse: VacancyResponse, vacancy: Vacancy, userData: UserData) {
 
@@ -46,6 +50,19 @@ class EmailServiceImpl(
         paymentOrder.toEmailDto(email).also {  paymentOrderEmailDto ->
             ObjectMapper().writeValueAsString(paymentOrderEmailDto).let { json ->
                 amqpTemplate.convertAndSend(emailServerExchangeName, sendPaymentOrderRoutingKey, json)
+            }
+        }
+    }
+
+    override fun sendInfoAboutSuccessPayment(email: String, companyName: String, paymentOrderId: Long) {
+
+        SuccessPaymentEmailDto(
+            email = email,
+            companyName = companyName,
+            paymentOrderId = paymentOrderId
+        ).also { successPaymentEmailDto ->
+            ObjectMapper().writeValueAsString(successPaymentEmailDto).let { json ->
+                amqpTemplate.convertAndSend(emailServerExchangeName, sendInfoAboutSuccessPaymentRoutingKey, json)
             }
         }
     }

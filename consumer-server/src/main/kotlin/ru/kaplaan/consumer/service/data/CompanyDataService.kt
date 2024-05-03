@@ -11,4 +11,6 @@ interface CompanyDataService {
     fun updateCompanyData(companyData: CompanyData): CompanyData
 
     fun getCompanyDataByCompanyId(companyId: Long): CompanyData
+
+    fun getCompanyEmailByCompanyId(companyId: Long): String
 }
