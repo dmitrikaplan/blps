@@ -55,7 +55,6 @@ class EmailServiceImpl(
     }
 
     override fun sendInfoAboutSuccessPayment(email: String, companyName: String, paymentOrderId: Long) {
-
         SuccessPaymentEmailDto(
             email = email,
             companyName = companyName,

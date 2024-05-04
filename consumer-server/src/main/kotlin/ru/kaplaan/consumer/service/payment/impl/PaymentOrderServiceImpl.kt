@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import ru.kaplaan.consumer.domain.entity.payment.PaymentOrder
 import ru.kaplaan.consumer.domain.exception.notFound.PaymentOrderNotFoundException
 import ru.kaplaan.consumer.repository.payment.PaymentOrderRepository
@@ -26,6 +27,7 @@ class PaymentOrderServiceImpl(
     @Value("\${page-size.payment-order}")
     private var pageSize: Int? = null
 
+    @Transactional
     override fun generatePaymentOrder(companyId: Long): PaymentOrder {
         val payerPaymentInfo =  paymentInfoService.getByCompanyId(companyId)
         val recipientPaymentInfo = companyPaymentInfoService.get()
@@ -35,15 +37,19 @@ class PaymentOrderServiceImpl(
         }
     }
 
+    @Transactional
     override fun getPaymentOrdersByCompanyId(companyId: Long, pageNumber: Int): List<PaymentOrder> {
         return paymentOrderRepository.findPaymentOrdersByCompanyId(companyId, PageRequest.of(pageNumber, pageSize!!))
     }
 
+    @Transactional
     override fun getPaymentOrderById(id: Long): PaymentOrder {
         return paymentOrderRepository.findByIdOrNull(id)
             ?: throw PaymentOrderNotFoundException()
     }
 
+
+    @Transactional
     override fun setPaymentOrderCompleted(paymentOrderId: Long) {
         paymentOrderRepository.setPaymentOrderIsCompleted(paymentOrderId)
 

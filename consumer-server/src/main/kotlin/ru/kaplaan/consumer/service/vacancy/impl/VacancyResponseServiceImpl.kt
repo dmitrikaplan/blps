@@ -3,6 +3,7 @@ package ru.kaplaan.consumer.service.vacancy.impl
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import ru.kaplaan.consumer.domain.entity.vacancy.VacancyResponse
 import ru.kaplaan.consumer.domain.exception.PermissionDeniedException
 import ru.kaplaan.consumer.domain.exception.alreadyExists.VacancyResponseAlreadyExistsException
@@ -29,6 +30,7 @@ class VacancyResponseServiceImpl(
     @Value("\${page-size.vacancy-response}")
     var pageSize: Int? = null
 
+    @Transactional
     override fun save(vacancyResponse: VacancyResponse): VacancyResponse {
         vacancyResponseRepository.findVacancyResponseById(vacancyResponse.pk)?.let {
             throw VacancyResponseAlreadyExistsException()
@@ -44,6 +46,7 @@ class VacancyResponseServiceImpl(
 
     }
 
+    @Transactional
     override fun update(vacancyResponse: VacancyResponse, companyId: Long): VacancyResponse {
 
         if (!vacancyService.existsVacancyByVacancyIdAndCompanyId(vacancyResponse.pk.vacancyId, companyId))
@@ -73,18 +76,22 @@ class VacancyResponseServiceImpl(
         return vacancyResponse
     }
 
+    @Transactional
     override fun delete(vacancyId: Long, userId: Long) =
         vacancyResponseRepository.deleteById(VacancyResponse.PK(vacancyId, userId))
 
+    @Transactional
     override fun getVacancyResponseById(pk: VacancyResponse.PK): VacancyResponse {
         return vacancyResponseRepository.findVacancyResponseById(pk)
             ?: throw VacancyResponseNotFoundException()
     }
 
+    @Transactional
     override fun getAllVacancyResponsesByUserId(userId: Long): List<VacancyResponse> {
         return vacancyResponseRepository.findAllVacancyResponsesByUserId(userId)
     }
 
+    @Transactional
     override fun getVacancyResponseByIdAndCompanyId(companyId: Long, pk: VacancyResponse.PK): VacancyResponse {
         checkVacancyOwner(pk.vacancyId, companyId)
 
@@ -93,13 +100,13 @@ class VacancyResponseServiceImpl(
     }
 
 
+    @Transactional
     override fun getAllUserIdByVacancyIdAndCompanyId(
         vacancyId: Long,
         companyId: Long,
         pageNumber: Int,
     ): List<Long> {
         checkVacancyOwner(vacancyId, companyId)
-
         return vacancyResponseRepository.findAllUserIdByVacancyId(vacancyId, PageRequest.of(pageNumber, pageSize!!))
     }
 
