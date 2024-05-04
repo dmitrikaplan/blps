@@ -19,20 +19,16 @@ class AuthServiceConfig(
     private val userRepository: UserRepository
 ) {
 
-
     @Bean
     fun authenticationManager(): AuthenticationManager =
         ProviderManager(authenticationProvider(), jwtAuthenticationProvider(), emailAuthenticationProvider())
 
-
-
     @Bean
     fun userDetailsService(): UserDetailsService =
-        UserDetailsService {
-            userRepository.findByUsername(it)
+        UserDetailsService { username ->
+            userRepository.findByUsername(username)
                 ?: throw UsernameNotFoundException("Не найден пользователь по username!")
         }
-
 
     @Bean
     fun authenticationProvider(): AuthenticationProvider =
@@ -41,20 +37,15 @@ class AuthServiceConfig(
             setPasswordEncoder(passwordEncoder())
         }
 
-
     @Bean
     fun jwtAuthenticationProvider() =
         JwtAuthenticationProvider(userDetailsService())
-
 
     @Bean
     fun emailAuthenticationProvider() =
         EmailAuthenticationProvider(userRepository, passwordEncoder())
 
-
     @Bean
     fun passwordEncoder(): PasswordEncoder =
         BCryptPasswordEncoder()
-
-
 }

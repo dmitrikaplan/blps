@@ -23,6 +23,7 @@ class AuthServiceImpl(
     private val passwordEncoder: PasswordEncoder,
 ) : AuthService {
 
+    @Transactional
     override fun register(user: User) {
 
         checkRegistration(user)
@@ -38,6 +39,7 @@ class AuthServiceImpl(
         emailService.activateUserByEmail(user.email, user.username, activationCode)
     }
 
+    @Transactional
     override fun authenticate(userIdentification: UserIdentification): JwtResponse {
         val user = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken
@@ -50,10 +52,12 @@ class AuthServiceImpl(
         return JwtResponse(accessToken, refreshToken)
     }
 
+    @Transactional
     override fun authenticate(authentication: Authentication): Authentication =
         authenticationManager.authenticate(authentication)
 
 
+    @Transactional
     override fun activateAccount(activationCode: String) {
         userService.getUserByActivationCode(activationCode).apply {
             this.activationCode = null

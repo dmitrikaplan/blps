@@ -5,11 +5,13 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.transaction.annotation.EnableTransactionManagement
 import ru.kaplaan.authserver.domain.entity.user.Role
 import ru.kaplaan.authserver.domain.entity.user.User
 import ru.kaplaan.authserver.service.AuthService
 
 @SpringBootApplication
+@EnableTransactionManagement
 class AuthServerApplication(private val authService: AuthService){
 
 	@Value("\${accountant.username}")

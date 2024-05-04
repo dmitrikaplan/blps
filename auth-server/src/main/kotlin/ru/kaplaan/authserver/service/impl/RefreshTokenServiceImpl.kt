@@ -2,6 +2,7 @@ package ru.kaplaan.authserver.service.impl
 
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import ru.kaplaan.authserver.domain.entity.refreshToken.RefreshToken
 import ru.kaplaan.authserver.domain.entity.user.User
 import ru.kaplaan.authserver.domain.exception.refreshToken.RefreshTokenNotFoundException
@@ -15,10 +16,13 @@ class RefreshTokenServiceImpl(
     private val refreshTokenRepository: RefreshTokenRepository,
     private val jwtService: JwtService
 ): RefreshTokenService {
+
+    @Transactional
     override fun findRefreshTokenByToken(token: String): RefreshToken =
         refreshTokenRepository.findRefreshTokenByToken(token)
             ?: throw RefreshTokenNotFoundException()
 
+    @Transactional
     override fun validateRefreshToken(token: String) {
         if(!jwtService.isValidRefreshToken(token)){
             refreshTokenRepository.deleteByToken(token)
@@ -26,6 +30,7 @@ class RefreshTokenServiceImpl(
         }
     }
 
+    @Transactional
     override fun getRefreshTokenByUser(user: User): String{
 
         val refreshToken = refreshTokenRepository.findRefreshTokenByUserId(user.id!!)
