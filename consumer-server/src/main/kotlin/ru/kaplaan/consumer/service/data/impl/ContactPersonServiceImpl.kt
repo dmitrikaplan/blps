@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.kaplaan.consumer.domain.entity.data.ContactPerson
 import ru.kaplaan.consumer.domain.exception.notFound.ContactPersonNotFoundException
-import ru.kaplaan.consumer.repository.contactPerson.ContactPersonRepository
+import ru.kaplaan.consumer.repository.primary.contactPerson.ContactPersonRepository
 import ru.kaplaan.consumer.service.data.ContactPersonService
 
 @Service

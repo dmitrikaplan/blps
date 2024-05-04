@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.kaplaan.consumer.domain.entity.payment.PaymentOrder
 import ru.kaplaan.consumer.domain.exception.notFound.PaymentOrderNotFoundException
-import ru.kaplaan.consumer.repository.payment.PaymentOrderRepository
+import ru.kaplaan.consumer.repository.billing.payment.PaymentOrderRepository
 import ru.kaplaan.consumer.service.data.CompanyDataService
 import ru.kaplaan.consumer.service.email.EmailService
 import ru.kaplaan.consumer.service.payment.CompanyPaymentInfoService

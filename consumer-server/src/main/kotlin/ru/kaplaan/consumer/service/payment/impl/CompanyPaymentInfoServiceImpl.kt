@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional
 import ru.kaplaan.consumer.domain.entity.payment.CompanyPaymentInfo
 import ru.kaplaan.consumer.domain.exception.alreadyExists.CompanyPaymentInfoAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.CompanyPaymentInfoNotFoundException
-import ru.kaplaan.consumer.repository.payment.CompanyPaymentInfoRepository
+import ru.kaplaan.consumer.repository.billing.payment.CompanyPaymentInfoRepository
 import ru.kaplaan.consumer.service.payment.CompanyPaymentInfoService
 
 @Service

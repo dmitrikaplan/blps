@@ -26,6 +26,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
+    implementation("com.atomikos:transactions-spring-boot3-starter:6.0.0")
+    implementation("javax.transaction:jta:1.1")
 
     //kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

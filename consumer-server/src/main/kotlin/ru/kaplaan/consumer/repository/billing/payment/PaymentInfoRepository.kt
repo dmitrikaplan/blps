@@ -1,4 +1,4 @@
-package ru.kaplaan.consumer.repository.payment
+package ru.kaplaan.consumer.repository.billing.payment
 
 import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository

@@ -1,4 +1,4 @@
-package ru.kaplaan.consumer.repository.payment
+package ru.kaplaan.consumer.repository.billing.payment
 
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jdbc.repository.query.Modifying
