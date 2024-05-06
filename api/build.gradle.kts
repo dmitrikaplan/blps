@@ -10,7 +10,6 @@ plugins {
 
 
 group = "ru.kaplaan"
-version = "0.0.1"
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
