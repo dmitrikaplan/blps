@@ -1,0 +1,42 @@
+spring:
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  sql:
+    init:
+      schema-locations: classpath:sql/schema.sql
+      mode: always
+
+
+rabbit:
+  hostname: ${RABBIT_HOSTNAME}
+  port: ${RABBIT_PORT}
+
+  mail-server:
+    exchange-name: ${RABBIT_MAIL_SERVER_EXCHANGE_NAME}
+
+    activate-account:
+      queue-name: ${RABBIT_MAIL_SERVER_ACTIVATE_ACCOUNT_QUEUE_NAME}
+      routing-key: ${RABBIT_MAIL_SERVER_ACTIVATE_ACCOUNT_ROUTING_KEY}
+
+
+jwt:
+  access:
+    secret: ${JWT_ACCESS_SECRET}
+    expiration-minutes: ${JWT_ACCESS_EXPIRATION_MINUTES}
+  refresh:
+    secret: ${JWT_REFRESH_SECRET}
+    expiration-minutes: ${JWT_REFRESH_EXPIRATION_MINUTES}
+
+
+accountant:
+  username: ${ACCOUNTANT_USERNAME}
+  password: ${ACCOUNTANT_PASSWORD}
+  email: ${ACCOUNTANT_EMAIL}
+
+server:
+  port: ${SERVER_PORT}
