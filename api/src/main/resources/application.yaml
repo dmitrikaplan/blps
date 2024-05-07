@@ -19,7 +19,7 @@ auth-server:
     get-username-by-user-id: ''
 
 consumer-server:
-  base-url: http://localhost:8082/consumer
+  base-url: ${CONSUMER_SERVER_BASE_URL}
 
   data:
     url: /data
