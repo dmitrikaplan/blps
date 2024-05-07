@@ -21,7 +21,7 @@ rabbit:
   port: ${RABBIT_PORT}
 
 service:
-  host: ${SERVICE_PORT}
+  host: ${SERVICE_HOST}
 
 mail:
   debug: ${MAIL_DEBUG}
