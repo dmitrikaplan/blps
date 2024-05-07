@@ -1,0 +1,55 @@
+spring:
+  jta:
+    atomikos:
+      datasource:
+        unique-resource-name: postgresql-data-source
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  sql:
+    init:
+      schema-locations: classpath:sql/schema.sql
+      mode: always
+
+
+rabbit:
+  hostname: ${RABBIT_HOSTNAME}
+  port: ${RABBIT_PORT}
+  mail-server:
+    exchange-name: ${RABBIT_MAIL_SERVER_EXCHANGE_NAME}
+
+    send-vacancy-response:
+      queue-name: ${RABBIT_MAIL_SERVER_SEND_VACANCY_RESPONSE_QUEUE_NAME}
+      routing-key: ${RABBIT_MAIL_SERVER_SEND_VACANCY_RESPONSE_ROUTING_KEY}
+
+    send-payment-order:
+      queue-name: ${RABBIT_MAIL_SERVER_SEND_PAYMENT_ORDER_QUEUE_NAME}
+      routing-key: ${RABBIT_MAIL_SERVER_SEND_PAYMENT_ORDER_ROUTING_KEY}
+
+    send-info-about-success-payment:
+      queue-name: ${RABBIT_MAIL_SERVER_SEND_INFO_ABOUT_SUCCESS_PAYMENT_QUEUE_NAME}
+      routing-key: ${RABBIT_MAIL_SERVER_SEND_INFO_ABOUT_SUCCESS_PAYMENT_ROUTING_KEY}
+
+
+company-payment-info:
+  inn: 1234567890
+  kpp: 123456789
+  company-name: 'ООО СУПЕРДЖОБ'
+  company-account-number: 12345678901234567890
+  bank-bik: 123456789
+  bank-account-number: 12345678901234567890
+  bank-name: 'ООО ТИНЬКОФФ БАНК'
+  purpose-of-payment: 'За указание услуг по найму сотрудников'
+  sum: 1000
+
+server:
+  port: ${CONSUMER_SERVER_PORT}
+
+page-size:
+  vacancy: 30
+  vacancy-response: 30
+  payment-order: 30
