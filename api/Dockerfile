@@ -1,7 +1,14 @@
 FROM bellsoft/liberica-openjdk-alpine as build
 
-COPY . /source
 WORKDIR /source
+
+COPY /gradle /source/gradle
+COPY /src /source/src
+COPY build.gradle.kts /source/
+COPY gradlew /source
+COPY settings.gradle.kts /source
+COPY .env /source
+
 RUN source /source/.env && ./gradlew build
 
 #--------------------------------------------------------------------------#
