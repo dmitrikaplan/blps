@@ -39,4 +39,4 @@ accountant:
   email: ${ACCOUNTANT_EMAIL}
 
 server:
-  port: ${SERVER_PORT}
+  port: ${AUTH_SERVER_PORT}
