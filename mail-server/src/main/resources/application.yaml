@@ -1,0 +1,33 @@
+spring:
+  mail:
+    host: ${SPRING_MAIL_HOST}
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+    port: ${SPRING_MAIL_PORT}
+    protocol: ${SPRING_MAIL_PROTOCOL}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  thymeleaf:
+    cache: false
+
+
+rabbit:
+  hostname: ${RABBIT_HOSTNAME}
+  port: ${RABBIT_PORT}
+
+service:
+  host: ${SERVICE_PORT}
+
+mail:
+  debug: ${MAIL_DEBUG}
+
+server:
+  port: ${MAIL_SERVER_PORT}
+
+endpoint:
+  activation: activation
