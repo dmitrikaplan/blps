@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mail-server-deployment
+  labels:
+    app: mail-server
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: mail-server
+  template:
+    metadata:
+      labels:
+        app: mail-server
+    spec:
+      containers:
+        - name: mail-server
+          image: mail-server:latest
+          envFrom:
+            - secretRef:
+                name: mail-server-secret
+            - secretRef:
+                name: rabbit-mq-secret
+          ports:
+            - containerPort: 8080
