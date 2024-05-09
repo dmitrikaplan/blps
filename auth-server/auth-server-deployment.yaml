@@ -11,11 +11,11 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: auth-server-deployment
+      app: auth-server
   template:
     metadata:
       labels:
-        app: auth-server-deployment
+        app: auth-server
     spec:
       containers:
         - name: auth-server
