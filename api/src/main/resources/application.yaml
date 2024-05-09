@@ -4,9 +4,6 @@ jwt:
   refresh:
     secret: ${JWT_REFRESH_SECRET}
 
-server:
-  port: ${API_PORT}
-
 auth-server:
   base-url: ${AUTH_SERVER_BASE_URL}
   endpoint:
