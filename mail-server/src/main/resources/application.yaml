@@ -26,8 +26,5 @@ service:
 mail:
   debug: ${MAIL_DEBUG}
 
-server:
-  port: ${MAIL_SERVER_PORT}
-
 endpoint:
   activation: activation
