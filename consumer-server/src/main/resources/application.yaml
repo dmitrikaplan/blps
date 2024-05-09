@@ -46,9 +46,6 @@ company-payment-info:
   purpose-of-payment: 'За указание услуг по найму сотрудников'
   sum: 1000
 
-server:
-  port: ${CONSUMER_SERVER_PORT}
-
 page-size:
   vacancy: 30
   vacancy-response: 30
