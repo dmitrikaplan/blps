@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server-deployment
+  labels:
+    app: api-server
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: api-server
+  template:
+    metadata:
+      labels:
+        app: api-server-deployment
+    spec:
+      containers:
+        - name: api-server
+          image: api-server:latest
+          envFrom:
+            - secretRef:
+                name: api-server-secret
+            - secretRef:
+                name: jwt-secret
+          ports:
+            - containerPort: 8080
