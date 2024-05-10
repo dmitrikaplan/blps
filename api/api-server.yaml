@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        app: api-server-deployment
+        app: api-server
     spec:
       containers:
         - name: api-server

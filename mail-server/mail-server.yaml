@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mail-server-deployment
+  labels:
+    app: mail-server
 spec:
   strategy:
     rollingUpdate:
