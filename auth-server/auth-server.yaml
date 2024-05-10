@@ -9,6 +9,7 @@ spec:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
+    type: RollingUpdate
   selector:
     matchLabels:
       app: auth-server
@@ -19,7 +20,7 @@ spec:
     spec:
       containers:
         - name: auth-server
-          image: auth-server:latest
+          image: auth-server:1
           envFrom:
             - secretRef:
                 name: auth-server-secret
@@ -31,3 +32,18 @@ spec:
                  name: jwt-secret
           ports:
             - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-server-service
+  labels:
+    app: auth-server
+spec:
+  selector:
+    app: auth-server
+  ports:
+    - port: 3001
+      targetPort: 8080
+  type: ClusterIP
