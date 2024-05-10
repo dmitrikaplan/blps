@@ -1,5 +1,4 @@
 spring:
-
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
@@ -10,11 +9,14 @@ spring:
     init:
       schema-locations: classpath:sql/schema.sql
       mode: always
+  rabbitmq:
+    username: ${RABBIT_USERNAME}
+    password: ${RABBIT_PASSWORD}
+    host: ${RABBIT_HOST}
+    port: ${RABBIT_PORT}
 
 
 rabbit:
-  hostname: ${RABBIT_HOSTNAME}
-  port: ${RABBIT_PORT}
 
   mail-server:
     exchange-name: ${RABBIT_MAIL_SERVER_EXCHANGE_NAME}

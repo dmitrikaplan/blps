@@ -14,17 +14,20 @@ spring:
     init:
       schema-locations: classpath:sql/schema.sql
       mode: always
+  rabbitmq:
+    username: ${RABBIT_USERNAME}
+    password: ${RABBIT_PASSWORD}
+    host: ${RABBIT_HOST}
+    port: ${RABBIT_PORT}
 
 
 rabbit:
-  hostname: ${RABBIT_HOSTNAME}
-  port: ${RABBIT_PORT}
   mail-server:
     exchange-name: ${RABBIT_MAIL_SERVER_EXCHANGE_NAME}
 
     send-vacancy-response:
       queue-name: ${RABBIT_MAIL_SERVER_SEND_VACANCY_RESPONSE_QUEUE_NAME}
-      routing-key: ${RABBIT_MAIL_SERVER_SEND_VACANCY_RESPONSE_ROUTING_KEY}
+      routing-key: ${RABBIT_MAIL_SERVER _SEND_VACANCY_RESPONSE_ROUTING_KEY}
 
     send-payment-order:
       queue-name: ${RABBIT_MAIL_SERVER_SEND_PAYMENT_ORDER_QUEUE_NAME}

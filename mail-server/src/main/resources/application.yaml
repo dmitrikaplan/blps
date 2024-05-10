@@ -12,13 +12,13 @@ spring:
           starttls:
             enable: true
             required: true
+  rabbitmq:
+    host: ${RABBIT_HOST}
+    port: ${RABBIT_PORT}
+    username: ${RABBIT_USERNAME}
+    password: ${RABBIT_PASSWORD}
   thymeleaf:
     cache: false
-
-
-rabbit:
-  hostname: ${RABBIT_HOSTNAME}
-  port: ${RABBIT_PORT}
 
 service:
   host: ${SERVICE_HOST}

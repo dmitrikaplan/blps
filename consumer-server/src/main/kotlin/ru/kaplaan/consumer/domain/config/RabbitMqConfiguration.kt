@@ -13,12 +13,6 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class RabbitMqConfiguration {
 
-    @Value("\${rabbit.hostname}")
-    private lateinit var hostname: String
-
-    @Value("\${rabbit.port}")
-    private var port: Int? = null
-
     @Value("\${rabbit.mail-server.exchange-name}")
     private lateinit var mailServerExchangeName: String
 
@@ -39,19 +33,6 @@ class RabbitMqConfiguration {
 
     @Value("\${rabbit.mail-server.send-info-about-success-payment.routing-key}")
     private lateinit var sendInfoAboutSuccessPaymentRoutingKey: String
-
-
-    @Bean
-    fun connectionFactory(): ConnectionFactory =
-        CachingConnectionFactory(hostname, port!!)
-
-    @Bean
-    fun amqpAdmin(): AmqpAdmin =
-        RabbitAdmin(connectionFactory())
-
-    @Bean
-    fun rabbitTemplate(): RabbitTemplate =
-        RabbitTemplate(connectionFactory())
 
     @Bean
     fun mailServerExchange(): DirectExchange =
