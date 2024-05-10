@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        app: consumer-server-deployment
+        app: consumer-server
     spec:
       containers:
         - name: consumer-server
