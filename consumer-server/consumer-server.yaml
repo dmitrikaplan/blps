@@ -25,7 +25,7 @@ spec:
             - secretRef:
                 name: rabbit-mq-secret
             - secretRef:
-                name: postgres-auth-secret
+                name: postgres-consumer-secret
           ports:
             - containerPort: 8080
 ---
