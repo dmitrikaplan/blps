@@ -9,6 +9,7 @@ spec:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
+    type: RollingUpdate
   selector:
     matchLabels:
       app: mail-server
@@ -19,7 +20,7 @@ spec:
     spec:
       containers:
         - name: mail-server
-          image: mail-server:latest
+          image: mail-server:1
           envFrom:
             - secretRef:
                 name: mail-server-secret
@@ -27,3 +28,18 @@ spec:
                 name: rabbit-mq-secret
           ports:
             - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail-server-service
+  labels:
+    app: mail-server
+spec:
+  selector:
+    app: mail-server
+  ports:
+    - port: 3003
+      targetPort: 8080
+  type: ClusterIP
