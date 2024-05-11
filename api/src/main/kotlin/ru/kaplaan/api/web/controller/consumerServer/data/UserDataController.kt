@@ -23,7 +23,7 @@ class UserDataController(
 
 
     @PostMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('CREATE_USER_DATA')")
     @Operation(summary = "Сохранить информацию о пользователе")
     fun saveUserData(
         @RequestBody @Validated(OnCreate::class)
@@ -39,7 +39,7 @@ class UserDataController(
         )
 
     @PutMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('UPDATE_USER_DATA')")
     @Operation(summary = "Обновление информации о пользователе")
     fun updateUserData(
         @RequestBody @Validated(OnUpdate::class)

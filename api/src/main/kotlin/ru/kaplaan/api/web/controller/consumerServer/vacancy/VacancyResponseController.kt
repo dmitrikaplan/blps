@@ -23,7 +23,7 @@ class VacancyResponseController(
 ) {
 
     @PostMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('CREATE_VACANCY_RESPONSE')")
     @Operation(summary = "Откликнуться на вакансию")
     fun save(
         @RequestBody @Validated(OnCreate::class)
@@ -39,7 +39,7 @@ class VacancyResponseController(
         )
 
     @PutMapping
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('UPDATE_VACANCY_RESPONSE')")
     @Operation(summary = "Обновить отклик на вакансию(статус и комментарий)")
     fun update(
         @Validated(OnUpdate::class)
@@ -49,7 +49,7 @@ class VacancyResponseController(
         vacancyResponseService.update(vacancyResponseDto, (authentication.details as String).toLong())
 
     @DeleteMapping("/{vacancyId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('DELETE_VACANCY_RESPONSE')")
     @Operation(summary = "Удалить отклик на вакансию пользователю")
     fun delete(
         @Validated @Min(0)
@@ -59,7 +59,7 @@ class VacancyResponseController(
     ): Mono<Any> = vacancyResponseService.delete(vacancyId, (authentication.details as String).toLong())
 
     @GetMapping("/{vacancyId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('GET_VACANCY_RESPONSE_FOR_USER')")
     @Operation(summary = "Получить отклик на вакансию по id вакансии для пользователя")
     fun getVacancyResponseById(
         @Parameter(description = "Id вакансии", required = true)
@@ -74,12 +74,12 @@ class VacancyResponseController(
 
     @GetMapping
     @Operation(summary = "Получить все отклики на вакансии пользователя")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('GET_VACANCY_RESPONSE_FOR_USER')")
     fun getAllVacancyResponses(authentication: Authentication): Flux<VacancyResponseDto> =
         vacancyResponseService.getAllVacancyResponsesByUserId((authentication.details as String).toLong())
 
     @GetMapping("/{vacancyId}/{userId}")
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('GET_VACANCY_RESPONSE_FOR_COMPANY')")
     @Operation(summary = "Получить отклик на вакансию по id вакансии и id пользователя для компании")
     fun getVacancyResponseByCompanyIdAndId(
         @Parameter(description = "Id вакансии", required = true)
@@ -98,7 +98,7 @@ class VacancyResponseController(
 
 
     @GetMapping("/get-all-user-id/{vacancyId}/{pageNumber}")
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('GET_VACANCY_RESPONSE_FOR_COMPANY')")
     @Operation(summary = "Получить все Id пользователей")
     fun getAllUserIdByCompanyId(
         @Parameter(description = "Id вакансии", required = true)

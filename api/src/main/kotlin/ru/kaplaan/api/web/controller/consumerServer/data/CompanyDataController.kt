@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 import ru.kaplaan.api.service.consumerServer.data.CompanyDataService
 import ru.kaplaan.api.web.dto.consumerServer.data.CompanyDataDto
-import ru.kaplaan.api.web.dto.consumerServer.data.ContactPersonDto
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnUpdate
 
@@ -23,7 +22,7 @@ class CompanyDataController(
 ) {
 
     @PostMapping
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('CREATE_COMPANY_DATA')")
     @Operation(summary = "Добавление информации о компании")
     fun saveCompanyData(
         @RequestBody @Validated(OnCreate::class)
@@ -40,7 +39,7 @@ class CompanyDataController(
 
 
     @PutMapping
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('UPDATE_COMPANY_DATA')")
     @Operation(summary = "Обновление информации о компании")
     fun updateCompanyData(
         @RequestBody @Validated(OnUpdate::class)

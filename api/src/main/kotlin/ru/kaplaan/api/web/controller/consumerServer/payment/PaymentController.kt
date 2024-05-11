@@ -24,7 +24,7 @@ class PaymentController(
 ) {
 
     @PostMapping("/info")
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('CREATE_PAYMENT_INFO')")
     @Operation(summary = "Добавить платежную информацию компании")
     fun savePaymentInfo(
         @RequestBody @Validated(OnCreate::class)
@@ -39,7 +39,7 @@ class PaymentController(
     )
 
     @PutMapping("/info")
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('UPDATE_PAYMENT_INFO')")
     @Operation(summary = "Обновить платежную информацию компании")
     fun updatePaymentInfo(
         @RequestBody @Validated(OnUpdate::class)
@@ -54,14 +54,14 @@ class PaymentController(
     )
 
     @GetMapping("/info")
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('GET_PAYMENT_INFO')")
     @Operation(summary = "Получить платежную информацию компании")
     fun getPaymentInfo(
         authentication: Authentication
     ): Mono<PaymentInfoDto> = paymentService.getPaymentInfoByCompanyId((authentication.details as String).toLong())
 
     @GetMapping("/order/{pageNumber}")
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('GET_PAYMENT_ORDER_FOR_COMPANY')")
     @Operation(summary = "Получить платежные поручения для компании")
     fun getPaymentOrderByCompanyIdForCompany(
         @Parameter(description = "Номер страницы", required = true)
@@ -71,7 +71,7 @@ class PaymentController(
     ): Flux<PaymentOrderDto> = paymentService.getPaymentOrdersByCompanyId((authentication.details as String).toLong(), pageNumber)
 
     @GetMapping("/order/{companyId}/{pageNumber}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('GET_PAYMENT_ORDER_FOR_ADMIN')")
     @Operation(summary = "Получить платежные поручения по Id компании для бухгалтера")
     fun getPaymentOrderByCompanyIdForAdmin(
         @Parameter(description = "Id компании", required = true)
@@ -84,7 +84,7 @@ class PaymentController(
 
 
     @PutMapping("/order/{paymentOrderId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE_PAYMENT_ORDER')")
     @Operation(summary = "Отметить, что платеж прошел для бухгалтера")
     fun markPaymentCompleted(
         @Validated @Min(0, message = "Минимальное id платежа - 0!")

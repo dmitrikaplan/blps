@@ -8,7 +8,8 @@ spring:
   sql:
     init:
       schema-locations: classpath:sql/schema.sql
-      mode: always
+      data-locations: classpath:sql/init.sql
+
   rabbitmq:
     username: ${RABBIT_USERNAME}
     password: ${RABBIT_PASSWORD}

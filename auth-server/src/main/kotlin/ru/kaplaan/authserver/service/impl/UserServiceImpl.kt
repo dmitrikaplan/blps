@@ -6,11 +6,13 @@ import ru.kaplaan.authserver.domain.entity.user.User
 import ru.kaplaan.authserver.domain.exception.user.UserNotFoundByActivationCodeException
 import ru.kaplaan.authserver.domain.exception.user.UserNotFoundException
 import ru.kaplaan.authserver.repository.UserRepository
+import ru.kaplaan.authserver.service.PrivilegeService
 import ru.kaplaan.authserver.service.UserService
 
 @Service
 class UserServiceImpl(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val privilegeService: PrivilegeService
 ): UserService {
 
     @Transactional
@@ -19,13 +21,13 @@ class UserServiceImpl(
 
     @Transactional
     override fun getUserByActivationCode(activationCode: String): User {
-        return userRepository.findUserByActivationCode(activationCode)
+        return userRepository.findUserByActivationCode(activationCode)?.initPrivileges()
             ?: throw UserNotFoundByActivationCodeException()
     }
 
     @Transactional
     override fun getUserByUsername(username: String): User? {
-        return userRepository.findByUsername(username)
+        return userRepository.findByUsername(username)?.initPrivileges()
     }
 
     @Transactional
@@ -35,6 +37,13 @@ class UserServiceImpl(
 
     @Transactional
     override fun getUserById(userId: Long): User =
-         userRepository.findUserById(userId)
+         userRepository.findUserById(userId)?.initPrivileges()
             ?: throw UserNotFoundException()
+
+
+    private fun User.initPrivileges(): User{
+        return this.apply {
+            this.privileges = privilegeService.getAllPrivilegesByRole(role)
+        }
+    }
 }

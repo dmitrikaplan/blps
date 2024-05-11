@@ -25,6 +25,8 @@ class User(): UserDetails{
 
     lateinit var role: Role
 
+    lateinit var privileges: List<Privilege>
+
     constructor(
         email: String,
         username: String,
@@ -39,7 +41,7 @@ class User(): UserDetails{
 
 
     override fun getAuthorities(): List<GrantedAuthority> {
-        return listOf(role)
+        return listOf(role) + privileges
     }
 
     override fun getPassword(): String =

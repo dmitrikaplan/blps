@@ -24,7 +24,7 @@ class VacancyController(
 ) {
 
     @PostMapping
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('CREATE_VACANCY')")
     @Operation(summary = "Добавление вакансии")
     fun save(
         @RequestBody @Validated(OnCreate::class)
@@ -40,7 +40,7 @@ class VacancyController(
         )
 
     @PutMapping
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('UPDATE_VACANCY')")
     @Operation(summary = "Обновление вакансии")
     fun update(
         @RequestBody @Validated(OnUpdate::class)
@@ -56,7 +56,7 @@ class VacancyController(
         )
 
     @DeleteMapping("/{vacancyId}")
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('DELETE_VACANCY')")
     @Operation(summary = "Удаление вакансии")
     fun delete(
         @PathVariable
@@ -107,7 +107,7 @@ class VacancyController(
 
 
     @PutMapping("/archive")
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('UPDATE_VACANCY')")
     @Operation(summary = "Архивирование вакансии")
     fun archiveVacancy(
         @RequestBody @Validated(OnCreate::class)
@@ -124,7 +124,7 @@ class VacancyController(
 
 
     @PutMapping("/unarchive")
-    @PreAuthorize("hasRole('COMPANY')")
+    @PreAuthorize("hasAuthority('UPDATE_VACANCY')")
     @Operation(summary = "Разархивирование вакансии")
     fun unarchiveVacancy(
         @RequestBody @Validated(OnUpdate::class)
