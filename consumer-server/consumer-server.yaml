@@ -21,6 +21,32 @@ spec:
       containers:
         - name: consumer-server
           image: consumer-server:1
+          env:
+            - name: POSTGRES_BILLING_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-billing-secret
+                  key: POSTGRES_HOST
+            - name: POSTGRES_BILLING_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-billing-secret
+                  key: POSTGRES_PORT
+            - name: POSTGRES_BILLING_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-billing-secret
+                  key: POSTGRES_DB
+            - name: POSTGRES_BILLING_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-billing-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_BILLING_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-billing-secret
+                  key: POSTGRES_PASSWORD
           envFrom:
             - secretRef:
                 name: rabbit-mq-secret

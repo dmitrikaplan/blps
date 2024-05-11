@@ -1,4 +1,4 @@
-package ru.kaplaan.consumer.repository.primary.vacancy
+package ru.kaplaan.consumer.repository.consumer.vacancy
 
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jdbc.repository.query.Modifying

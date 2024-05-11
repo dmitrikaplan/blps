@@ -8,7 +8,7 @@ import ru.kaplaan.consumer.domain.entity.vacancy.VacancyResponse
 import ru.kaplaan.consumer.domain.exception.PermissionDeniedException
 import ru.kaplaan.consumer.domain.exception.alreadyExists.VacancyResponseAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyResponseNotFoundException
-import ru.kaplaan.consumer.repository.primary.vacancy.VacancyResponseRepository
+import ru.kaplaan.consumer.repository.consumer.vacancy.VacancyResponseRepository
 import ru.kaplaan.consumer.service.data.CompanyDataService
 import ru.kaplaan.consumer.service.data.UserDataService
 import ru.kaplaan.consumer.service.email.EmailService

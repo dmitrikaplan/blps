@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import ru.kaplaan.consumer.domain.entity.data.CompanyData
 import ru.kaplaan.consumer.domain.exception.alreadyExists.CompanyDataAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.CompanyDataNotFoundException
-import ru.kaplaan.consumer.repository.primary.data.CompanyDataRepository
+import ru.kaplaan.consumer.repository.consumer.data.CompanyDataRepository
 import ru.kaplaan.consumer.service.data.CompanyDataService
 import ru.kaplaan.consumer.service.data.ContactPersonService
 
