@@ -1,8 +1,9 @@
-rootProject.name = "lab1"
+rootProject.name = "bpls"
 
 
 include(
+        "api",
         "auth-server",
-        "vacancy-server",
-        "api"
+        "consumer-server",
+        "mail-server"
 )
