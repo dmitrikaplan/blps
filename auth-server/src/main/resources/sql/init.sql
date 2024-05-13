@@ -1,4 +1,4 @@
-insert into table role_privilege(role_name, privilege_name)
+insert into role_privilege(role, privilege)
 values
 ( 'ROLE_USER',  'CREATE_USER_DATA'),
 ( 'ROLE_USER', 'UPDATE_USER_DATA'),

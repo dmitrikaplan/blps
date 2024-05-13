@@ -4,10 +4,11 @@ import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 import ru.kaplaan.authserver.domain.entity.user.Privilege
+import ru.kaplaan.authserver.domain.entity.user.RolePrivilege
 
 @Repository
-interface PrivilegeRepository: CrudRepository<Privilege, Long> {
+interface PrivilegeRepository: CrudRepository<RolePrivilege, Long> {
 
-    @Query("select * from role_privilege where role_name = :roleName")
+    @Query("select * from role_privilege where role = :roleName")
     fun findAllPrivilegesByRoleName(roleName: String): List<Privilege>
 }

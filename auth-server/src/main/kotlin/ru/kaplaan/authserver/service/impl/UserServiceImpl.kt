@@ -6,13 +6,13 @@ import ru.kaplaan.authserver.domain.entity.user.User
 import ru.kaplaan.authserver.domain.exception.user.UserNotFoundByActivationCodeException
 import ru.kaplaan.authserver.domain.exception.user.UserNotFoundException
 import ru.kaplaan.authserver.repository.UserRepository
-import ru.kaplaan.authserver.service.PrivilegeService
+import ru.kaplaan.authserver.service.RolePrivilegeService
 import ru.kaplaan.authserver.service.UserService
 
 @Service
 class UserServiceImpl(
     private val userRepository: UserRepository,
-    private val privilegeService: PrivilegeService
+    private val rolePrivilegeService: RolePrivilegeService
 ): UserService {
 
     @Transactional
@@ -43,7 +43,7 @@ class UserServiceImpl(
 
     private fun User.initPrivileges(): User{
         return this.apply {
-            this.privileges = privilegeService.getAllPrivilegesByRole(role)
+            this.privileges = rolePrivilegeService.getAllPrivilegesByRole(role)
         }
     }
 }

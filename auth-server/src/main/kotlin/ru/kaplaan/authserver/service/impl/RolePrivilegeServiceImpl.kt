@@ -4,12 +4,12 @@ import org.springframework.stereotype.Service
 import ru.kaplaan.authserver.domain.entity.user.Privilege
 import ru.kaplaan.authserver.domain.entity.user.Role
 import ru.kaplaan.authserver.repository.PrivilegeRepository
-import ru.kaplaan.authserver.service.PrivilegeService
+import ru.kaplaan.authserver.service.RolePrivilegeService
 
 @Service
-class PrivilegeServiceImpl(
+class RolePrivilegeServiceImpl(
     private val privilegeRepository: PrivilegeRepository
-): PrivilegeService {
+): RolePrivilegeService {
     override fun getAllPrivilegesByRole(role: Role): List<Privilege> {
         return privilegeRepository.findAllPrivilegesByRoleName(role.name)
     }

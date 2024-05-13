@@ -13,12 +13,12 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import ru.kaplaan.authserver.domain.provider.EmailAuthenticationProvider
 import ru.kaplaan.authserver.domain.provider.JwtAuthenticationProvider
 import ru.kaplaan.authserver.repository.UserRepository
-import ru.kaplaan.authserver.service.PrivilegeService
+import ru.kaplaan.authserver.service.RolePrivilegeService
 
 @Configuration
 class AuthServiceConfig(
     private val userRepository: UserRepository,
-    private val privilegeService: PrivilegeService
+    private val rolePrivilegeService: RolePrivilegeService
 ) {
 
     @Bean
@@ -30,7 +30,7 @@ class AuthServiceConfig(
         UserDetailsService { username ->
             userRepository.findByUsername(username)
                 ?.also {
-                    it.privileges = privilegeService.getAllPrivilegesByRole(it.role)
+                    it.privileges = rolePrivilegeService.getAllPrivilegesByRole(it.role)
                 } ?: throw UsernameNotFoundException("Не найден пользователь по username!")
         }
 

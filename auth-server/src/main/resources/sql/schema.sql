@@ -1,7 +1,7 @@
 create type role as enum(
     'ROLE_USER',
     'ROLE_COMPANY',
-    'ROLE_ADMIN';
+    'ROLE_ADMIN'
 );
 
 create type privilege as enum(
@@ -10,14 +10,14 @@ create type privilege as enum(
         'CREATE_COMPANY_DATA', 'UPDATE_COMPANY_DATA', 'DELETE_COMPANY_DATA',
         'CREATE_RESPONSE', 'UPDATE_RESPONSE', 'DELETE_RESPONSE', 'VIEW_RESPONSE',
         'ADD_PAYMENT_DATA', 'UPDATE_PAYMENT_DATA',
-        'UPDATE_PAYMENT_STATUS';
-
+        'UPDATE_PAYMENT_STATUS'
 );
 
 create table if not exists role_privilege(
-    role_name text not null,
-    privilege_name text not null
-)
+    role text not null,
+    privilege text not null,
+    primary key(role, privilege)
+);
 
 create table if not exists users(
     user_id bigserial primary key,
