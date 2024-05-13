@@ -8,11 +8,11 @@ COPY build.gradle.kts /source/
 COPY gradlew /source
 COPY settings.gradle.kts /source
 
-RUN ./gradlew build
+RUN ./gradlew build --args=--spring.config.name=application-prod
 
 #--------------------------------------------------------------------------#
 
 FROM bellsoft/liberica-openjdk-alpine
 
 COPY --from=build /source/build/libs/consumer-server.jar /consumer-server.jar
-CMD java -jar consumer-server.jar
+CMD java -jar consumer-server.jar --spring.config.name=application-prod

@@ -15,7 +15,8 @@ spring:
   rabbitmq:
     host: ${RABBIT_HOST}
     port: ${RABBIT_PORT}
-
+    username: ${RABBIT_USERNAME}
+    password: ${RABBIT_PASSWORD}
   thymeleaf:
     cache: false
 
@@ -27,6 +28,3 @@ mail:
 
 endpoint:
   activation: activation
-
-server:
-  port: 8083

@@ -9,9 +9,11 @@ spring:
     init:
       schema-locations: classpath:sql/schema.sql
       data-locations: classpath:sql/init.sql
-      mode: always
+      mode: never
 
   rabbitmq:
+    username: ${RABBIT_USERNAME}
+    password: ${RABBIT_PASSWORD}
     host: ${RABBIT_HOST}
     port: ${RABBIT_PORT}
 
@@ -39,7 +41,3 @@ accountant:
   username: ${ACCOUNTANT_USERNAME}
   password: ${ACCOUNTANT_PASSWORD}
   email: ${ACCOUNTANT_EMAIL}
-
-
-server:
-  port: 8081
