@@ -8,7 +8,7 @@ COPY build.gradle.kts /source/
 COPY gradlew /source
 COPY settings.gradle.kts /source
 
-RUN ./gradlew build --args=--spring.config.name=application-prod
+RUN ./gradlew build
 
 #--------------------------------------------------------------------------#
 
