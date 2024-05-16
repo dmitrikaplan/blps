@@ -1,18 +1,3 @@
-create type role as enum(
-    'ROLE_USER',
-    'ROLE_COMPANY',
-    'ROLE_ADMIN'
-);
-
-create type privilege as enum(
-    'CREATE_VACANCY', 'UPDATE_VACANCY', 'DELETE_VACANCY',
-     'CREATE_USER_DATA', 'UPDATE_USER_DATA', 'DELETE_USER_DATA',
-        'CREATE_COMPANY_DATA', 'UPDATE_COMPANY_DATA', 'DELETE_COMPANY_DATA',
-        'CREATE_RESPONSE', 'UPDATE_RESPONSE', 'DELETE_RESPONSE', 'VIEW_RESPONSE',
-        'ADD_PAYMENT_DATA', 'UPDATE_PAYMENT_DATA',
-        'UPDATE_PAYMENT_STATUS'
-);
-
 create table if not exists role_privilege(
     role text not null,
     privilege text not null,

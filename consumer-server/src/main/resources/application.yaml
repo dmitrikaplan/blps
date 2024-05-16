@@ -1,26 +1,18 @@
 spring:
-  rabbitmq:
-    username: ${RABBIT_USERNAME}
-    password: ${RABBIT_PASSWORD}
-    host: ${RABBIT_HOST}
-    port: ${RABBIT_PORT}
-
-
-billing-datasource:
-  url: jdbc:postgresql://${POSTGRES_BILLING_HOST}:${POSTGRES_BILLING_PORT}/${POSTGRES_BILLING_DB}
-  username: ${POSTGRES_BILLING_USER}
-  password: ${POSTGRES_BILLING_PASSWORD}
-  driver-class-name: org.postgresql.Driver
-  xa-datasource-class-name: org.postgresql.xa.PGXADataSource
-  unique-resource-name: billing
-
-consumer-datasource:
+  datasource:
     url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
-    xa-datasource-class-name: org.postgresql.xa.PGXADataSource
-    unique-resource-name: consumer
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/schema.sql
+
+  rabbitmq:
+    host: ${RABBIT_HOST}
+    port: ${RABBIT_PORT}
+
 
 rabbit:
   mail-server:

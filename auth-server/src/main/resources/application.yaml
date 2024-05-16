@@ -8,7 +8,6 @@ spring:
   sql:
     init:
       schema-locations: classpath:sql/schema.sql
-      data-locations: classpath:sql/init.sql
       mode: always
 
   rabbitmq:

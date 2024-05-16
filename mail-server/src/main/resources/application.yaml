@@ -12,6 +12,7 @@ spring:
           starttls:
             enable: true
             required: true
+
   rabbitmq:
     host: ${RABBIT_HOST}
     port: ${RABBIT_PORT}
