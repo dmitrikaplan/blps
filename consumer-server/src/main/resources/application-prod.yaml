@@ -16,10 +16,15 @@ spring:
   quartz:
     job-store-type: jdbc
     jdbc:
-      initialize-schema: never
+      initialize-schema: always
     properties:
       org:
         quartz:
+          quartzDataSource:
+            URL:  jdbc:postgresql://${POSTGRES_QUARTZ_HOST}:${POSTGRES_QUARTZ_PORT}/${POSTGRES_QUARTZ_DB}
+            driver: org.postgresql.Driver
+            user: ${POSTGRES_QUARTZ_USER}
+            password: ${POSTGRES_QUARTZ_PASSWORD}
           scheduler:
             instanceId: AUTO #?????????? AUTO, ??? ????, ????? ?????? ????? ??????? Scheduler`a ???? ?????????? ????????.
           jobStore:
@@ -73,13 +78,7 @@ scheduler:
   permanent-jobs-group-name: PERMANENT
   send-payment-order-job-cron: ${SEND_PAYMENT_ORDER_JOB_CRON}
 
-
 quartz:
   send-payment-order:
     job-name: send-payment-order-job
     trigger-name: send-payment-order-trigger
-  datasource:
-    url: jdbc:postgresql://${POSTGRES_QUARTZ_HOST}:${POSTGRES_QUARTZ_PORT}/${POSTGRES_QUARTZ_DB}
-    username: ${POSTGRES_QUARTZ_USER}
-    password: ${POSTGRES_QUARTZ_PASSWORD}
-    driver-class-name: org.postgresql.Driver
