@@ -27,6 +27,7 @@ spec:
                 secretKeyRef:
                   name: postgres-quartz-secret
                   key: POSTGRES_HOST
+
             - name: POSTGRES_QUARTZ_DB
               valueFrom:
                 secretKeyRef:
@@ -39,7 +40,7 @@ spec:
                   name: postgres-quartz-secret
                   key: POSTGRES_PORT
 
-            - name: POSTGRES_QUARTZ_USERNAME
+            - name: POSTGRES_QUARTZ_USER
               valueFrom:
                 secretKeyRef:
                   name: postgres-quartz-secret
