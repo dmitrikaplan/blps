@@ -5,4 +5,4 @@ metadata:
   labels:
     app: consumer-server
 data:
-  SEND_PAYMENT_ORDER_JOB_CRON: '0 0 0 1 *'
+  SEND_PAYMENT_ORDER_JOB_CRON: '0 0 1 * * ?'
