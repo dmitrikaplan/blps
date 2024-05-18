@@ -20,6 +20,7 @@ fun VacancyResponse.toDto(): VacancyResponseDto =
     ).apply {
         this.comment = this@toDto.comment
         this.status = this@toDto.status
+        this.dateLastStatusUpdate = this@toDto.dateLastStatusUpdate
     }
 
 

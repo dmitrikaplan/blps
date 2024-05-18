@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Null
 import ru.kaplaan.consumer.web.validation.OnCreate
 import ru.kaplaan.consumer.web.validation.OnUpdate
+import java.time.LocalDate
 
 data class VacancyResponseDto(
     @field:Min(0, message = "Id пользователя не должен быть меньше 0!", groups = [OnCreate::class, OnUpdate::class])
@@ -19,4 +20,7 @@ data class VacancyResponseDto(
     @field:Null(message = "Статус вакансии не должен быть заполнен!", groups = [OnCreate::class])
     @field:NotNull(message = "Статус вакансии должен быть заполнен!", groups = [OnUpdate::class])
     var status: VacancyResponseStatus? = null
+
+    @field:Null(message = "Дата обновления статуса вакансии не должен быть заполнен!", groups = [OnCreate::class, OnUpdate::class])
+    var dateLastStatusUpdate: LocalDate? = null
 }

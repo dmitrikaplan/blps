@@ -7,7 +7,7 @@ import ru.kaplaan.consumer.domain.entity.payment.PaymentOrder
 interface PaymentOrderService {
 
 
-    fun generatePaymentOrder(companyId: Long): PaymentOrder
+    fun generatePaymentOrder(companyId: Long, countOfPayments: Long = 1): PaymentOrder
 
     fun getPaymentOrdersByCompanyId(companyId: Long, pageNumber: Int): List<PaymentOrder>
 

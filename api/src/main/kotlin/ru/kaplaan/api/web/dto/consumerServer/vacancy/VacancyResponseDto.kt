@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Null
 import ru.kaplaan.api.web.validation.OnCreate
 import ru.kaplaan.api.web.validation.OnUpdate
+import java.time.LocalDate
 
 @Schema(description = "Сущность отклика на вакансию")
 data class VacancyResponseDto(
@@ -27,4 +28,8 @@ data class VacancyResponseDto(
     @field:Null(message = "Статус вакансии не должен быть заполнен!", groups = [OnCreate::class])
     @field:NotNull(message = "Статус вакансии должен быть заполнен!", groups = [OnUpdate::class])
     var status: VacancyResponseStatus? = null
+
+    @Schema(description = "Последняя дата обновления статуса. Не заполняется")
+    @field:Null(message = "Дата обновления статуса вакансии не должен быть заполнен!", groups = [OnCreate::class, OnUpdate::class])
+    var dateLastStatusUpdate: LocalDate? = null
 }

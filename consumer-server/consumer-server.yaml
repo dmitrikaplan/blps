@@ -22,36 +22,41 @@ spec:
         - name: consumer-server
           image: consumer-server:1
           env:
-            - name: POSTGRES_BILLING_HOST
+            - name: POSTGRES_QUARTZ_HOST
               valueFrom:
                 secretKeyRef:
-                  name: postgres-billing-secret
+                  name: postgres-quartz-secret
                   key: POSTGRES_HOST
-            - name: POSTGRES_BILLING_PORT
+            - name: POSTGRES_QUARTZ_DB
               valueFrom:
                 secretKeyRef:
-                  name: postgres-billing-secret
-                  key: POSTGRES_PORT
-            - name: POSTGRES_BILLING_DB
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-billing-secret
+                  name: postgres-quartz-secret
                   key: POSTGRES_DB
-            - name: POSTGRES_BILLING_USER
+
+            - name: POSTGRES_QUARTZ_PORT
               valueFrom:
                 secretKeyRef:
-                  name: postgres-billing-secret
+                  name: postgres-quartz-secret
+                  key: POSTGRES_PORT
+
+            - name: POSTGRES_QUARTZ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-quartz-secret
                   key: POSTGRES_USER
-            - name: POSTGRES_BILLING_PASSWORD
+
+            - name: POSTGRES_QUARTZ_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-billing-secret
+                  name: postgres-quartz-secret
                   key: POSTGRES_PASSWORD
           envFrom:
             - secretRef:
                 name: rabbit-mq-secret
             - secretRef:
                 name: postgres-consumer-secret
+            - configMapRef:
+                name: consumer-server-config-map
           ports:
             - containerPort: 8080
 ---

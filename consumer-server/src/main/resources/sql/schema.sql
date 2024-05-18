@@ -46,6 +46,7 @@ create table if not exists vacancy_response(
    user_id bigint not null,
    status text not null check(length(status) > 0),
    comment text not null check(length(comment) > 0),
+   date_last_status_update timestamp not null,
    primary key(vacancy_id, user_id)
 );
 

@@ -5,6 +5,7 @@ import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Embedded
 import org.springframework.data.relational.core.mapping.Table
 import ru.kaplaan.consumer.web.dto.vacancy.VacancyResponseStatus
+import java.time.LocalDate
 
 @Table("vacancy_response")
 class VacancyResponse{
@@ -17,6 +18,9 @@ class VacancyResponse{
 
     @Column("status")
     lateinit var status: VacancyResponseStatus
+
+    @Column("date_last_status_update")
+    var dateLastStatusUpdate: LocalDate = LocalDate.now()
 
     data class PK(
         @Column("vacancy_id")

@@ -9,13 +9,12 @@ import ru.kaplaan.consumer.domain.exception.PermissionDeniedException
 import ru.kaplaan.consumer.domain.exception.alreadyExists.VacancyResponseAlreadyExistsException
 import ru.kaplaan.consumer.domain.exception.notFound.VacancyResponseNotFoundException
 import ru.kaplaan.consumer.repository.consumer.vacancy.VacancyResponseRepository
-import ru.kaplaan.consumer.service.data.CompanyDataService
 import ru.kaplaan.consumer.service.data.UserDataService
 import ru.kaplaan.consumer.service.email.EmailService
-import ru.kaplaan.consumer.service.payment.PaymentOrderService
 import ru.kaplaan.consumer.service.vacancy.VacancyResponseService
 import ru.kaplaan.consumer.service.vacancy.VacancyService
 import ru.kaplaan.consumer.web.dto.vacancy.VacancyResponseStatus
+import java.time.LocalDate
 
 @Service
 class VacancyResponseServiceImpl(
@@ -23,8 +22,6 @@ class VacancyResponseServiceImpl(
     private val vacancyService: VacancyService,
     private val emailService: EmailService,
     private val userDataService: UserDataService,
-    private val companyDataService: CompanyDataService,
-    private val paymentOrderService: PaymentOrderService,
 ) : VacancyResponseService {
 
     @Value("\${page-size.vacancy-response}")
@@ -55,8 +52,6 @@ class VacancyResponseServiceImpl(
         if (!vacancyResponseRepository.existsById(vacancyResponse.pk))
             throw VacancyResponseNotFoundException()
 
-        val previousVacancyResponseStatus = getVacancyResponseById(vacancyResponse.pk).status
-
         vacancyResponseRepository.updateVacancyResponse(vacancyResponse)
 
         val vacancy = vacancyService.getVacancyById(vacancyResponse.pk.vacancyId)
@@ -64,15 +59,6 @@ class VacancyResponseServiceImpl(
 
         emailService.sendVacancyResponseMail(vacancyResponse, vacancy, userData)
 
-        if (
-            vacancyResponse.status == VacancyResponseStatus.ACCEPTED &&
-            previousVacancyResponseStatus != VacancyResponseStatus.ACCEPTED
-        ) {
-            val email: String = companyDataService.getCompanyDataByCompanyId(vacancy.companyId!!).contactPerson.email
-            paymentOrderService.generatePaymentOrder(vacancy.companyId!!).also {
-                emailService.sendPaymentOrder(email, it)
-            }
-        }
         return vacancyResponse
     }
 
@@ -108,6 +94,15 @@ class VacancyResponseServiceImpl(
     ): List<Long> {
         checkVacancyOwner(vacancyId, companyId)
         return vacancyResponseRepository.findAllUserIdByVacancyId(vacancyId, PageRequest.of(pageNumber, pageSize!!))
+    }
+
+    override fun getAllVacancyIdByDateLastStatusUpdateBetweenAndAccepted(startDate: LocalDate, finishDate: LocalDate): List<Long> {
+        return vacancyResponseRepository.findAllVacancyIdByAcceptedAndDateLastStatusUpdateBetween(startDate, finishDate, VacancyResponseStatus.ACCEPTED)
+    }
+
+
+    override fun countVacancyResponsesByDateBetweenAndVacancyIdAndAccepted(startDate: LocalDate, finishDate: LocalDate, vacancyId: Long): Long {
+        return vacancyResponseRepository.countVacancyResponsesByDateBetweenAndVacancyIdAndAccepted(startDate, finishDate, vacancyId, VacancyResponseStatus.ACCEPTED)
     }
 
 

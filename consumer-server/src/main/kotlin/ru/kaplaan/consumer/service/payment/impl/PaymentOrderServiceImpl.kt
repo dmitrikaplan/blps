@@ -28,7 +28,7 @@ class PaymentOrderServiceImpl(
     private var pageSize: Int? = null
 
     @Transactional
-    override fun generatePaymentOrder(companyId: Long): PaymentOrder {
+    override fun generatePaymentOrder(companyId: Long, countOfPayments: Long): PaymentOrder {
         val payerPaymentInfo =  paymentInfoService.getByCompanyId(companyId)
         val recipientPaymentInfo = companyPaymentInfoService.get()
 
