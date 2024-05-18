@@ -23,7 +23,7 @@ class   SendPaymentOrderJobConfig(
     fun sendPaymentOrderJob(): JobDetail =
         JobBuilder
             .newJob(SendPaymentOrderJob::class.java)
-            .withIdentity(jobName, schedulerProperties.permanentJobsGroupName)
+            .withIdentity("sendPaymentOrderJob", schedulerProperties.permanentJobsGroupName)
             .storeDurably()
             .requestRecovery(true)
             .build()
@@ -33,7 +33,7 @@ class   SendPaymentOrderJobConfig(
         TriggerBuilder
             .newTrigger()
             .forJob(sendPaymentOrderJob())
-            .withIdentity(triggerName, schedulerProperties.permanentJobsGroupName)
+            .withIdentity("sendPaymentOrderTrigger", schedulerProperties.permanentJobsGroupName)
             .withSchedule(CronScheduleBuilder.cronSchedule(schedulerProperties.sendPaymentOrderJobCron))
             .build()
 }
