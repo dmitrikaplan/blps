@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 import ru.kaplaan.consumer.domain.properties.SchedulerProperties
 
 @Configuration
-class   SendPaymentOrderJobConfig(
+class SendPaymentOrderJobConfig(
     private val schedulerProperties: SchedulerProperties
 ) {
 
