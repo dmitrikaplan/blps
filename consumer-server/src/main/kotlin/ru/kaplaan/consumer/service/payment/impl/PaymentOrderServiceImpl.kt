@@ -30,7 +30,9 @@ class PaymentOrderServiceImpl(
     @Transactional
     override fun generatePaymentOrder(companyId: Long, countOfPayments: Long): PaymentOrder {
         val payerPaymentInfo =  paymentInfoService.getByCompanyId(companyId)
-        val recipientPaymentInfo = companyPaymentInfoService.get()
+        val recipientPaymentInfo = companyPaymentInfoService.get().apply {
+            this.sum = this.sum!! * countOfPayments
+        }
 
         return (payerPaymentInfo to recipientPaymentInfo).createPaymentOrder().also {
             paymentOrderRepository.save(it)

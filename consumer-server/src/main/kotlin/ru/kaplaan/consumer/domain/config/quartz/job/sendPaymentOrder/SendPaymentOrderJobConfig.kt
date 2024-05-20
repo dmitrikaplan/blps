@@ -10,7 +10,6 @@ class SendPaymentOrderJobConfig(
     private val schedulerProperties: SchedulerProperties
 ) {
 
-
     @Bean
     fun sendPaymentOrderJob(): JobDetail =
         JobBuilder
