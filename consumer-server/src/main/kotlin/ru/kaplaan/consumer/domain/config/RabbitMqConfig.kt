@@ -32,19 +32,27 @@ class RabbitMqConfig {
 
     @Bean
     fun mailServerExchange(): DirectExchange =
-        DirectExchange(mailServerExchangeName)
+        ExchangeBuilder
+            .directExchange(mailServerExchangeName)
+            .build()
 
     @Bean
     fun sendVacancyResponseMailQueue(): Queue =
-        Queue(sendVacancyResponseQueueName)
+        QueueBuilder
+            .durable(sendVacancyResponseQueueName)
+            .build()
 
     @Bean
     fun sendPaymentOrderQueue(): Queue =
-        Queue(sendPaymentOrderQueueName)
+        QueueBuilder
+            .durable(sendPaymentOrderQueueName)
+            .build()
 
     @Bean
     fun sendInfoAboutSuccessPaymentQueue(): Queue =
-        Queue(sendInfoAboutSuccessPaymentQueueName)
+        QueueBuilder
+            .durable(sendInfoAboutSuccessPaymentQueueName)
+            .build()
 
 
     @Bean
