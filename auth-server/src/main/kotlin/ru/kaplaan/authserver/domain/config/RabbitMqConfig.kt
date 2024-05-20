@@ -3,13 +3,16 @@ package ru.kaplaan.authserver.domain.config
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.DirectExchange
+import org.springframework.amqp.core.ExchangeBuilder
 import org.springframework.amqp.core.Queue
+import org.springframework.amqp.core.QueueBuilder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import kotlin.math.truncate
 
 @Configuration
-class RabbitMqConfiguration {
+class RabbitMqConfig {
 
     @Value("\${rabbit.mail-server.exchange-name}")
     private lateinit var activateAccountByEmailExchangeName: String
@@ -23,11 +26,15 @@ class RabbitMqConfiguration {
 
     @Bean
     fun directExchange(): DirectExchange =
-        DirectExchange(activateAccountByEmailExchangeName)
+        ExchangeBuilder
+            .directExchange(activateAccountByEmailExchangeName)
+            .build()
 
     @Bean
     fun activateAccountQueue(): Queue =
-        Queue(activateAccountByEmailQueueName)
+        QueueBuilder
+            .durable(activateAccountByEmailQueueName)
+            .build()
 
 
     @Bean
