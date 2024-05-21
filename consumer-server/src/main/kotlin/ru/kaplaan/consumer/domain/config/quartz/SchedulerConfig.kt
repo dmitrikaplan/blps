@@ -7,7 +7,7 @@ import org.quartz.impl.matchers.GroupMatcher
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.quartz.SchedulerFactoryBean
-import ru.kaplaan.consumer.domain.properties.SchedulerProperties
+import ru.kaplaan.consumer.domain.properties.quartz.SchedulerProperties
 
 
 @Configuration

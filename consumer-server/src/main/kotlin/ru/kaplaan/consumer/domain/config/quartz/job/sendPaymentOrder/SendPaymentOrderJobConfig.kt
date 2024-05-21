@@ -3,7 +3,7 @@ package ru.kaplaan.consumer.domain.config.quartz.job.sendPaymentOrder
 import org.quartz.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import ru.kaplaan.consumer.domain.properties.SchedulerProperties
+import ru.kaplaan.consumer.domain.properties.quartz.SchedulerProperties
 
 @Configuration
 class SendPaymentOrderJobConfig(

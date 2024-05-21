@@ -5,30 +5,19 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import ru.kaplaan.consumer.domain.properties.email.SendInfoAboutSuccessPaymentProperties
+import ru.kaplaan.consumer.domain.properties.email.SendPaymentOrderProperties
+import ru.kaplaan.consumer.domain.properties.email.SendVacancyResponseProperties
 
 @Configuration
-class RabbitMqConfig {
+class RabbitMqConfig(
+    private val sendInfoAboutSuccessPaymentProperties: SendInfoAboutSuccessPaymentProperties,
+    private val sendPaymentOrderProperties: SendPaymentOrderProperties,
+    private val sendVacancyResponseProperties: SendVacancyResponseProperties
+) {
 
     @Value("\${rabbit.mail-server.exchange-name}")
     private lateinit var mailServerExchangeName: String
-
-    @Value("\${rabbit.mail-server.send-vacancy-response.queue-name}")
-    private lateinit var sendVacancyResponseQueueName: String
-
-    @Value("\${rabbit.mail-server.send-vacancy-response.routing-key}")
-    private lateinit var sendVacancyResponseRoutingKey: String
-
-    @Value("\${rabbit.mail-server.send-payment-order.queue-name}")
-    private lateinit var sendPaymentOrderQueueName: String
-
-    @Value("\${rabbit.mail-server.send-payment-order.routing-key}")
-    private lateinit var sendPaymentOrderRoutingKey: String
-
-    @Value("\${rabbit.mail-server.send-info-about-success-payment.queue-name}")
-    private lateinit var sendInfoAboutSuccessPaymentQueueName: String
-
-    @Value("\${rabbit.mail-server.send-info-about-success-payment.routing-key}")
-    private lateinit var sendInfoAboutSuccessPaymentRoutingKey: String
 
     @Bean
     fun mailServerExchange(): DirectExchange =
@@ -39,19 +28,19 @@ class RabbitMqConfig {
     @Bean
     fun sendVacancyResponseMailQueue(): Queue =
         QueueBuilder
-            .durable(sendVacancyResponseQueueName)
+            .durable(sendVacancyResponseProperties.queueName)
             .build()
 
     @Bean
     fun sendPaymentOrderQueue(): Queue =
         QueueBuilder
-            .durable(sendPaymentOrderQueueName)
+            .durable(sendPaymentOrderProperties.queueName)
             .build()
 
     @Bean
     fun sendInfoAboutSuccessPaymentQueue(): Queue =
         QueueBuilder
-            .durable(sendInfoAboutSuccessPaymentQueueName)
+            .durable(sendInfoAboutSuccessPaymentProperties.queueName)
             .build()
 
 
@@ -60,7 +49,7 @@ class RabbitMqConfig {
         BindingBuilder
             .bind(queue)
             .to(directExchange)
-            .with(sendVacancyResponseRoutingKey)
+            .with(sendVacancyResponseProperties.routingKey)
 
 
     @Bean
@@ -68,7 +57,7 @@ class RabbitMqConfig {
         BindingBuilder
             .bind(queue)
             .to(directExchange)
-            .with(sendPaymentOrderRoutingKey)
+            .with(sendPaymentOrderProperties.routingKey)
 
 
     @Bean
@@ -76,6 +65,6 @@ class RabbitMqConfig {
         BindingBuilder
             .bind(queue)
             .to(directExchange)
-            .with(sendInfoAboutSuccessPaymentRoutingKey)
+            .with(sendInfoAboutSuccessPaymentProperties.routingKey)
 
 }

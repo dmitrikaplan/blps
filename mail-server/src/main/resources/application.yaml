@@ -23,6 +23,19 @@ spring:
 service:
   host: ${SERVICE_HOST}
 
+rabbit:
+  activate-account:
+    queue-name: ${RABBIT_MAIL_SERVER_ACTIVATE_ACCOUNT_QUEUE_NAME}
+
+  send-vacancy-response:
+    queue-name: ${RABBIT_MAIL_SERVER_SEND_VACANCY_RESPONSE_QUEUE_NAME}
+
+  send-payment-order:
+    queue-name: ${RABBIT_MAIL_SERVER_SEND_PAYMENT_ORDER_QUEUE_NAME}
+
+  send-info-about-success-payment:
+    queue-name: ${RABBIT_MAIL_SERVER_SEND_INFO_ABOUT_SUCCESS_PAYMENT_QUEUE_NAME}
+
 mail:
   debug: ${MAIL_DEBUG}
 

@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 import org.springframework.transaction.annotation.EnableTransactionManagement
 import ru.kaplaan.authserver.domain.entity.user.Role
@@ -12,6 +13,7 @@ import ru.kaplaan.authserver.service.AuthService
 
 @SpringBootApplication
 @EnableTransactionManagement
+@ConfigurationPropertiesScan(basePackages = ["ru.kaplaan.authserver.domain.properties"])
 class AuthServerApplication(private val authService: AuthService){
 
 	@Value("\${accountant.username}")

@@ -9,19 +9,16 @@ import org.springframework.amqp.core.QueueBuilder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import ru.kaplaan.authserver.domain.properties.ActivateAccountProperties
 import kotlin.math.truncate
 
 @Configuration
-class RabbitMqConfig {
+class RabbitMqConfig(
+    private val activateAccountProperties: ActivateAccountProperties
+) {
 
     @Value("\${rabbit.mail-server.exchange-name}")
     private lateinit var activateAccountByEmailExchangeName: String
-
-    @Value("\${rabbit.mail-server.activate-account.queue-name}")
-    private lateinit var activateAccountByEmailQueueName: String
-
-    @Value("\${rabbit.mail-server.activate-account.routing-key}")
-    private lateinit var activateAccountByEmailRoutingKey: String
 
 
     @Bean
@@ -33,7 +30,7 @@ class RabbitMqConfig {
     @Bean
     fun activateAccountQueue(): Queue =
         QueueBuilder
-            .durable(activateAccountByEmailQueueName)
+            .durable(activateAccountProperties.queueName)
             .build()
 
 
@@ -42,6 +39,6 @@ class RabbitMqConfig {
         BindingBuilder
             .bind(queue)
             .to(exchange)
-            .with(activateAccountByEmailRoutingKey)
+            .with(activateAccountProperties.queueName)
 
 }

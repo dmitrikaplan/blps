@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 import org.springframework.transaction.annotation.EnableTransactionManagement
 import ru.kaplaan.consumer.domain.entity.payment.CompanyPaymentInfo
-import ru.kaplaan.consumer.domain.properties.CompanyPaymentInfoProperties
+import ru.kaplaan.consumer.domain.properties.paymentInfo.CompanyPaymentInfoProperties
 import ru.kaplaan.consumer.service.payment.CompanyPaymentInfoService
 
 @SpringBootApplication
