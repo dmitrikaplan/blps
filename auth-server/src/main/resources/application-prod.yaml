@@ -15,6 +15,9 @@ spring:
     password: ${RABBIT_PASSWORD}
     host: ${RABBIT_HOST}
     port: ${RABBIT_PORT}
+    listener:
+      simple:
+        prefetch: 1
 
 
 rabbit:

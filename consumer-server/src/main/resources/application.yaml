@@ -12,6 +12,9 @@ spring:
   rabbitmq:
     host: ${RABBIT_HOST}
     port: ${RABBIT_PORT}
+    listener:
+      simple:
+        prefetch: 1
 
   quartz:
     job-store-type: jdbc

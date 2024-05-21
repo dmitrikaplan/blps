@@ -13,6 +13,9 @@ spring:
   rabbitmq:
     host: ${RABBIT_HOST}
     port: ${RABBIT_PORT}
+    listener:
+      direct:
+        prefetch: 1
 
 
 rabbit:
