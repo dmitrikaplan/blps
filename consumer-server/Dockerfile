@@ -20,4 +20,4 @@ RUN --mount=type=tmpfs,target=/build \
 FROM bellsoft/liberica-openjdk-alpine
 
 COPY --from=build /consumer-server.jar /consumer-server.jar
-CMD java -jar consumer-server.jar --spring.config.name=application-prod
+CMD java -jar consumer-server.jar --spring.profiles.active=prod
