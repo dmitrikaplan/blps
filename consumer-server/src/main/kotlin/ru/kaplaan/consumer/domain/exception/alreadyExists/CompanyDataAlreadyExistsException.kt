@@ -1,6 +1,3 @@
 package ru.kaplaan.consumer.domain.exception.alreadyExists
 
-class CompanyDataAlreadyExistsException: AlreadyExistsException("Данные о компании уже существуют!") {
-    override val message: String
-        get() = super.message
-}
+class CompanyDataAlreadyExistsException: AlreadyExistsException("Данные о компании уже существуют!")
