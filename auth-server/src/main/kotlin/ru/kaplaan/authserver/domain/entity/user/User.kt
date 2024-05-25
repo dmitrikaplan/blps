@@ -43,7 +43,7 @@ class User(): UserDetails{
 
 
     override fun getAuthorities(): List<GrantedAuthority> {
-        return listOf(role) + privileges
+        return privileges
     }
 
     override fun getPassword(): String =
