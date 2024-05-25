@@ -42,6 +42,7 @@ class SecurityConfig (
                 it.disable()
             }
             .authorizeExchange {
+                it.pathMatchers("actuator/**").permitAll()
                 it.pathMatchers("swagger-ui.html").permitAll()
                 it.pathMatchers("webjars/swagger-ui/**").permitAll()
                 it.pathMatchers("v3/api-docs/**").permitAll()

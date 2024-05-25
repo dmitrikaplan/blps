@@ -22,7 +22,7 @@ repositories {
 dependencies {
 	//starters
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
-	//providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 
 	//jwt
@@ -41,6 +41,10 @@ dependencies {
 
 	//swagger generator
 	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.5.0")
+
+
+	//metrics
+	implementation("io.micrometer:micrometer-registry-prometheus")
 
 	//tests
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
