@@ -12,6 +12,7 @@ import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebFilter
 import org.springframework.web.server.WebFilterChain
 import reactor.core.publisher.Mono
+import reactor.core.scheduler.Schedulers
 import reactor.kotlin.core.publisher.onErrorResume
 import reactor.kotlin.core.publisher.switchIfEmpty
 import ru.kaplaan.api.domain.exception.JwtTokenNotFoundException
@@ -63,10 +64,12 @@ class JwtAuthenticationFilter(
             .body(authenticationDto)
             .retrieve()
             .toEntity(AuthenticationDto::class.java)
+            .publishOn(Schedulers.boundedElastic())
             .handle { response, sink ->
                 if (response.statusCode != HttpStatus.OK || response.body == null)
                     sink.error(UserNotAuthenticatedException())
-                else sink.next(response.body!!.toUsernamePasswordAuthentication())
+                else
+                    sink.next(response.body!!.toUsernamePasswordAuthentication())
             }
     }
 
