@@ -43,3 +43,6 @@ accountant:
   username: ${ACCOUNTANT_USERNAME}
   password: ${ACCOUNTANT_PASSWORD}
   email: ${ACCOUNTANT_EMAIL}
+
+server:
+  port: 8080
