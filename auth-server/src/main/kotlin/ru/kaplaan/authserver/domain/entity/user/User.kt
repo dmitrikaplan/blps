@@ -27,7 +27,7 @@ class User(): UserDetails{
     lateinit var role: Role
 
     @Transient
-    lateinit var privileges: List<Privilege>
+    var privileges: List<Privilege> = listOf()
 
     constructor(
         email: String,

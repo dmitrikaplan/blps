@@ -13,6 +13,5 @@ class RolePrivilege() {
         pk = PK(role, privilege)
     }
 
-
     data class PK(val role: Role, val privilege: Privilege)
 }

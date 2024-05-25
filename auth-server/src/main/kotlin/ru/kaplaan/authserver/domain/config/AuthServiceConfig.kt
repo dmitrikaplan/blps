@@ -47,7 +47,7 @@ class AuthServiceConfig(
 
     @Bean
     fun emailAuthenticationProvider() =
-        EmailAuthenticationProvider(userRepository, passwordEncoder())
+        EmailAuthenticationProvider(userRepository, passwordEncoder(), rolePrivilegeService)
 
     @Bean
     fun passwordEncoder(): PasswordEncoder =

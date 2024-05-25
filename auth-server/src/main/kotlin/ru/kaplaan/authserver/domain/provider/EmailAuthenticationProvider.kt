@@ -8,10 +8,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import ru.kaplaan.authserver.domain.entity.user.User
 import ru.kaplaan.authserver.repository.UserRepository
+import ru.kaplaan.authserver.service.RolePrivilegeService
 
 class EmailAuthenticationProvider(
     private val userRepository: UserRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val rolePrivilegeService: RolePrivilegeService
 ): AbstractUserDetailsAuthenticationProvider() {
     override fun authenticate(authentication: Authentication): Authentication {
         val userDetails = retrieveUser(authentication.name, authentication as UsernamePasswordAuthenticationToken)
@@ -43,6 +45,8 @@ class EmailAuthenticationProvider(
 
     override fun retrieveUser(username: String, authentication: UsernamePasswordAuthenticationToken): UserDetails {
         return userRepository.findByEmail(username)
-            ?: throw UsernameNotFoundException("Не найден пользователь по email")
+            ?.also {
+                it.privileges = rolePrivilegeService.getAllPrivilegesByRole(it.role)
+            } ?: throw UsernameNotFoundException("Не найден пользователь по username!")
     }
 }
