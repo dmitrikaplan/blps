@@ -9,6 +9,6 @@ import ru.kaplaan.authserver.domain.entity.user.RolePrivilege
 @Repository
 interface PrivilegeRepository: CrudRepository<RolePrivilege, Long> {
 
-    @Query("select * from role_privilege where role = :roleName")
+    @Query("select privilege from role_privilege where role = :roleName")
     fun findAllPrivilegesByRoleName(roleName: String): List<Privilege>
 }
