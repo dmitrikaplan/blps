@@ -2,6 +2,7 @@ package ru.kaplaan.authserver.web.mapper
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import ru.kaplaan.authserver.domain.entity.user.Privilege
 import ru.kaplaan.authserver.domain.entity.user.Role
 import ru.kaplaan.authserver.web.dto.authentication.AuthenticationDto
 
@@ -26,5 +27,5 @@ fun AuthenticationDto.toAuthenticatedToken() =
     UsernamePasswordAuthenticationToken.authenticated(
         this.principal,
         this.credentials,
-        this.authorities.map { Role.valueOf(it) }
+        this.authorities.map { Privilege.valueOf(it) }
     )!!

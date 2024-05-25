@@ -1,6 +1,7 @@
 package ru.kaplaan.consumer.service.data.impl
 
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import ru.kaplaan.consumer.domain.entity.data.CompanyData
 import ru.kaplaan.consumer.domain.exception.alreadyExists.CompanyDataAlreadyExistsException
