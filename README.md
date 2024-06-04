@@ -14,3 +14,4 @@
 <a href="https://kaplaan.ru/swagger-ui.html">Документация к API</a>
 </br>
 <a href="https://grafana.kaplaan.ru">Grafana</a>
+<a href="https://jenkins.kaplaan.ru">Jenkins</a>
